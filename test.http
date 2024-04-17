@@ -1,0 +1,16 @@
+
+@baseUrl = http://localhost:4000/legacy
+
+###
+
+GET {{baseUrl}}/
+
+###
+
+POST {{baseUrl}}/login
+content-type: application/json
+
+{
+    "email": "a@gmail.com",
+    "password": "11111111"
+}
