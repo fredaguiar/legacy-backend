@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import authRouter from './controllers/authRouter';
 import uncaughtException from './middleware/uncaughtException';
 import authorization from './middleware/authorization';
+import safeRouter from './controllers/safeRouter';
 
 dotenv.config();
 const PORT: number = parseInt(process.env.PORT as string, 10);
@@ -17,7 +18,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use('/legacy/public', authRouter);
-app.use('/legacy/private', authorization);
+app.use('/legacy/private', authorization, safeRouter);
 app.use(uncaughtException);
 
 mongoose

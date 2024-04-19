@@ -1,13 +1,14 @@
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import { TUser } from '../models/User';
+import { Types } from 'mongoose';
 
 const TOKEN_EXPIRES_MS = 60 * 60 * 1000; // 1hr
 const PRIVATE_KEY = fs.readFileSync('keys/rsa.ppk', 'utf-8');
 const PUBLIC_KEY = fs.readFileSync('keys/rsa.pub', 'utf-8');
 
-export const generateToken = (email: string): string => {
-  return jwt.sign({ email: email }, PRIVATE_KEY, {
+export const generateToken = (id: Types.ObjectId): string => {
+  return jwt.sign({ id }, PRIVATE_KEY, {
     expiresIn: TOKEN_EXPIRES_MS,
     algorithm: 'RS256',
   });

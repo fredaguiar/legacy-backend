@@ -27,11 +27,9 @@ authRouter.post('/login', async (req: Request, res: Response) => {
     return res.status(400).json({ message: 'Invalid username or password' });
   }
 
-  console.log('LOGIN user', user);
   // To transform data, shoud use lean(), because it converts the query document to json
   delete user.password;
-  user.token = generateToken(user.email);
-  console.log('LOGIN user', { user });
+  user.token = generateToken(user._id);
   return res.json(user);
 });
 
@@ -64,7 +62,7 @@ authRouter.post('/signup', async (req, res) => {
     introductionViewed: false,
     safes,
   });
-  newUser.token = generateToken(newUser.email);
+  newUser.token = generateToken(newUser._id);
   delete newUser.password;
   newUser;
   return newUser;
@@ -75,5 +73,4 @@ authRouter.get('/test', (req, res) => {
   res.send('RESPONSE Test ROUTER /');
 });
 
-// Importing the router
 export default authRouter;
