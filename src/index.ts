@@ -4,6 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import authRouter from './controllers/authRouter';
+import uncaughtException from './middleware/uncaughtException';
+import authorization from './middleware/authorization';
 
 dotenv.config();
 const PORT: number = parseInt(process.env.PORT as string, 10);
@@ -12,13 +14,11 @@ const app = express();
 
 app.use(cors());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use('/legacy', authRouter);
-
-app.get('/', (req, res) => {
-  console.log('Test ROOT /');
-  res.send('RESPONSE Test ROOT /');
-});
+app.use('/legacy/public', authRouter);
+app.use('/legacy/private', authorization);
+app.use(uncaughtException);
 
 mongoose
   .connect(process.env.MONGO_URI as string, {
