@@ -1,9 +1,12 @@
 
-@baseUrl = http://localhost:4000/legacy
+@baseUrl = http://172.29.80.1:4000/legacy
 
 ###
 
-GET {{baseUrl}}/
+GET http://172.29.80.1:4000/
+###
+
+GET {{baseUrl}}/test
 
 ###
 

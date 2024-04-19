@@ -29,5 +29,10 @@ authRouter.post('/signup', (req, res) => {
   res.send('This is the homepage request');
 });
 
+authRouter.get('/test', (req, res) => {
+  console.log('Test ROUTER /');
+  res.send('RESPONSE Test ROUTER /');
+});
+
 // Importing the router
 export default authRouter;

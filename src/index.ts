@@ -15,6 +15,11 @@ app.use(cookieParser());
 app.use(express.json());
 app.use('/legacy', authRouter);
 
+app.get('/', (req, res) => {
+  console.log('Test ROOT /');
+  res.send('RESPONSE Test ROOT /');
+});
+
 mongoose
   .connect(process.env.MONGO_URI as string, {
     serverSelectionTimeoutMS: 20000,
@@ -28,6 +33,7 @@ app.listen(PORT, () => {
 });
 
 function signalHandler(signal: string) {
+  console.log(`Process ${process.pid} received a SIGTERM signal:`, signal);
   process.exit();
 }
 process.on('SIGINT', signalHandler);
