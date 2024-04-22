@@ -1,14 +1,12 @@
 import express, { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
+import multer from 'multer';
 import User, { TUser } from '../models/User';
-import { generateToken } from '../utils/JwtUtil';
-import { generateVerifyCode } from '../utils/VerifyCode';
-import { Safe, TSafe } from '../models/Safe';
+import { Safe, TUploadFilesResult } from '../models/Safe';
 
 const safeRouter = express.Router();
 
-safeRouter.post('/createSafe', async (req, res) => {
+safeRouter.post('/createSafe', async (req: Request, res: Response) => {
   const { name, contextUserId }: { name: string; contextUserId: string } = req.body;
   console.log('createSafe', contextUserId);
 
@@ -19,7 +17,18 @@ safeRouter.post('/createSafe', async (req, res) => {
   const safe = new Safe({ name });
   user.safes?.push(safe);
   await user.save();
-  return safe;
+  return res.json(safe);
+});
+
+const upload = multer({ dest: 'uploads/' });
+
+safeRouter.post('/uploadFiles', upload.array('file'), async (req: Request, res: Response) => {
+  console.log('uploadFiles body', req.body);
+  console.log('uploadFiles file', req.file);
+
+  const result: TUploadFilesResult = { url: 'URL', filename: 'FN', type: 'TP' };
+
+  return res.json(result);
 });
 
 export default safeRouter;

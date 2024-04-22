@@ -15,10 +15,12 @@ const app = express();
 
 app.use(cors());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 app.use('/legacy/public', authRouter);
 app.use('/legacy/private', authorization, safeRouter);
+app.use('test', (req, res) => res.json('OK'));
 app.use(uncaughtException);
 
 mongoose

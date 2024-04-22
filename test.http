@@ -6,7 +6,7 @@
 GET http://172.29.80.1:4000/
 ###
 
-GET {{baseUrl}}/test
+GET http://172.29.80.1:4000/test
 
 ###
 

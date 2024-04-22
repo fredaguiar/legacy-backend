@@ -7,6 +7,12 @@ export type TSafe = {
   _id?: Types.ObjectId;
 };
 
+export type TUploadFilesResult = {
+  url: string;
+  filename: string;
+  type: string;
+};
+
 const safeSchema = new mongoose.Schema({
   name: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
