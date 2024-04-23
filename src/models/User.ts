@@ -1,6 +1,7 @@
 import mongoose, { Types } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { safeSchema, TSafe } from './Safe';
+import dbConnection from '../dbConnection';
 
 export type Country = 'BR' | 'USA';
 
@@ -50,6 +51,6 @@ userSchema.pre('save', async function (next, err) {
   next();
 });
 
-const User = mongoose.model<TUser>('user', userSchema);
+const User = dbConnection.model<TUser>('users', userSchema);
 
 export default User;

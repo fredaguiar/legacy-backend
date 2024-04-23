@@ -1,4 +1,5 @@
 import mongoose, { Types } from 'mongoose';
+import dbConnection from '../dbConnection';
 
 export type TItem = {
   name: string;
@@ -19,5 +20,5 @@ itemSchema.pre('save', async function (next, err) {
   next();
 });
 
-export const Item = mongoose.model<TItem>('item', itemSchema);
+export const Item = dbConnection.model<TItem>('item', itemSchema);
 export { itemSchema };
