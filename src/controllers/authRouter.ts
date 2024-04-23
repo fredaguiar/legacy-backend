@@ -1,6 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import { Types } from 'mongoose';
 import User, { TUser } from '../models/User';
 import { generateToken } from '../utils/JwtUtil';
 import { generateVerifyCode } from '../utils/VerifyCode';

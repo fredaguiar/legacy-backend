@@ -1,6 +1,5 @@
 import mongoose, { Types } from 'mongoose';
 import { itemSchema, TItem } from './Item';
-import dbConnection from '../dbConnection';
 
 export type TSafe = {
   name: string;
@@ -24,5 +23,5 @@ safeSchema.pre('save', async function (next, err) {
   next();
 });
 
-export const Safe = dbConnection.model<TSafe>('safe', safeSchema);
+export const Safe = mongoose.model<TSafe>('safe', safeSchema);
 export { safeSchema };
