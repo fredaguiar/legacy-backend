@@ -9,8 +9,9 @@ const authorization = (req: Request, res: Response, next: NextFunction) => {
       const authToken = req.headers.authorization.substring(7).trim();
       const decoded = authToken ? verifyToken(authToken) : null;
       userId = decoded?.id;
-      req.body.contextUserId = userId;
-      console.log('req.headers.authorization userId', userId);
+      // @ts-ignore
+      req.context = { userId };
+      logger.info('req.headers.authorization userId:::', userId);
       return next();
     }
     return res.status(401).json({ message: 'User not logged in' });

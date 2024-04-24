@@ -7,14 +7,15 @@ const safeRouter = express.Router();
 
 safeRouter.post('/createSafe', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { name, contextUserId }: { name: string; contextUserId: string } = req.body;
-    console.log('createSafe', contextUserId);
+    // @ts-ignore
+    const userId = req.context.userId;
+    console.log('createSafe', userId);
 
-    const user = await User.findById<Document & TUser>(contextUserId);
+    const user = await User.findById<Document & TUser>(userId);
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
     }
-    const safe = new Safe({ name });
+    const safe = new Safe({ name: req.body.name });
     user.safes?.push(safe);
     await user.save();
     return res.json(safe);
