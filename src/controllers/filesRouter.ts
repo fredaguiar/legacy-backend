@@ -31,8 +31,8 @@ const filesRouter = (conn: mongoose.Connection) => {
             userId: req.context.userId,
             // @ts-ignore
             safeId: req.body.safeId,
+            mimetype: req.file.mimetype,
           },
-          contentType: req.file.mimetype,
         };
         const writeStream = bucket.openUploadStream(req.file.originalname, options);
 
@@ -55,6 +55,7 @@ const filesRouter = (conn: mongoose.Connection) => {
       }
     },
   );
+
   // download
   router.post(
     '/downloadFiles',
@@ -68,19 +69,42 @@ const filesRouter = (conn: mongoose.Connection) => {
     },
   );
 
+  type TFileInfo = {
+    id: string;
+    filename: string;
+    length: number;
+    uploadDate: Date;
+    mimetype: string;
+  };
+  type TFileInfoListResult = {
+    fileInfoList: TFileInfo[];
+  };
+
   // file list
   router.get('/fileInfoList/:safeId', async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { safeId } = req.params;
+      // @ts-ignore
+      const userId = req.context.userId;
+      const result: TFileInfoListResult = { fileInfoList: [] };
 
-      const result = {
-        fileInfoList: [
-          { name: safeId, _id: '1' },
-          { name: 'TEST2', _id: '2' },
-        ],
-      };
+      const files = await bucket
+        .find({ 'metadata.safeId': safeId, 'metadata.userId': userId })
+        .toArray();
+      if (files.length === 0) return res.json(result);
 
-      return res.json({});
+      files.forEach((file) => {
+        const { filename, _id, metadata, uploadDate, length } = file;
+        result.fileInfoList.push({
+          filename,
+          length,
+          mimetype: metadata?.mimetype,
+          uploadDate,
+          id: _id.toString(),
+        });
+      });
+
+      return res.json(result);
     } catch (error) {
       next(error);
     }
