@@ -46,12 +46,8 @@ authRouter.post('/signup', async (req: Request, res: Response, next: NextFunctio
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    const newSafe = (name: string): TSafe => {
-      return { name, items: [] };
-    };
-
     const verifyCode = generateVerifyCode();
-    const safes: TSafe[] = [newSafe('Personal Documents'), newSafe('Friends and family')];
+    const safes: TSafe[] = [{ name: 'Personal Documents' }, { name: 'Friends and family' }];
     const newUser = await User.create<TUser>({
       firstName,
       lastName,

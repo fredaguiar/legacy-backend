@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { Document } from 'mongoose';
 import User, { TUser } from '../models/User';
-import { Safe, TUploadFilesResult } from '../models/Safe';
+import { Safe } from '../models/Safe';
 
 const safeRouter = express.Router();
 
