@@ -1,10 +1,19 @@
 import express, { NextFunction, Request, Response } from 'express';
 import multer from 'multer';
 import { Readable } from 'stream';
-import mongoose from 'mongoose';
-import { GridFSBucket } from 'mongodb';
-import { TUploadFilesResult } from '../models/Safe';
+import mongoose, { Types } from 'mongoose';
 import logger from '../logger';
+
+type TFileInfo = {
+  id: string;
+  filename: string;
+  length: number;
+  uploadDate: Date;
+  mimetype: string;
+};
+type TFileInfoListResult = {
+  fileInfoList: TFileInfo[];
+};
 
 const filesRouter = (conn: mongoose.Connection) => {
   const router = express.Router();
@@ -44,11 +53,11 @@ const filesRouter = (conn: mongoose.Connection) => {
           .on('error', (error) => {
             logger.error('Failed to upload file');
             logger.error(error.stack);
-            return res.status(500).send('Failed to upload file');
+            return res.status(400).send('Failed to upload file');
           })
           .on('finish', () => {
             logger.info('File uploaded successfully').info(JSON.stringify(req.body));
-            return res.json({ name: req.file?.originalname, type: 'TP' });
+            return res.json({ name: req.file?.originalname, type: req.file?.mimetype });
           });
       } catch (error) {
         next(error);
@@ -57,28 +66,33 @@ const filesRouter = (conn: mongoose.Connection) => {
   );
 
   // download
-  router.post(
-    '/downloadFiles',
-    upload.single('file'),
+  router.get(
+    '/downloadFiles/:safeId/:fileId',
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        return res.json({ name: req.file?.originalname, type: 'TP' });
-      } catch (error) {
+        const { safeId, fileId } = req.params;
+        // @ts-ignore
+        const userId = req.context.userId;
+
+        const downloadStream = bucket.openDownloadStream(new Types.ObjectId(fileId));
+        res.set('Content-Type', 'application/octet-stream');
+        downloadStream
+          .pipe(res)
+          .on('error', (error) => {
+            console.log('DOWNLOADDDDDDDD ERR 1, error.message', error);
+            res.status(404).send('File not found');
+          })
+          .on('finish', () => {
+            console.log('Done sending file.');
+          });
+
+        return res.json({ name: 'DOWNLOADDDDDDDD' });
+      } catch (error: any) {
+        console.log('DOWNLOADDDDDDDD ERR 2', error.message);
         next(error);
       }
     },
   );
-
-  type TFileInfo = {
-    id: string;
-    filename: string;
-    length: number;
-    uploadDate: Date;
-    mimetype: string;
-  };
-  type TFileInfoListResult = {
-    fileInfoList: TFileInfo[];
-  };
 
   // file list
   router.get('/fileInfoList/:safeId', async (req: Request, res: Response, next: NextFunction) => {
