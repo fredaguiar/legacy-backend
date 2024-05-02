@@ -73,22 +73,25 @@ const filesRouter = (conn: mongoose.Connection) => {
         const { safeId, fileId } = req.params;
         // @ts-ignore
         const userId = req.context.userId;
+        const id = new Types.ObjectId(fileId);
 
-        const downloadStream = bucket.openDownloadStream(new Types.ObjectId(fileId));
-        res.set('Content-Type', 'application/octet-stream');
-        downloadStream
-          .pipe(res)
-          .on('error', (error) => {
-            console.log('DOWNLOADDDDDDDD ERR 1, error.message', error);
-            res.status(404).send('File not found');
-          })
-          .on('finish', () => {
-            console.log('Done sending file.');
-          });
+        // TODO: should check safe
 
-        return res.json({ name: 'DOWNLOADDDDDDDD' });
+        const downloadStream = bucket.openDownloadStream(id);
+
+        downloadStream.on('file', (file) => {
+          // console.log('Download mimetype', file.metadata.mimetype);
+          // console.log('Download file.filename', file.filename);
+          // res.setHeader('Content-Type', file.metadata.mimetype);
+          // res.setHeader('Content-Disposition', 'attachment; filename="' + file.filename + '"');
+        });
+
+        // res.set('Content-Type', 'application/octet-stream');
+        downloadStream.pipe(res).on('error', (error) => {
+          res.status(404).send('File not found');
+        });
       } catch (error: any) {
-        console.log('DOWNLOADDDDDDDD ERR 2', error.message);
+        console.log('Download error', error.message);
         next(error);
       }
     },
