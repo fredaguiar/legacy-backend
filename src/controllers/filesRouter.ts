@@ -75,8 +75,7 @@ const filesRouter = (conn: mongoose.Connection) => {
         const userId = req.context.userId;
         const id = new Types.ObjectId(fileId);
 
-        // TODO: should check safe
-
+        // TODO: check safeId and userID
         const downloadStream = bucket.openDownloadStream(id);
 
         downloadStream.on('file', (file) => {
@@ -122,6 +121,26 @@ const filesRouter = (conn: mongoose.Connection) => {
       });
 
       return res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post('/saveTextTitle', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { safeId, fileId, title } = req.params;
+      // @ts-ignore
+      const userId = req.context.userId;
+
+      console.log('saveTextTitle safeId, fileId, title', safeId, fileId, title);
+
+      if (!safeId || !fileId || !userId || !title) {
+        return res.status(404).send('Missing input information');
+      }
+
+      // TODO: check safeId and userID
+      bucket.rename(new Types.ObjectId(fileId), title);
+      return res.send(true);
     } catch (error) {
       next(error);
     }
