@@ -43,7 +43,7 @@ const filesRouter = (conn: mongoose.Connection) => {
             mimetype: req.file.mimetype,
           },
         };
-        const writeStream = bucket.openUploadStream(req.file.originalname, options);
+        const writeStream = bucket.openUploadStream(req.file.originalname.trim(), options);
 
         const readableStream = new Readable();
         readableStream.push(req.file.buffer);
@@ -57,6 +57,12 @@ const filesRouter = (conn: mongoose.Connection) => {
           })
           .on('finish', () => {
             logger.info('File uploaded successfully').info(JSON.stringify(req.body));
+
+            // if it is update, then delete old file.
+            if (req.body.fileId) {
+              bucket.delete(new Types.ObjectId(req.body.fileId as string));
+            }
+
             return res.json({ name: req.file?.originalname, type: req.file?.mimetype });
           });
       } catch (error) {
@@ -128,18 +134,16 @@ const filesRouter = (conn: mongoose.Connection) => {
 
   router.post('/saveTextTitle', async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { safeId, fileId, title } = req.params;
+      const { safeId, fileId, title } = req.body;
       // @ts-ignore
       const userId = req.context.userId;
-
-      console.log('saveTextTitle safeId, fileId, title', safeId, fileId, title);
 
       if (!safeId || !fileId || !userId || !title) {
         return res.status(404).send('Missing input information');
       }
 
       // TODO: check safeId and userID
-      bucket.rename(new Types.ObjectId(fileId), title);
+      bucket.rename(new Types.ObjectId(fileId), title.trim());
       return res.send(true);
     } catch (error) {
       next(error);

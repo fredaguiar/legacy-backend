@@ -15,8 +15,6 @@ const authRouter = express.Router();
 authRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password }: TCredentials = req.body;
-    console.log('LOGIN with email, password', email, password);
-
     const user = await User.findOne<TUser>({ email }).lean();
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
@@ -49,14 +47,14 @@ authRouter.post('/signup', async (req: Request, res: Response, next: NextFunctio
     const verifyCode = generateVerifyCode();
     const safes: TSafe[] = [{ name: 'Personal Documents' }, { name: 'Friends and family' }];
     const newUser = await User.create<TUser>({
-      firstName,
-      lastName,
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
       country,
       language,
-      email,
-      phoneCountry,
-      phone,
-      password,
+      email: email.trim(),
+      phoneCountry: phoneCountry.trim(),
+      phone: phone.trim(),
+      password: password?.trim(),
       emailVerified: false,
       mobileVerified: false,
       mobileVerifyCode: verifyCode,

@@ -15,7 +15,7 @@ safeRouter.post('/createSafe', async (req: Request, res: Response, next: NextFun
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
     }
-    const safe = new Safe({ name: req.body.name });
+    const safe = new Safe({ name: req.body.name.trim() });
     user.safes?.push(safe);
     await user.save();
     return res.json(safe);
