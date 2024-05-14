@@ -15,6 +15,15 @@ type TFileInfoListResult = {
   fileInfoList: TFileInfo[];
 };
 
+type TPassword = {
+  title: string;
+  username: string;
+  password: string;
+  notes?: string;
+  safeId: string;
+  fileId?: string;
+};
+
 const filesRouter = (conn: mongoose.Connection) => {
   const router = express.Router();
 
@@ -143,12 +152,132 @@ const filesRouter = (conn: mongoose.Connection) => {
       }
 
       // TODO: check safeId and userID
-      bucket.rename(new Types.ObjectId(fileId), title.trim());
+      bucket.rename(new Types.ObjectId(fileId as string), title.trim());
       return res.send(true);
     } catch (error) {
       next(error);
     }
   });
+
+  const addField = (key: string, val: string | undefined) => {
+    return `${key}=${val || ''}\n`;
+  };
+
+  // TODO: should replace {{}} in the content to something else
+  const MULTILINE_START = '{{';
+  const MULTILINE_END = '}}';
+
+  router.post('/savePassword', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // @ts-ignore
+      const userId = req.context.userId;
+      const { title, username, password, notes, safeId, fileId }: TPassword = req.body;
+
+      console.log('savePassword', title, username, password, notes, safeId, fileId);
+      if (!title || !username || !password || !safeId || !userId) {
+        return res.status(404).send('Missing input information');
+      }
+      const content: string =
+        addField('title', title.trim()) +
+        addField('username', username.trim()) +
+        addField('password', password.trim()) +
+        addField('notes', MULTILINE_START + '\n' + notes?.trim() + '\n' + MULTILINE_END);
+
+      const options = {
+        metadata: {
+          userId,
+          safeId: req.body.safeId,
+          mimetype: 'text/pass',
+        },
+      };
+      const writeStream = bucket.openUploadStream(`${title.trim()}.txt`, options);
+
+      const readableStream = new Readable();
+      readableStream.push(Buffer.from(content));
+      readableStream.push(null); // Indicates EOF
+      readableStream
+        .pipe(writeStream)
+        .on('error', (error) => {
+          logger.error('Failed to save password file! ' + error.message);
+          return res.status(400).send('Failed to save password file');
+        })
+        .on('finish', () => {
+          logger.info('Password file saved successfully').info(JSON.stringify(req.body));
+          // if it is update, then delete old file.
+          if (fileId) {
+            logger.info('Password file updated! ' + title);
+            bucket.delete(new Types.ObjectId(fileId));
+          }
+          return res.send(true);
+        });
+    } catch (error) {
+      next(error); // forward error to error handling middleware
+    }
+  });
+
+  const parseFields = (content: string, multilineFields: Array<string>) => {
+    const lines = content.split('\n') || [];
+    const fields: Record<string, string> = {};
+    let i = 0;
+
+    while (i < lines.length) {
+      const field = lines[i]?.split('=')[0] || '';
+      if (!multilineFields.includes(field)) {
+        fields[field] = lines[i]?.substring(field.length + 1) || '';
+      } else {
+        i++;
+        while (i < lines.length && lines[i] !== MULTILINE_END) {
+          fields[field] = (fields[field] || '') + lines[i] + '\n';
+          i++;
+        }
+      }
+      i++;
+    }
+    return fields;
+  };
+
+  router.get(
+    '/getPassword/:safeId/:fileId',
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        // @ts-ignore
+        const userId = req.context.userId;
+        const { safeId, fileId } = req.params;
+
+        if (!safeId || !userId) {
+          return res.status(404).send('Missing input information');
+        }
+
+        const id = new Types.ObjectId(fileId);
+        let content = '';
+
+        // TODO: check safeId and userID
+        const downloadStream = bucket.openDownloadStream(id);
+        downloadStream
+          .on('data', (chunk) => {
+            content += chunk.toString();
+          })
+          .on('error', (error) => {
+            res.status(400).send('Error reading file');
+          })
+          .on('end', () => {
+            const fields = parseFields(content, ['notes']);
+            console.log('getPassword fields', fields);
+            const json: TPassword = {
+              title: fields['title'] || '',
+              username: fields['username'] || '',
+              password: fields['password'] || '',
+              notes: fields['notes'] || '',
+              safeId,
+              fileId,
+            };
+            return res.json(json);
+          });
+      } catch (error) {
+        next(error); // forward error to error handling middleware
+      }
+    },
+  );
 
   return router;
 };
