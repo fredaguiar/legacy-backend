@@ -19,6 +19,9 @@ export type TUser = {
   mobileVerified: boolean;
   mobileVerifyCode?: number;
   introductionViewed?: boolean;
+  storageQuotaInMB?: number;
+  storageUsedInBytes?: number;
+  storageFileCount?: number;
   safes: Array<TSafe>;
 };
 
@@ -35,6 +38,7 @@ const userSchema = new mongoose.Schema({
   mobileVerified: { type: Boolean, required: true, default: false },
   mobileVerifyCode: { type: Number, required: false },
   introductionViewed: { type: Boolean, default: false, required: true },
+  storageQuotaInMB: { type: Number, required: true },
   createdAt: { type: Date, default: Date.now },
   safes: [safeSchema],
 });

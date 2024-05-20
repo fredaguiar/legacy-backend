@@ -24,12 +24,9 @@ type TPassword = {
   fileId?: string;
 };
 
-const filesRouter = (conn: mongoose.Connection) => {
+const filesRouter = (bucket: mongoose.mongo.GridFSBucket) => {
   const router = express.Router();
 
-  const bucket = new mongoose.mongo.GridFSBucket(conn.db, {
-    bucketName: 'uploads',
-  });
   const storage = multer.memoryStorage();
   const upload = multer({ storage });
 
@@ -92,13 +89,6 @@ const filesRouter = (conn: mongoose.Connection) => {
 
         // TODO: check safeId and userID
         const downloadStream = bucket.openDownloadStream(id);
-
-        downloadStream.on('file', (file) => {
-          // console.log('Download mimetype', file.metadata.mimetype);
-          // console.log('Download file.filename', file.filename);
-          // res.setHeader('Content-Type', file.metadata.mimetype);
-          // res.setHeader('Content-Disposition', 'attachment; filename="' + file.filename + '"');
-        });
 
         // res.set('Content-Type', 'application/octet-stream');
         downloadStream.pipe(res).on('error', (error) => {

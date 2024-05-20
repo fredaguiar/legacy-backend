@@ -1,8 +1,7 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import { GridFSBucket } from 'mongodb';
 import dotenv from 'dotenv';
 import authRouter from './controllers/authRouter';
 import uncaughtException from './middleware/uncaughtException';
@@ -19,8 +18,6 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // TODO: might be built in. Double check
 
-app.use('/legacy/public', authRouter);
-app.use('/legacy/private', authorization, safeRouter);
 app.use('test', (req, res) => res.json('OK'));
 
 mongoose
@@ -35,12 +32,13 @@ mongoose
   });
 
 const conn = mongoose.connection;
-let bucket: GridFSBucket;
 conn.once('open', () => {
-  bucket = new mongoose.mongo.GridFSBucket(conn.db, {
+  const bucket = new mongoose.mongo.GridFSBucket(conn.db, {
     bucketName: 'uploads',
   });
-  app.use('/legacy/private', authorization, filesRouter(conn));
+  app.use('/legacy/public', authRouter(bucket));
+  app.use('/legacy/private', authorization, safeRouter(bucket));
+  app.use('/legacy/private', authorization, filesRouter(bucket));
 });
 
 app.use(uncaughtException); // keep it after routers
@@ -51,6 +49,7 @@ app.listen(PORT, () => {
 
 function signalHandler(signal: string) {
   console.log(`Process ${process.pid} received a SIGTERM signal:`, signal);
+  conn.close();
   process.exit();
 }
 process.on('SIGINT', signalHandler);
