@@ -2,6 +2,8 @@ import mongoose, { Types } from 'mongoose';
 
 export type TSafe = {
   name: string;
+  description?: string;
+  autoSharing?: boolean;
   _id?: Types.ObjectId;
 };
 
@@ -21,6 +23,8 @@ export type TPassword = {
 
 const safeSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  description: { type: String, required: false },
+  autoSharing: { type: Boolean, required: true },
   createdAt: { type: Date, default: Date.now },
 });
 
