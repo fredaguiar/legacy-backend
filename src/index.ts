@@ -8,6 +8,7 @@ import uncaughtException from './middleware/uncaughtException';
 import authorization from './middleware/authorization';
 import safeRouter from './controllers/safeRouter';
 import filesRouter from './controllers/filesRouter';
+import userRouter from './controllers/userRouter';
 
 dotenv.config();
 const PORT: number = parseInt(process.env.PORT as string, 10);
@@ -37,6 +38,7 @@ conn.once('open', () => {
     bucketName: 'uploads',
   });
   app.use('/legacy/public', authRouter(bucket));
+  app.use('/legacy/private', authorization, userRouter(bucket));
   app.use('/legacy/private', authorization, safeRouter(bucket));
   app.use('/legacy/private', authorization, filesRouter(bucket));
 });

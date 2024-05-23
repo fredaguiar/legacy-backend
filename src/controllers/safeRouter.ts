@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 import User, { TUser } from '../models/User';
-import { Safe, TPassword, TSafe } from '../models/Safe';
+import { Safe, TSafe } from '../models/Safe';
 
 const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
   const router = express.Router();
@@ -43,11 +43,12 @@ const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
       const safe = (await findSafeById(user, _id)) as TSafe;
       if (fieldToUpdate === 'description' || fieldToUpdate === 'all') {
         safe.description = description;
-      } else if (fieldToUpdate === 'name' || fieldToUpdate === 'all') {
+      }
+      if (fieldToUpdate === 'name' || fieldToUpdate === 'all') {
         safe.name = name;
-      } else if (fieldToUpdate === 'autoSharing' || fieldToUpdate === 'all') {
+      }
+      if (fieldToUpdate === 'autoSharing' || fieldToUpdate === 'all') {
         safe.autoSharing = autoSharing;
-        console.log('safe.autoSharing', safe.autoSharing);
       }
 
       await user.save();
@@ -61,7 +62,7 @@ const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
     try {
       // @ts-ignore
       const userId = req.context.userId;
-      const { safeIdList } = req.body;
+      const { safeIdList } = req.body as { safeIdList: string[] };
       console.log('deleteSafeList', req.body);
 
       const user = await User.findById<Document & TUser>(userId).exec();
@@ -74,8 +75,17 @@ const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
         return !(safeIdList as Array<string>).includes(currId);
       });
       user.safes = updatedList;
-
       await user.save();
+
+      safeIdList.forEach(async (safeId) => {
+        const files = await bucket
+          .find({ 'metadata.safeId': safeId, 'metadata.userId': userId })
+          .toArray();
+        files.forEach((file) => {
+          bucket.delete(file._id);
+        });
+      });
+
       return res.json({ safeIdList });
     } catch (error) {
       next(error);
@@ -87,19 +97,13 @@ const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
       // @ts-ignore
       const userId = req.context.userId;
       const { safeId } = req.params;
-      console.log('createSafe', userId);
+      console.log('getSafe', userId);
 
       const user = await User.findById<Document & TUser>(userId).exec();
       if (!user) {
         return res.status(400).json({ message: 'User not found' });
       }
       const safe = await findSafeById(user, safeId);
-
-      // // TODO: this could be run in a background call for performance improvements
-      // const files = await bucket.find({ 'metadata.userId': user._id }).exe
-      // user.storageFileCount = files.length;
-      // // curr.length stored in bytes
-      // user.storageUsedInBytes = files.reduce((prev, curr) => prev + curr.length, 0);
 
       return res.json(safe);
     } catch (error) {

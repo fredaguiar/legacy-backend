@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import mongoose, { Types } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 import User, { TUser } from '../models/User';
 import { generateToken } from '../utils/JwtUtil';
 import { generateVerifyCode } from '../utils/VerifyCode';
@@ -70,6 +70,7 @@ const authRouter = (bucket: mongoose.mongo.GridFSBucket) => {
         mobileVerifyCode: verifyCode,
         introductionViewed: false,
         storageQuotaInMB: 1024 * 10, // 10 GB
+        lifeCheck: false,
         safes,
       });
       newUser.token = generateToken(newUser._id);
@@ -78,11 +79,6 @@ const authRouter = (bucket: mongoose.mongo.GridFSBucket) => {
     } catch (error) {
       next(error);
     }
-  });
-
-  router.get('/test', (req, res) => {
-    console.log('Test ROUTER /');
-    res.send('RESPONSE Test ROUTER /');
   });
 
   return router;
