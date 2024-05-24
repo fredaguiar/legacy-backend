@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import mongoose, { Document, Types } from 'mongoose';
-import User, { TUser } from '../models/User';
-import { Safe, TSafe } from '../models/Safe';
+import User from '../models/User';
+import { Safe } from '../models/Safe';
 
 const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
   const router = express.Router();

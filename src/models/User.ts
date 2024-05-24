@@ -1,28 +1,8 @@
 import mongoose, { Types } from 'mongoose';
 import bcrypt from 'bcrypt';
-import { safeSchema, TSafe } from './Safe';
+import { safeSchema } from './Safe';
 
 export type Country = 'BR' | 'USA';
-
-export type TUser = {
-  _id?: Types.ObjectId;
-  firstName: string;
-  lastName: string;
-  language: string;
-  country: Country;
-  email: string;
-  phoneCountry: string;
-  phone: string;
-  password?: string;
-  token?: string;
-  emailVerified: boolean;
-  mobileVerified: boolean;
-  mobileVerifyCode?: number;
-  introductionViewed?: boolean;
-  storageQuotaInMB?: number;
-  lifeCheck?: boolean;
-  safes: Array<TSafe>;
-};
 
 const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true },

@@ -1,10 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import mongoose, { Document, Types } from 'mongoose';
-import User, { TUser } from '../models/User';
+import mongoose from 'mongoose';
+import User from '../models/User';
 import { generateToken } from '../utils/JwtUtil';
 import { generateVerifyCode } from '../utils/VerifyCode';
-import { TSafe } from '../models/Safe';
 
 type TCredentials = {
   email: string;

@@ -24,3 +24,8 @@ A **React Native** Legacy mobile app
 - The private key has to be converted to pem format
 - In **PuTTY Key Generator**, click on _Conversion_ and _Export OpenSSH key_
 - overwrite the private key. The key should be in pem format
+
+## Troubleshooting
+
+- to recognize typings.d.ts, add this header to index.ts
+- /// <reference path="./types/typing.d.ts" />

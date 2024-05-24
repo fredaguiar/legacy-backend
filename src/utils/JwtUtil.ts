@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
-import { TUser } from '../models/User';
 import { Types } from 'mongoose';
 
 const TOKEN_EXPIRES_MS = 60 * 60 * 1000; // 1hr

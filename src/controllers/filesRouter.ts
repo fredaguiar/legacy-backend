@@ -15,15 +15,6 @@ type TFileInfoListResult = {
   fileInfoList: TFileInfo[];
 };
 
-type TPassword = {
-  title: string;
-  username: string;
-  password: string;
-  notes?: string;
-  safeId: string;
-  fileId?: string;
-};
-
 const filesRouter = (bucket: mongoose.mongo.GridFSBucket) => {
   const router = express.Router();
 
