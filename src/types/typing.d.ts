@@ -18,11 +18,33 @@ type TUser = {
   safes: Array<TSafe>;
 };
 
+type TCredentials = {
+  email: string;
+  password: string;
+};
+
+type Country = 'BR' | 'USA';
+
 type TSafe = {
-  name: string;
+  name?: string;
   description?: string;
   autoSharing?: boolean;
+  emails?: Array<TContact>;
+  phones?: Array<TContact>;
+  fieldToUpdate?: 'name' | 'description' | 'autoSharing' | 'emails' | 'phones';
   _id?: Types.ObjectId;
+};
+
+type TFileInfo = {
+  id: string;
+  filename: string;
+  length: number;
+  uploadDate: Date;
+  mimetype: string;
+};
+
+type TFileInfoListResult = {
+  fileInfoList: TFileInfo[];
 };
 
 type TPassword = {
@@ -32,4 +54,17 @@ type TPassword = {
   notes?: string;
   safeId: string;
   fileId?: string;
+};
+
+type TContact = {
+  name: string;
+  contact: string;
+  type: string;
+  _id: Types.ObjectId;
+};
+
+type StorageInfo = {
+  storageUsedInBytes: number;
+  storageFileCount: number;
+  storageQuotaInMB: number;
 };

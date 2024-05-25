@@ -6,7 +6,8 @@ const safeSchema = new mongoose.Schema({
   description: { type: String, required: false },
   autoSharing: { type: Boolean, required: true },
   createdAt: { type: Date, default: Date.now },
-  safes: [contactSchema],
+  emails: [contactSchema],
+  phones: [contactSchema],
 });
 
 safeSchema.pre('save', async function (next, err) {

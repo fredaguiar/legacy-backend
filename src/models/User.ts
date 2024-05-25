@@ -2,8 +2,6 @@ import mongoose, { Types } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { safeSchema } from './Safe';
 
-export type Country = 'BR' | 'USA';
-
 const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },

@@ -2,12 +2,6 @@ import express, { NextFunction, Request, Response } from 'express';
 import mongoose, { Document } from 'mongoose';
 import User from '../models/User';
 
-type StorageInfo = {
-  storageUsedInBytes: number;
-  storageFileCount: number;
-  storageQuotaInMB: number;
-};
-
 const userRouter = (bucket: mongoose.mongo.GridFSBucket) => {
   const router = express.Router();
 

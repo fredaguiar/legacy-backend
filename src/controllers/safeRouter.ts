@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import mongoose, { Document, Types } from 'mongoose';
 import User from '../models/User';
 import { Safe } from '../models/Safe';
+import { Contact } from '../models/Contact';
 
 const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
   const router = express.Router();
@@ -20,7 +21,13 @@ const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
       if (!user) {
         return res.status(400).json({ message: 'User not found' });
       }
-      const safe = new Safe({ name: req.body.name.trim(), description: '', autoSharing: false });
+      const safe = new Safe({
+        name: req.body.name.trim(),
+        description: '',
+        autoSharing: false,
+        emails: [],
+        phones: [],
+      });
       user.safes?.push(safe);
       await user.save();
       return res.json(safe);
@@ -33,22 +40,37 @@ const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
     try {
       // @ts-ignore
       const userId = req.context.userId;
-      const { name, _id, description, autoSharing, fieldToUpdate } = req.body;
-      console.log('updateSafe', autoSharing, fieldToUpdate);
+      const body = req.body as TSafe;
+      const field = body.fieldToUpdate;
 
       const user = await User.findById<Document & TUser>(userId).exec();
       if (!user) {
         return res.status(400).json({ message: 'User not found' });
       }
-      const safe = (await findSafeById(user, _id)) as TSafe;
-      if (fieldToUpdate === 'description' || fieldToUpdate === 'all') {
-        safe.description = description;
-      }
-      if (fieldToUpdate === 'name' || fieldToUpdate === 'all') {
-        safe.name = name;
-      }
-      if (fieldToUpdate === 'autoSharing' || fieldToUpdate === 'all') {
-        safe.autoSharing = autoSharing;
+      const safe = (await findSafeById(user, body._id)) as TSafe;
+
+      console.log('updateSafe BODY', body);
+
+      if (field === 'description') {
+        safe.description = body.description;
+      } else if (field === 'name') {
+        safe.name = body.name;
+      } else if (field === 'autoSharing') {
+        safe.autoSharing = body.autoSharing;
+      } else if (field === 'emails' && body.emails) {
+        const contact = new Contact({
+          name: body.emails[0]?.name,
+          contact: body.emails[0]?.contact,
+          type: 'email',
+        });
+        safe.emails?.push(contact);
+      } else if (field === 'phones' && body.phones) {
+        const contact = new Contact({
+          name: body.phones[0]?.name,
+          contact: body.phones[0]?.contact,
+          type: 'phone',
+        });
+        safe.phones?.push(contact);
       }
 
       await user.save();

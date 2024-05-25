@@ -4,17 +4,6 @@ import { Readable } from 'stream';
 import mongoose, { Types } from 'mongoose';
 import logger from '../logger';
 
-type TFileInfo = {
-  id: string;
-  filename: string;
-  length: number;
-  uploadDate: Date;
-  mimetype: string;
-};
-type TFileInfoListResult = {
-  fileInfoList: TFileInfo[];
-};
-
 const filesRouter = (bucket: mongoose.mongo.GridFSBucket) => {
   const router = express.Router();
 

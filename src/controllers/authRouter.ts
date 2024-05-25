@@ -5,13 +5,12 @@ import User from '../models/User';
 import { generateToken } from '../utils/JwtUtil';
 import { generateVerifyCode } from '../utils/VerifyCode';
 
-type TCredentials = {
-  email: string;
-  password: string;
-};
-
 const authRouter = (bucket: mongoose.mongo.GridFSBucket) => {
   const router = express.Router();
+
+  const createSafe = ({ name }: { name: string }): TSafe => {
+    return { name, autoSharing: false, description: '', emails: [], phones: [] };
+  };
 
   router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -54,7 +53,10 @@ const authRouter = (bucket: mongoose.mongo.GridFSBucket) => {
       }
 
       const verifyCode = generateVerifyCode();
-      const safes: TSafe[] = [{ name: 'Personal Documents' }, { name: 'Friends and family' }];
+      const safes: TSafe[] = [
+        createSafe({ name: 'Personal Documents' }),
+        createSafe({ name: 'Friends and family' }),
+      ];
       const newUser = await User.create<TUser>({
         firstName: firstName.trim(),
         lastName: lastName.trim(),
