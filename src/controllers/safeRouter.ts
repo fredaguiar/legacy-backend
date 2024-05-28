@@ -49,28 +49,12 @@ const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
       }
       const safe = (await findSafeById(user, body._id)) as TSafe;
 
-      console.log('updateSafe BODY', body);
-
       if (field === 'description') {
         safe.description = body.description;
       } else if (field === 'name') {
         safe.name = body.name;
       } else if (field === 'autoSharing') {
         safe.autoSharing = body.autoSharing;
-      } else if (field === 'emails' && body.emails) {
-        const contact = new Contact({
-          name: body.emails[0]?.name,
-          contact: body.emails[0]?.contact,
-          type: 'email',
-        });
-        safe.emails?.push(contact);
-      } else if (field === 'phones' && body.phones) {
-        const contact = new Contact({
-          name: body.phones[0]?.name,
-          contact: body.phones[0]?.contact,
-          type: 'phone',
-        });
-        safe.phones?.push(contact);
       }
 
       await user.save();
@@ -80,12 +64,67 @@ const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
     }
   });
 
+  router.post('/updateContacts', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // @ts-ignore
+      const userId = req.context.userId;
+
+      const { contactType, contactList, deleteContactList, safeId } = req.body as TContactUpdate;
+
+      const user = await User.findById<Document & TUser>(userId).exec();
+      if (!user || !contactType) {
+        return res.status(400).json({ message: 'User not found' });
+      }
+      const safe = (await findSafeById(user, safeId)) as TSafe;
+
+      if (!contactList || contactList.length < 0) return;
+      const currentContact = contactList[0] as TContact;
+
+      console.log('updateContacts1111', currentContact, contactList[0]);
+
+      // ADD NEW
+      if (!currentContact._id) {
+        const contact = new Contact({
+          name: currentContact?.name,
+          contact: currentContact?.contact,
+          type: contactType === 'emails' ? 'email' : 'phone',
+        });
+        safe[contactType]?.push(contact);
+      }
+      // EDIT
+      else if (currentContact._id) {
+        const updateContact = safe[contactType]?.filter(
+          (contact) => contact._id.toString() === currentContact?._id,
+        )[0];
+
+        if (!updateContact) return;
+        updateContact.name = currentContact?.name;
+        updateContact.contact = currentContact?.contact;
+      }
+      // DELETE
+      else if (deleteContactList && deleteContactList.length > 0) {
+        const updateContact = safe[contactType]?.filter(
+          (contact) => contact._id.toString() === currentContact?._id,
+        )[0];
+
+        if (!updateContact) return;
+        updateContact.name = currentContact?.name;
+        updateContact.contact = currentContact?.contact;
+      }
+
+      await user.save();
+      return res.json(safe);
+    } catch (error) {
+      console.log('updateContacts', error);
+      next(error);
+    }
+  });
+
   router.post('/deleteSafeList', async (req: Request, res: Response, next: NextFunction) => {
     try {
       // @ts-ignore
       const userId = req.context.userId;
       const { safeIdList } = req.body as { safeIdList: string[] };
-      console.log('deleteSafeList', req.body);
 
       const user = await User.findById<Document & TUser>(userId).exec();
       if (!user) {

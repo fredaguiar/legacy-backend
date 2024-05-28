@@ -31,7 +31,8 @@ type TSafe = {
   autoSharing?: boolean;
   emails?: Array<TContact>;
   phones?: Array<TContact>;
-  fieldToUpdate?: 'name' | 'description' | 'autoSharing' | 'emails' | 'phones';
+  fieldToUpdate?: 'name' | 'description' | 'autoSharing';
+  contactToUpdate?: 'emails' | 'phones';
   _id?: Types.ObjectId;
 };
 
@@ -61,6 +62,13 @@ type TContact = {
   contact: string;
   type: string;
   _id: Types.ObjectId;
+};
+
+type TContactUpdate = {
+  safeId: string;
+  contactList: TContact[];
+  deleteContactList: TContact[];
+  contactType: 'emails' | 'phones';
 };
 
 type StorageInfo = {
