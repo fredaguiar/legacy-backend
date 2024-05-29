@@ -77,45 +77,35 @@ const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
       }
       const safe = (await findSafeById(user, safeId)) as TSafe;
 
-      if (!contactList || contactList.length < 0) return;
-      const currentContact = contactList[0] as TContact;
-
-      console.log('updateContacts1111', currentContact, contactList[0]);
-
       // ADD NEW
-      if (!currentContact._id) {
+      if (contactList.length > 0 && !contactList[0]?._id) {
         const contact = new Contact({
-          name: currentContact?.name,
-          contact: currentContact?.contact,
+          name: contactList[0]?.name,
+          contact: contactList[0]?.contact,
           type: contactType === 'emails' ? 'email' : 'phone',
         });
         safe[contactType]?.push(contact);
       }
       // EDIT
-      else if (currentContact._id) {
+      else if (contactList.length > 0 && contactList[0]?._id) {
         const updateContact = safe[contactType]?.filter(
-          (contact) => contact._id.toString() === currentContact?._id,
+          (contact) => contact._id.toString() === contactList[0]?._id,
         )[0];
 
         if (!updateContact) return;
-        updateContact.name = currentContact?.name;
-        updateContact.contact = currentContact?.contact;
+        updateContact.name = contactList[0]?.name;
+        updateContact.contact = contactList[0]?.contact;
       }
       // DELETE
-      else if (deleteContactList && deleteContactList.length > 0) {
-        const updateContact = safe[contactType]?.filter(
-          (contact) => contact._id.toString() === currentContact?._id,
-        )[0];
-
-        if (!updateContact) return;
-        updateContact.name = currentContact?.name;
-        updateContact.contact = currentContact?.contact;
+      else if (deleteContactList.length > 0) {
+        safe[contactType] = safe[contactType]?.filter(
+          (contact) => !deleteContactList.includes(contact._id.toString()),
+        );
       }
 
       await user.save();
       return res.json(safe);
     } catch (error) {
-      console.log('updateContacts', error);
       next(error);
     }
   });

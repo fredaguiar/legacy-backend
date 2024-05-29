@@ -67,7 +67,7 @@ type TContact = {
 type TContactUpdate = {
   safeId: string;
   contactList: TContact[];
-  deleteContactList: TContact[];
+  deleteContactList: string[];
   contactType: 'emails' | 'phones';
 };
 
