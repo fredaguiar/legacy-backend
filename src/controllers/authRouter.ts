@@ -72,6 +72,10 @@ const authRouter = (bucket: mongoose.mongo.GridFSBucket) => {
         introductionViewed: false,
         storageQuotaInMB: 1024 * 10, // 10 GB
         lifeCheck: false,
+        shareWeekday: 'wed',
+        shareCount: 3,
+        shareCountType: 'days',
+        shareCountNotAnswered: 5,
         safes,
       });
       newUser.token = generateToken(newUser._id);

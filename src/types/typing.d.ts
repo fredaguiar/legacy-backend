@@ -15,8 +15,15 @@ type TUser = {
   introductionViewed?: boolean;
   storageQuotaInMB?: number;
   lifeCheck?: boolean;
+  shareTime?: date;
+  shareWeekday?: string;
+  shareCount?: number;
+  shareCountType?: string;
+  shareCountNotAnswered?: number;
   safes: Array<TSafe>;
 };
+
+type TUserProfile = Omit<TUser, '_id' | 'password' | 'token' | 'safes'>;
 
 type TCredentials = {
   email: string;

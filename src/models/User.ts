@@ -17,6 +17,11 @@ const userSchema = new mongoose.Schema({
   introductionViewed: { type: Boolean, default: false, required: true },
   storageQuotaInMB: { type: Number, required: true },
   lifeCheck: { type: Boolean, default: false, required: true },
+  shareWeekday: { type: String, required: false },
+  shareTime: { type: Date, required: false },
+  shareCount: { type: Number, required: false },
+  shareCountType: { type: String, required: false },
+  shareCountNotAnswered: { type: Number, required: false },
   createdAt: { type: Date, default: Date.now },
   safes: [safeSchema],
 });
