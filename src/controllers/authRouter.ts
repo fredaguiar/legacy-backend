@@ -12,6 +12,10 @@ const authRouter = (bucket: mongoose.mongo.GridFSBucket) => {
     return { name, autoSharing: false, description: '', emails: [], phones: [] };
   };
 
+  router.get('/test', async (req: Request, res: Response, next: NextFunction) => {
+    return res.send('OK');
+  });
+
   router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password }: TCredentials = req.body;

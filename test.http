@@ -1,16 +1,12 @@
 
-@baseUrl = http://172.29.80.1:4000/legacy
+@baseUrl = http://localhost:4000/legacy
 
 ###
 
-GET http://172.29.80.1:4000/
+GET {{baseUrl}}/public/test
 ###
 
-GET http://172.29.80.1:4000/test
-
-###
-
-POST {{baseUrl}}/login
+POST {{baseUrl}}/public/login
 content-type: application/json
 
 {

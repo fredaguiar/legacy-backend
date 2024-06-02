@@ -20,8 +20,6 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // TODO: might be built in. Double check
 
-app.use('test', (req, res) => res.json('OK'));
-
 mongoose
   .connect(process.env.MONGO_URI as string, {
     serverSelectionTimeoutMS: 5000,

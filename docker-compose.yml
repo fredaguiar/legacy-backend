@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+  mongo:
+    container_name: mongo-legacy
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - mongo-legacy-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 5000:8081
+    networks:
+      - mongo-legacy-network
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+
+networks:
+  mongo-legacy-network:
+    name: mongo-legacy-network
+    driver: bridge
