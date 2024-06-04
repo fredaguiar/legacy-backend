@@ -2,6 +2,10 @@
 .cache/
 .git/
 build/
+dist/
 node_modules/
 data/
 public/uploads
+README.md
+test.http
+.env

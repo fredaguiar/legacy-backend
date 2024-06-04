@@ -7,6 +7,15 @@ A **React Native** Legacy mobile app
 - npm run dev
 - npm run watch
 
+## Run in a Docker container:
+
+- docker-compose up -d
+
+## Mongo DB UI client:
+
+- Install MongoDB Compass
+- MongoDB Compass connection string: mongodb://{USERNAME}:{PASSWORD}@localhost:27017/
+
 ## Tech stach
 
 - NodeJS, Typescript, MongoDB

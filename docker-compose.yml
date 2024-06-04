@@ -1,32 +1,44 @@
-version: '3.1'
+version: '3.8'
 
 services:
+  legacy-backend:
+    build:
+      context: .
+      target: production
+    container_name: legacy-backend
+    restart: always
+    ports:
+      - '4000:4000'
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - MONGO_URI=mongodb://legacyUser:legacyPassword@mongo:27017/legacy?authSource=legacy
+    depends_on:
+      - mongo
+    networks:
+      - legacy-network
+
   mongo:
     container_name: mongo-legacy
-    image: mongo
+    image: mongo:7.0
     restart: always
     ports:
       - 27017:27017
     networks:
-      - mongo-legacy-network
+      - legacy-network
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - legacy_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
 
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - 5000:8081
-    networks:
-      - mongo-legacy-network
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-      ME_CONFIG_BASICAUTH: false
-
 networks:
-  mongo-legacy-network:
-    name: mongo-legacy-network
+  legacy-network:
+    name: legacy-network
     driver: bridge
+
+volumes:
+  legacy_data:
+    name: legacy_data
+    driver: local
