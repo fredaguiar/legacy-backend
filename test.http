@@ -1,13 +1,13 @@
 
-@baseUrl = http://localhost:4000/legacy
+# @baseUrl = http://localhost:4000/legacy
+# @baseUrl = http://216.238.98.128:8080/legacy
+@baseUrl = http://legacy-backend.xyz/legacy
 
 ###
 
 GET {{baseUrl}}/public/test
 ###
 
-GET http://localhost:8080/legacy/public/test
-###
 
 POST {{baseUrl}}/public/login
 content-type: application/json

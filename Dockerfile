@@ -13,7 +13,7 @@ WORKDIR /opt/legacy
 COPY --chown=node:node package*.json ./
 COPY --chown=node:node --from=builder /opt/legacy/dist ./dist
 COPY --chown=node:node ./keys/* ./keys/
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 EXPOSE 4000
 # TODO pm2
 CMD ["npm", "run", "start"]
