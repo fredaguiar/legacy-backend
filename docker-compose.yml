@@ -33,6 +33,19 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
 
+  nginx:
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    container_name: nginx-legacy
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - legacy-backend
+    networks:
+      - legacy-network
+
 networks:
   legacy-network:
     name: legacy-network

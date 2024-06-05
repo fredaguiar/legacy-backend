@@ -6,11 +6,14 @@ COPY . .
 RUN npm run build
 
 FROM node:20-alpine AS production
-RUN apk add --no-cache
+USER node
+# RUN apk update
+# RUN apk add --no-cache bash
 WORKDIR /opt/legacy
-COPY package*.json ./
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node --from=builder /opt/legacy/dist ./dist
+COPY --chown=node:node ./keys/* ./keys/
 RUN npm ci --only=production
-COPY --from=builder /opt/legacy/dist ./dist
-COPY ./keys/* ./keys/
 EXPOSE 4000
+# TODO pm2
 CMD ["npm", "run", "start"]

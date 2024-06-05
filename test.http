@@ -6,6 +6,9 @@
 GET {{baseUrl}}/public/test
 ###
 
+GET http://localhost:8080/legacy/public/test
+###
+
 POST {{baseUrl}}/public/login
 content-type: application/json
 

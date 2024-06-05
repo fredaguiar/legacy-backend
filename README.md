@@ -7,9 +7,21 @@ A **React Native** Legacy mobile app
 - npm run dev
 - npm run watch
 
-## Run in a Docker container:
+## Docker command for developers
 
-- docker-compose up -d
+Build and run
+
+```
+docker-compose build --no-cache & docker-compose up -d
+```
+
+Remove all containers and Images
+
+```
+docker-compose stop
+docker-compose rm -f
+docker rmi -f $(docker images -q 'nodejs-client') $(docker images -q 'nginx-client')
+```
 
 ## Mongo DB UI client:
 
