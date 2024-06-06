@@ -1,15 +1,16 @@
 
-# @baseUrl = http://localhost:4000/legacy
+@baseUrl = http://localhost
 # @baseUrl = http://216.238.98.128:8080/legacy
-@baseUrl = http://legacy-backend.xyz/legacy
+# @baseUrl = http://legacy-backend.xyz/legacy
 
-###
+### Test Ngnix
+GET {{baseUrl}}/
 
-GET {{baseUrl}}/public/test
-###
+### Test backend service through ngnix
+GET {{baseUrl}}/legacy/public/test
 
-
-POST {{baseUrl}}/public/login
+### Test user authentication
+POST {{baseUrl}}/legacy/public/login
 content-type: application/json
 
 {
