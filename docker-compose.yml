@@ -47,7 +47,6 @@ services:
     networks:
       - legacy-network
     volumes:
-      - ./nginx/conf/:/etc/nginx/conf.d/:ro
       - legacy-cert_certbot-data:/etc/letsencrypt
 
 networks:
