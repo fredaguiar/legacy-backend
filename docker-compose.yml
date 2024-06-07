@@ -45,6 +45,8 @@ services:
       - legacy-backend
     networks:
       - legacy-network
+    volumes:
+      - legacy-cert_certbot-data:/etc/letsencrypt
 
 networks:
   legacy-network:
@@ -55,3 +57,6 @@ volumes:
   legacy_data:
     name: legacy_data
     driver: local
+  legacy-cert_certbot-data:
+    external: true
+      
