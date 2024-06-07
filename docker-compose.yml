@@ -41,14 +41,10 @@ services:
     restart: always
     ports:
       - "80:80"
-      - '443:443'
     depends_on:
       - legacy-backend
     networks:
       - legacy-network
-    volumes:
-      - ./nginx/conf/:/etc/nginx/conf.d/:ro
-      - legacy-cert_certbot-data:/etc/letsencrypt
 
 networks:
   legacy-network:
@@ -59,5 +55,3 @@ volumes:
   legacy_data:
     name: legacy_data
     driver: local
-  legacy-cert_certbot-data:
-    external: true
