@@ -9,6 +9,9 @@ A **React Native** Legacy mobile app
 
 ## Docker command for developers
 
+Portainer (Docker container management UI)
+https://{PORTAINER_IP}:9443
+
 Build and run
 
 ```

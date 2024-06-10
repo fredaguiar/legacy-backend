@@ -1,6 +1,6 @@
 
 # @baseUrl = http://localhost
-@baseUrl = http://216.238.98.128
+@baseUrl = https://216.238.98.128
 # @baseUrl = http://legacy-backend.xyz/legacy
 
 ### Test Ngnix
