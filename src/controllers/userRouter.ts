@@ -10,14 +10,23 @@ const userRouter = (bucket: mongoose.mongo.GridFSBucket) => {
       // @ts-ignore
       const userId = req.context.userId;
       const { fieldsToUpdate } = req.body;
-      console.log('updateUserProfile', fieldsToUpdate);
+      console.log('updateUserProfile', fieldsToUpdate, req.body);
 
       const user = await User.findById<Document & TUser>(userId).exec();
       if (!user) {
         return res.status(400).json({ message: 'User not found' });
       }
 
-      fieldsToUpdate.forEach((field: string) => {
+      const fieldsList: TUserFieldsToUpdate[] = fieldsToUpdate;
+      fieldsList.forEach((field: TUserFieldsToUpdate) => {
+        const nested = field.split('.');
+        // check if it is an object such as user.lifeCheck = {}
+        if (nested.length === 2) {
+          const [obj, prop] = nested;
+          // @ts-ignore
+          user[obj][prop] = req.body[obj][prop];
+          return;
+        }
         // @ts-ignore
         user[field] = req.body[field];
       });
@@ -42,8 +51,10 @@ const userRouter = (bucket: mongoose.mongo.GridFSBucket) => {
       }
 
       const { firstName, lastName, language, country, email } = user;
-      const { phoneCountry, phone, emailVerified, mobileVerified, lifeCheck } = user;
-      const { shareTime, shareWeekday, shareCount, shareCountType, shareCountNotAnswered } = user;
+      const { phoneCountry, phone, emailVerified, mobileVerified } = user;
+      const {
+        lifeCheck: { shareTime, shareWeekday, shareCount, shareCountType, shareCountNotAnswered },
+      } = user;
 
       const profile: TUserProfile = {
         firstName,
@@ -55,12 +66,7 @@ const userRouter = (bucket: mongoose.mongo.GridFSBucket) => {
         phone,
         emailVerified,
         mobileVerified,
-        lifeCheck,
-        shareTime,
-        shareWeekday,
-        shareCount,
-        shareCountType,
-        shareCountNotAnswered,
+        lifeCheck: { shareTime, shareWeekday, shareCount, shareCountType, shareCountNotAnswered },
       };
 
       console.log('getUserProfile profile', profile);

@@ -14,16 +14,38 @@ type TUser = {
   mobileVerifyCode?: number;
   introductionViewed?: boolean;
   storageQuotaInMB?: number;
-  lifeCheck?: boolean;
-  shareTime?: date;
-  shareWeekday?: string;
-  shareCount?: number;
-  shareCountType?: string;
-  shareCountNotAnswered?: number;
+  lifeCheck: {
+    active?: boolean;
+    shareTime?: date;
+    shareWeekday?: string;
+    shareCount?: number;
+    shareCountType?: string;
+    shareCountNotAnswered?: number;
+  };
   safes: Array<TSafe>;
 };
 
 type TUserProfile = Omit<TUser, '_id' | 'password' | 'token' | 'safes'>;
+
+type TUserFieldsToUpdate =
+  | 'firstName'
+  | 'lastName'
+  | 'language'
+  | 'country'
+  | 'email'
+  | 'phoneCountry'
+  | 'phone'
+  | 'type: '
+  | 'emailVerified'
+  | 'mobileVerified'
+  | 'introductionViewed'
+  | 'storageQuotaInMB'
+  | 'lifeCheck.active'
+  | 'lifeCheck.shareTime'
+  | 'lifeCheck.shareWeekday'
+  | 'lifeCheck.shareCount'
+  | 'lifeCheck.shareCountType'
+  | 'lifeCheck.shareCountNotAnswered';
 
 type TCredentials = {
   email: string;
