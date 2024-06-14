@@ -249,6 +249,29 @@ const filesRouter = (bucket: mongoose.mongo.GridFSBucket) => {
     },
   );
 
+  router.get('/search/:searchValue', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // @ts-ignore
+      const userId = req.context.userId;
+      const { searchValue } = req.params;
+
+      if (!searchValue) {
+        return res.status(404).send('Missing input information');
+      }
+
+      const searchResult = await mongoose.connection.db
+        .collection('uploads.files')
+        .find({
+          $text: { $search: searchValue },
+        })
+        .toArray();
+
+      return res.json({ searchResult });
+    } catch (error) {
+      next(error); // forward error to error handling middleware
+    }
+  });
+
   return router;
 };
 

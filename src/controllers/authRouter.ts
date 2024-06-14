@@ -93,6 +93,24 @@ const authRouter = (bucket: mongoose.mongo.GridFSBucket) => {
     }
   });
 
+  router.get('/createSearchIndexes', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const db = mongoose.connection.db;
+
+      // Create a text index on the 'filename' and 'metadata' fields
+      await db.collection('uploads.files').createIndex({
+        filename: 'text',
+        'metadata.mimetype': 'text',
+      });
+
+      console.log('createSearchIndexes EXECUTED!');
+
+      return res.send(true);
+    } catch (error) {
+      next(error); // forward error to error handling middleware
+    }
+  });
+
   return router;
 };
 

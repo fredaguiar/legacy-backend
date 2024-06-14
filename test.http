@@ -1,13 +1,17 @@
 
+@baseUrl = http://192.168.15.17:4000
 # @baseUrl = http://192.168.15.17
 # @baseUrl = http://216.238.98.128
-@baseUrl = https://legacy-backend.xyz
+# @baseUrl = https://legacy-backend.xyz
 
 ### Test Ngnix
 GET {{baseUrl}}/
 
 ### Test backend service through ngnix
 GET {{baseUrl}}/legacy/public/test
+
+### 
+GET {{baseUrl}}/legacy/public/createSearchIndexes
 
 ### Test user authentication
 POST {{baseUrl}}/legacy/public/login
