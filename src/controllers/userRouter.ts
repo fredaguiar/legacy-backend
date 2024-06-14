@@ -17,6 +17,7 @@ const userRouter = (bucket: mongoose.mongo.GridFSBucket) => {
         return res.status(400).json({ message: 'User not found' });
       }
 
+      const result: Partial<TUser> = { lifeCheck: {} };
       const fieldsList: TUserFieldsToUpdate[] = fieldsToUpdate;
       fieldsList.forEach((field: TUserFieldsToUpdate) => {
         const nested = field.split('.');
@@ -24,16 +25,28 @@ const userRouter = (bucket: mongoose.mongo.GridFSBucket) => {
         if (nested.length === 2) {
           const [obj, prop] = nested;
           // @ts-ignore
-          user[obj][prop] = req.body[obj][prop];
+          result[obj][prop] = req.body[obj][prop];
           return;
         }
         // @ts-ignore
-        user[field] = req.body[field];
+        result[field] = req.body[field];
+      });
+
+      // Merge result into user
+      Object.keys(result).forEach((key) => {
+        const typedKey = key as keyof TUser;
+        if (typeof result[typedKey] === 'object' && result[typedKey] !== null) {
+          // @ts-ignore
+          user[typedKey] = { ...user[typedKey], ...result[typedKey] };
+        } else {
+          // @ts-ignore
+          user[typedKey] = result[typedKey];
+        }
       });
 
       await user.save();
 
-      return res.json({ fieldsToUpdate, lifeCheck: user.lifeCheck });
+      return res.json({ ...fieldsToUpdate, ...result });
     } catch (error) {
       next(error);
     }
