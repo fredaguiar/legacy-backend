@@ -60,6 +60,7 @@ type TSafe = {
   autoSharing?: boolean;
   emails?: Array<TContact>;
   phones?: Array<TContact>;
+  files?: Array<TFile>;
   fieldToUpdate?: 'name' | 'description' | 'autoSharing';
   contactToUpdate?: 'emails' | 'phones';
   _id?: Types.ObjectId;
@@ -67,7 +68,7 @@ type TSafe = {
 
 type TFileInfo = {
   id: string;
-  filename: string;
+  fileName: string;
   length: number;
   uploadDate: Date;
   mimetype: string;
@@ -98,6 +99,15 @@ type TContactUpdate = {
   contactList: TContact[];
   deleteContactList: string[];
   contactType: 'emails' | 'phones';
+};
+
+type TFile = {
+  fileName: string;
+  s3Key: string;
+  mimetype: string;
+  length: number;
+  uploadDate: Date;
+  _id?: Types.ObjectId;
 };
 
 type StorageInfo = {

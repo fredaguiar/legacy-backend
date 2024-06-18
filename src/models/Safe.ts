@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { contactSchema } from './Contact';
+import { fileSchema } from './File';
 
 const safeSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -8,6 +9,7 @@ const safeSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   emails: [contactSchema],
   phones: [contactSchema],
+  files: [fileSchema],
 });
 
 safeSchema.pre('save', async function (next, err) {

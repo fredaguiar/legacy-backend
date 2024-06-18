@@ -3,13 +3,10 @@ import mongoose, { Document, Types } from 'mongoose';
 import User from '../models/User';
 import { Safe } from '../models/Safe';
 import { Contact } from '../models/Contact';
+import { findSafeById } from '../utils/QueryUtil';
 
 const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
   const router = express.Router();
-
-  const findSafeById = async (user: TUser, safeId: string | undefined) => {
-    return user.safes.find((safe) => safe._id?.toString() === safeId);
-  };
 
   router.post('/createSafe', async (req: Request, res: Response, next: NextFunction) => {
     try {

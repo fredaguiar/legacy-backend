@@ -1,14 +1,23 @@
 import express, { NextFunction, Request, Response } from 'express';
 import multer from 'multer';
-import { Readable } from 'stream';
-import mongoose, { Types } from 'mongoose';
+import AWS from 'aws-sdk';
+import { Readable, Writable } from 'stream';
+import mongoose, { Document, Types } from 'mongoose';
 import logger from '../logger';
+import User from '../models/User';
+import { findSafeById } from '../utils/QueryUtil';
 
 const filesRouter = (bucket: mongoose.mongo.GridFSBucket) => {
   const router = express.Router();
 
   const storage = multer.memoryStorage();
   const upload = multer({ storage });
+
+  const s3 = new AWS.S3({
+    endpoint: process.env.STORAGE_ENDPOINT,
+    accessKeyId: process.env.STORAGE_ACCESS_KEY_ID,
+    secretAccessKey: process.env.STORAGE_SECRET_ACCESS_KEY,
+  });
 
   // Upload
   router.post(
@@ -20,37 +29,43 @@ const filesRouter = (bucket: mongoose.mongo.GridFSBucket) => {
           return res.status(400).send('No file uploaded');
         }
 
-        const options = {
-          metadata: {
-            // @ts-ignore
-            userId: req.context.userId,
-            // @ts-ignore
-            safeId: req.body.safeId,
-            mimetype: req.file.mimetype,
-          },
-        };
-        const writeStream = bucket.openUploadStream(req.file.originalname.trim(), options);
+        // @ts-ignore
+        const userId = req.context.userId;
+        // @ts-ignore
+        const safeId = req.body.safeId;
+        const fileName = req.file.originalname.trim();
+        const mimetype = req.file.mimetype;
 
+        // Upload to bucket
         const readableStream = new Readable();
         readableStream.push(req.file.buffer);
         readableStream.push(null); // Indicates EOF
-        readableStream
-          .pipe(writeStream)
-          .on('error', (error) => {
-            logger.error('Failed to upload file');
-            logger.error(error.stack);
-            return res.status(400).send('Failed to upload file');
-          })
-          .on('finish', () => {
-            logger.info('File uploaded successfully').info(JSON.stringify(req.body));
+        const params = {
+          Bucket: process.env.STORAGE_BUCKET as string,
+          Key: `${userId}/${safeId}/${fileName}`,
+          Body: readableStream,
+          ContentType: mimetype,
+          Metadata: { userId, safeId },
+        };
+        const s3File = await s3.upload(params).promise();
 
-            // if it is update, then delete old file.
-            if (req.body.fileId) {
-              bucket.delete(new Types.ObjectId(req.body.fileId as string));
-            }
+        // save metada on Mongo
+        const user = await User.findById<Document & TUser>(userId).exec();
+        if (!user) {
+          return res.status(400).json({ message: 'User not found' });
+        }
+        const safe = (await findSafeById(user, safeId)) as TSafe;
+        const file: TFile = {
+          fileName,
+          s3Key: s3File.Key,
+          mimetype,
+          length: req.file.size,
+          uploadDate: new Date(),
+        };
+        safe.files?.push(file);
+        await user.save();
 
-            return res.json({ name: req.file?.originalname, type: req.file?.mimetype });
-          });
+        console.log('File uploaded successfully:', s3File.Location);
       } catch (error) {
         next(error);
       }
@@ -59,21 +74,32 @@ const filesRouter = (bucket: mongoose.mongo.GridFSBucket) => {
 
   // download
   router.get(
-    '/downloadFiles/:safeId/:fileId',
+    '/downloadFiles/:safeId/:fileName',
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const { safeId, fileId } = req.params;
+        const { safeId, fileName } = req.params;
         // @ts-ignore
         const userId = req.context.userId;
-        const id = new Types.ObjectId(fileId);
 
-        // TODO: check safeId and userID
-        const downloadStream = bucket.openDownloadStream(id);
+        console.log(
+          'Download `${userId}/${safeId}/${fileName}`',
+          `${userId}/${safeId}/${fileName}`,
+        );
 
-        // res.set('Content-Type', 'application/octet-stream');
-        downloadStream.pipe(res).on('error', (error) => {
-          res.status(404).send('File not found');
-        });
+        res.set('Content-Type', 'application/octet-stream');
+        const params = {
+          Bucket: process.env.STORAGE_BUCKET as string,
+          Key: `${userId}/${safeId}/${fileName}`,
+        };
+        s3.getObject(params)
+          .createReadStream()
+          .on('error', (error) => {
+            console.error('Error streaming S3 object:', error.message);
+            res.status(500).send('Error downloading file');
+          })
+          .pipe(res);
+
+        console.log('Downloaded Success');
       } catch (error: any) {
         console.log('Download error', error.message);
         next(error);
@@ -89,19 +115,20 @@ const filesRouter = (bucket: mongoose.mongo.GridFSBucket) => {
       const userId = req.context.userId;
       const result: TFileInfoListResult = { fileInfoList: [] };
 
-      const files = await bucket
-        .find({ 'metadata.safeId': safeId, 'metadata.userId': userId })
-        .toArray();
-      if (files.length === 0) return res.json(result);
+      const user = await User.findById<Document & TUser>(userId).exec();
+      if (!user) {
+        return res.status(400).json({ message: 'User not found' });
+      }
+      const safe = (await findSafeById(user, safeId)) as TSafe;
 
-      files.forEach((file) => {
-        const { filename, _id, metadata, uploadDate, length } = file;
+      safe.files?.forEach((file) => {
+        const { fileName, length, mimetype, uploadDate, _id } = file;
         result.fileInfoList.push({
-          filename,
+          fileName,
           length,
-          mimetype: metadata?.mimetype,
+          mimetype,
           uploadDate,
-          id: _id.toString(),
+          id: _id,
         });
       });
 
