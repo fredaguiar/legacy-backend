@@ -1,0 +1,117 @@
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'ValidationError: users validation failed: safes.0.files.0.notes: Cast to Number failed for value "notes1" (type string) at path "notes"\n' +
+    '    at Document.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:3289:32)\n' +
+    '    at Subdocument.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\subdocument.js:229:12)\n' +
+    '    at Subdocument.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\subdocument.js:229:12)\n' +
+    '    at EmbeddedDocument.$set (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:1463:12)\n' +
+    '    at EmbeddedDocument.$set (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:1117:16)\n' +
+    '    at EmbeddedDocument.Document (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:166:12)\n' +
+    '    at EmbeddedDocument.Subdocument (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\subdocument.js:34:12)\n' +
+    '    at EmbeddedDocument.ArraySubdocument [as constructor] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\arraySubdocument.js:44:15)\n' +
+    '    at new EmbeddedDocument (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\schema\\documentArray.js:127:17)\n' +
+    '    at Proxy._cast (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\documentArray\\methods\\index.js:103:17)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'ValidationError: users validation failed: safes.0.files.0.notes: Cast to Number failed for value "notes1" (type string) at path "notes"\n' +
+    '    at Document.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:3289:32)\n' +
+    '    at Subdocument.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\subdocument.js:229:12)\n' +
+    '    at Subdocument.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\subdocument.js:229:12)\n' +
+    '    at EmbeddedDocument.$set (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:1463:12)\n' +
+    '    at EmbeddedDocument.$set (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:1117:16)\n' +
+    '    at EmbeddedDocument.Document (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:166:12)\n' +
+    '    at EmbeddedDocument.Subdocument (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\subdocument.js:34:12)\n' +
+    '    at EmbeddedDocument.ArraySubdocument [as constructor] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\arraySubdocument.js:44:15)\n' +
+    '    at new EmbeddedDocument (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\schema\\documentArray.js:127:17)\n' +
+    '    at Proxy._cast (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\documentArray\\methods\\index.js:103:17)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'ValidationError: users validation failed: safes.0.files.0.notes: Cast to Number failed for value "notes1" (type string) at path "notes"\n' +
+    '    at Document.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:3289:32)\n' +
+    '    at Subdocument.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\subdocument.js:229:12)\n' +
+    '    at Subdocument.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\subdocument.js:229:12)\n' +
+    '    at EmbeddedDocument.$set (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:1463:12)\n' +
+    '    at EmbeddedDocument.$set (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:1117:16)\n' +
+    '    at EmbeddedDocument.Document (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:166:12)\n' +
+    '    at EmbeddedDocument.Subdocument (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\subdocument.js:34:12)\n' +
+    '    at EmbeddedDocument.ArraySubdocument [as constructor] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\arraySubdocument.js:44:15)\n' +
+    '    at new EmbeddedDocument (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\schema\\documentArray.js:127:17)\n' +
+    '    at Proxy._cast (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\types\\documentArray\\methods\\index.js:103:17)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at findFileById (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\utils\\QueryUtil.js:10:17)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:195:27',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at findFileById (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\utils\\QueryUtil.js:10:17)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:195:27',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at findFileById (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\utils\\QueryUtil.js:10:17)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:195:27',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at findFileById (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\utils\\QueryUtil.js:10:17)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:195:27',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at findFileById (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\utils\\QueryUtil.js:10:17)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:195:27',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at findFileById (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\utils\\QueryUtil.js:10:17)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:195:27',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at findFileById (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\utils\\QueryUtil.js:10:17)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:195:27',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at findFileById (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\utils\\QueryUtil.js:10:17)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:195:27',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at findFileById (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\utils\\QueryUtil.js:10:17)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:206:27',
+  level: 'error'
+}

@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import mongoose, { Document } from 'mongoose';
 import User from '../models/User';
 
-const userRouter = (bucket: mongoose.mongo.GridFSBucket) => {
+const userRouter = (bucket: AWS.S3) => {
   const router = express.Router();
 
   router.post('/updateUserProfile', async (req: Request, res: Response, next: NextFunction) => {
@@ -101,15 +101,15 @@ const userRouter = (bucket: mongoose.mongo.GridFSBucket) => {
         return res.status(400).json({ message: 'User not found' });
       }
 
-      const files = await bucket.find({ 'metadata.userId': userId }).toArray();
-      const storageUsedInBytes = files.reduce((prev, curr) => prev + curr.length, 0);
+      // const files = await bucket.find({ 'metadata.userId': userId }).toArray();
+      // const storageUsedInBytes = files.reduce((prev, curr) => prev + curr.length, 0);
 
-      const result: StorageInfo = {
-        storageUsedInBytes,
-        storageFileCount: files.length,
-        storageQuotaInMB: user.storageQuotaInMB || 0,
-      };
-
+      // const result: StorageInfo = {
+      //   storageUsedInBytes,
+      //   storageFileCount: files.length,
+      //   storageQuotaInMB: user.storageQuotaInMB || 0,
+      // };
+      const result = {};
       console.log('getStorageInfo result', result);
 
       return res.json(result);

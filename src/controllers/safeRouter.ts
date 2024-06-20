@@ -5,7 +5,7 @@ import { Safe } from '../models/Safe';
 import { Contact } from '../models/Contact';
 import { findSafeById } from '../utils/QueryUtil';
 
-const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
+const safeRouter = (bucket: AWS.S3) => {
   const router = express.Router();
 
   router.post('/createSafe', async (req: Request, res: Response, next: NextFunction) => {
@@ -125,14 +125,14 @@ const safeRouter = (bucket: mongoose.mongo.GridFSBucket) => {
       user.safes = updatedList;
       await user.save();
 
-      safeIdList.forEach(async (safeId) => {
-        const files = await bucket
-          .find({ 'metadata.safeId': safeId, 'metadata.userId': userId })
-          .toArray();
-        files.forEach((file) => {
-          bucket.delete(file._id);
-        });
-      });
+      // safeIdList.forEach(async (safeId) => {
+      //   const files = await bucket
+      //     .find({ 'metadata.safeId': safeId, 'metadata.userId': userId })
+      //     .toArray();
+      //   files.forEach((file) => {
+      //     bucket.delete(file._id);
+      //   });
+      // });
 
       return res.json({ safeIdList });
     } catch (error) {

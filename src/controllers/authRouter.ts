@@ -5,7 +5,7 @@ import User from '../models/User';
 import { generateToken } from '../utils/JwtUtil';
 import { generateVerifyCode } from '../utils/VerifyCode';
 
-const authRouter = (bucket: mongoose.mongo.GridFSBucket) => {
+const authRouter = (_bucket: AWS.S3) => {
   const router = express.Router();
 
   const createSafe = ({ name }: { name: string }): TSafe => {

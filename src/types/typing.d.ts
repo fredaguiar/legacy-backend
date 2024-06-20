@@ -66,27 +66,6 @@ type TSafe = {
   _id?: Types.ObjectId;
 };
 
-type TFileInfo = {
-  id: string;
-  fileName: string;
-  length: number;
-  uploadDate: Date;
-  mimetype: string;
-};
-
-type TFileInfoListResult = {
-  fileInfoList: TFileInfo[];
-};
-
-type TPassword = {
-  title: string;
-  username: string;
-  password: string;
-  notes?: string;
-  safeId: string;
-  fileId?: string;
-};
-
 type TContact = {
   name: string;
   contact: string;
@@ -103,11 +82,17 @@ type TContactUpdate = {
 
 type TFile = {
   fileName: string;
-  s3Key: string;
-  mimetype: string;
-  length: number;
+  mimetype?: string;
+  length?: number;
+  username?: string;
+  password?: string;
+  notes?: string;
   uploadDate: Date;
-  _id?: Types.ObjectId;
+  _id?: Types.ObjectId | string;
+};
+
+type TFileInfoListResult = {
+  fileInfoList: TFile[];
 };
 
 type StorageInfo = {

@@ -13,6 +13,7 @@
     "moduleResolution": "node",
     "types": ["node"],
     "noUncheckedIndexedAccess": true /* Prevents you from accessing an array or object without first checking if it's defined. */,
-    "allowJs": true /* Allows you to import .js and .json files */
+    "allowJs": true /* Allows you to import .js and .json files */,
+    "sourceMap": true
   }
 }

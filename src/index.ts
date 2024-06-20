@@ -4,13 +4,13 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import AWS from 'aws-sdk';
 import authRouter from './controllers/authRouter';
 import uncaughtException from './middleware/uncaughtException';
 import authorization from './middleware/authorization';
 import safeRouter from './controllers/safeRouter';
 import filesRouter from './controllers/filesRouter';
 import userRouter from './controllers/userRouter';
-import s3Router from './controllers/s3Router';
 
 dotenv.config();
 const PORT: number = parseInt(process.env.PORT as string, 10);
@@ -34,17 +34,17 @@ mongoose
 
 const conn = mongoose.connection;
 conn.once('open', () => {
-  const bucket = new mongoose.mongo.GridFSBucket(conn.db, {
-    bucketName: 'uploads',
+  const bucket = new AWS.S3({
+    endpoint: process.env.STORAGE_ENDPOINT,
+    accessKeyId: process.env.STORAGE_ACCESS_KEY_ID,
+    secretAccessKey: process.env.STORAGE_SECRET_ACCESS_KEY,
   });
   app.use('/legacy/public', authRouter(bucket));
   app.use('/legacy/private', authorization, userRouter(bucket));
   app.use('/legacy/private', authorization, safeRouter(bucket));
   app.use('/legacy/private', authorization, filesRouter(bucket));
-  app.use('/legacy/private', authorization, s3Router(bucket));
+  app.use(uncaughtException);
 });
-
-app.use(uncaughtException); // keep it after routers
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
