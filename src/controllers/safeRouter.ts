@@ -8,6 +8,38 @@ import { findSafeById } from '../utils/QueryUtil';
 const safeRouter = (bucket: AWS.S3) => {
   const router = express.Router();
 
+  const deleteDirectory = async ({ userId, safeId }: { userId: string; safeId: string }) => {
+    try {
+      // listObjectsV2 returns up to 1000
+      const listedObjects = await bucket
+        .listObjectsV2({
+          Bucket: process.env.STORAGE_BUCKET as string,
+          Prefix: `${userId}/${safeId}/`,
+        })
+        .promise();
+      if (!listedObjects || !listedObjects.Contents || listedObjects.Contents.length === 0) {
+        throw new Error('Files not found');
+      }
+      const deleteParams = {
+        Bucket: process.env.STORAGE_BUCKET as string,
+        Delete: { Objects: [] as AWS.S3.ObjectIdentifier[] },
+      };
+      listedObjects.Contents.forEach(({ Key }) => {
+        if (Key) {
+          deleteParams.Delete.Objects.push({ Key });
+        }
+      });
+      await bucket.deleteObjects(deleteParams).promise();
+
+      if (listedObjects.IsTruncated) {
+        // if there are more than 1000 items (TODO: TEST this)
+        await deleteDirectory({ userId, safeId });
+      }
+    } catch (error) {
+      throw new Error('Files could not be deleted');
+    }
+  };
+
   router.post('/createSafe', async (req: Request, res: Response, next: NextFunction) => {
     try {
       // @ts-ignore
@@ -125,14 +157,9 @@ const safeRouter = (bucket: AWS.S3) => {
       user.safes = updatedList;
       await user.save();
 
-      // safeIdList.forEach(async (safeId) => {
-      //   const files = await bucket
-      //     .find({ 'metadata.safeId': safeId, 'metadata.userId': userId })
-      //     .toArray();
-      //   files.forEach((file) => {
-      //     bucket.delete(file._id);
-      //   });
-      // });
+      safeIdList.forEach((safeId) => {
+        deleteDirectory({ userId, safeId });
+      });
 
       return res.json({ safeIdList });
     } catch (error) {

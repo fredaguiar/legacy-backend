@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import multer from 'multer';
 import AWS from 'aws-sdk';
 import { Readable } from 'stream';
-import mongoose, { Document, Types } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import logger from '../logger';
 import User from '../models/User';
 import { findFileById, findFileIndexById, findSafeById } from '../utils/QueryUtil';
@@ -43,12 +43,6 @@ const filesRouter = (bucket: AWS.S3) => {
     return file._id.toString();
   };
 
-  type TUploadFileToBucket = {
-    mimetype: string;
-    filePath: string;
-    buffer: Buffer;
-  };
-
   const uploadFileToBucket = async ({ mimetype, filePath, buffer }: TUploadFileToBucket) => {
     // Upload to bucket
     const readableStream = new Readable();
@@ -62,7 +56,6 @@ const filesRouter = (bucket: AWS.S3) => {
     };
 
     await bucket.upload(params).promise();
-    console.log('File uploadFileToBucket params', params.Bucket);
   };
 
   // Upload
@@ -78,6 +71,8 @@ const filesRouter = (bucket: AWS.S3) => {
         const userId = req.context.userId;
         // @ts-ignore
         const safeId = req.body.safeId;
+        const fileId = req.body.fileId;
+        const fileName = req.file.originalname.trim();
 
         const user = await User.findById<Document & TUser>(userId).exec();
         if (!user) {
@@ -85,7 +80,8 @@ const filesRouter = (bucket: AWS.S3) => {
         }
 
         const file: TFile = {
-          fileName: req.file.originalname.trim(),
+          _id: fileId,
+          fileName,
           mimetype: req.file.mimetype,
           length: req.file.size,
           uploadDate: new Date(),
@@ -101,7 +97,8 @@ const filesRouter = (bucket: AWS.S3) => {
           buffer: req.file.buffer,
         });
 
-        console.log('File uploaded successfully');
+        const json: TUploadFilesResult = { name: fileName, type: req.file.mimetype };
+        return res.json(json);
       } catch (error) {
         next(error);
       }
@@ -194,13 +191,13 @@ const filesRouter = (bucket: AWS.S3) => {
     }
   });
 
-  router.post('/savePassword', async (req: Request, res: Response, next: NextFunction) => {
+  router.post('/saveItem', async (req: Request, res: Response, next: NextFunction) => {
     try {
       // @ts-ignore
       const userId = req.context.userId;
-      const { fileName, username, password, notes, safeId, fileId } = req.body;
+      const { fileName, username, password, notes, safeId, fileId, mimetype } = req.body;
 
-      if (!fileName || !username || !password || !safeId || !userId) {
+      if (!fileName || !safeId || !userId || !mimetype) {
         return res.status(404).send('Missing input information');
       }
       const user = await User.findById<Document & TUser>(userId).exec();
@@ -215,7 +212,7 @@ const filesRouter = (bucket: AWS.S3) => {
         password,
         notes,
         length: 0,
-        mimetype: 'text/pass',
+        mimetype,
       };
       await saveFileMetadata({
         file,
@@ -229,7 +226,7 @@ const filesRouter = (bucket: AWS.S3) => {
   });
 
   router.get(
-    '/getPassword/:safeId/:fileId',
+    '/getItem/:safeId/:fileId',
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         // @ts-ignore

@@ -91,6 +91,17 @@ type TFile = {
   _id?: Types.ObjectId | string;
 };
 
+type TUploadFileToBucket = {
+  mimetype: string;
+  filePath: string;
+  buffer: Buffer;
+};
+
+type TUploadFilesResult = {
+  name: string;
+  type: string;
+};
+
 type TFileInfoListResult = {
   fileInfoList: TFile[];
 };
