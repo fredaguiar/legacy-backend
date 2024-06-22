@@ -18,7 +18,7 @@ const safeRouter = (bucket: AWS.S3) => {
         })
         .promise();
       if (!listedObjects || !listedObjects.Contents || listedObjects.Contents.length === 0) {
-        throw new Error('Files not found');
+        return;
       }
       const deleteParams = {
         Bucket: process.env.STORAGE_BUCKET as string,
@@ -157,9 +157,15 @@ const safeRouter = (bucket: AWS.S3) => {
       user.safes = updatedList;
       await user.save();
 
-      safeIdList.forEach((safeId) => {
-        deleteDirectory({ userId, safeId });
+      // the reason to use map and Promise.all is to properly catch exception in deleteDirectory
+      const deletePromises = safeIdList.map(async (safeId) => {
+        try {
+          await deleteDirectory({ userId, safeId });
+        } catch (error) {
+          throw new Error(`Failed to delete directory for safeId: ${safeId}`);
+        }
       });
+      await Promise.all(deletePromises);
 
       return res.json({ safeIdList });
     } catch (error) {

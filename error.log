@@ -169,3 +169,89 @@
     '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:209:27',
   level: 'error'
 }
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Failed to delete directory for safeId: 6676cbe27067422d0e125ca8\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:155:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Promise.all (index 0)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:158:13',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Failed to delete directory for safeId: 6676cbe27067422d0e125ca8\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:155:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Promise.all (index 0)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:158:13',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Failed to delete directory for safeId: 6676cccf7067422d0e125cbc\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:155:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Promise.all (index 0)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:158:13',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Failed to delete directory for safeId: 6676cd2b7067422d0e125ccb\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:155:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Promise.all (index 0)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:158:13',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:132:18\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:132:18\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Failed to delete directory for safeId: 6676cd2b7067422d0e125ccb\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:155:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Promise.all (index 0)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:158:13',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Failed to delete directory for safeId: 6676ce2a7067422d0e125ce1\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:155:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Promise.all (index 0)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:158:13',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Failed to delete directory for safeId: 6676ce517067422d0e125cf0\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:155:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Promise.all (index 0)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:158:13',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Failed to delete directory for safeId: 6676ce517067422d0e125cf0\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:155:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Promise.all (index 0)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:158:13',
+  level: 'error'
+}
