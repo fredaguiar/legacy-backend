@@ -39,6 +39,14 @@ userSchema.pre('save', async function (next, err) {
   next();
 });
 
+userSchema.index({
+  userId: 1,
+  safeId: 1,
+  'safes.files.fileName': 'text',
+  'safes.files.username': 'text',
+  'safes.files.notes': 'text',
+});
+
 const User = mongoose.model<TUser>('users', userSchema);
 
 export default User;

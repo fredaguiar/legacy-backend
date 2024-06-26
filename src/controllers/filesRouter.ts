@@ -2,9 +2,10 @@ import express, { NextFunction, Request, Response } from 'express';
 import multer from 'multer';
 import AWS from 'aws-sdk';
 import { Readable } from 'stream';
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 import logger from '../logger';
 import User from '../models/User';
+import { File } from '../models/File';
 import { findFileById, findFileIndexById, findSafeById } from '../utils/QueryUtil';
 import { bucketFilePath } from '../utils/FileUtil';
 
@@ -29,6 +30,8 @@ const filesRouter = (bucket: AWS.S3) => {
     if (!file._id) {
       // new file
       file._id = new mongoose.Types.ObjectId();
+      file.userId = typeof user._id === 'string' ? new mongoose.Types.ObjectId(user._id) : user._id;
+      file.safeId = typeof safeId === 'string' ? new mongoose.Types.ObjectId(safeId) : safeId;
       safe.files.push(file);
     } else {
       // update file
@@ -258,15 +261,86 @@ const filesRouter = (bucket: AWS.S3) => {
         return res.status(404).send('Missing input information');
       }
 
-      const searchResult = await mongoose.connection.db
-        .collection('uploads.files')
-        .find({
-          $text: { $search: searchValue },
-        })
-        .toArray();
+      // TODO: there might be a better way to do this, with indexes.
+      const searchFilesResult = await User.aggregate([
+        { $match: { _id: new Types.ObjectId(userId as string) } },
+        { $unwind: '$safes' },
+        { $unwind: '$safes.files' },
+        {
+          $match: {
+            $or: [
+              { 'safes.files.fileName': { $regex: searchValue, $options: 'i' } },
+              { 'safes.files.username': { $regex: searchValue, $options: 'i' } },
+              { 'safes.files.notes': { $regex: searchValue, $options: 'i' } },
+            ],
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            'safes._id': 1,
+            'safes.name': 1,
+            'safes.description': 1,
+            'safes.files._id': 1,
+            'safes.files.fileName': 1,
+            'safes.files.username': 1,
+            'safes.files.notes': 1,
+            'safes.files.mimetype': 1,
+            'safes.files.createdAt': 1,
+          },
+        }, //_id: 0, Exclude the user._id field
+      ]);
 
-      return res.json({ searchResult });
+      const searchSafesResult = await User.aggregate([
+        { $match: { _id: new Types.ObjectId(userId as string) } },
+        { $unwind: '$safes' },
+        {
+          $match: {
+            $or: [
+              { 'safes.name': { $regex: searchValue, $options: 'i' } },
+              { 'safes.description': { $regex: searchValue, $options: 'i' } },
+            ],
+          },
+        },
+        { $project: { _id: 0, 'safes._id': 1, 'safes.name': 1, 'safes.description': 1 } }, //_id: 0, Exclude the user._id field
+      ]);
+
+      console.log(' Search searchFilesResult:', JSON.stringify(searchFilesResult));
+      console.log(' Search searchSafesResult:', JSON.stringify(searchSafesResult));
+
+      const resultMerged = {};
+      searchSafesResult.forEach((item) => {
+        // @ts-ignore
+        resultMerged[item.safes._id.toString()] = {
+          safeId: item.safes._id.toString(),
+          name: item.safes.name,
+          description: item.safes.description,
+          files: [],
+        };
+      });
+
+      searchFilesResult.forEach((item) => {
+        // @ts-ignore
+        if (!resultMerged[item.safes._id.toString()]) {
+          // @ts-ignore
+          resultMerged[item.safes._id.toString()] = {
+            safeId: item.safes._id.toString(),
+            name: item.safes.name,
+            description: item.safes.description,
+            files: [],
+          };
+        }
+        const { fileName, mimetype, username, notes, createdAt } = item.safes.files;
+        const file: TFile = { fileName, mimetype, username, notes, uploadDate: createdAt };
+        // @ts-ignore
+        resultMerged[item.safes._id.toString()].files.push(file);
+      });
+
+      console.log(' Search MAP:', JSON.stringify(resultMerged));
+
+      return res.json({ resultMerged });
     } catch (error) {
+      console.log('error Search results:', error);
       next(error); // forward error to error handling middleware
     }
   });

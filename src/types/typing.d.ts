@@ -81,6 +81,8 @@ type TContactUpdate = {
 };
 
 type TFile = {
+  userId?: Types.ObjectId;
+  safeId?: Types.ObjectId;
   fileName: string;
   mimetype?: string;
   length?: number;

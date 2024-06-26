@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import User from '../models/User';
 import { generateToken } from '../utils/JwtUtil';
 import { generateVerifyCode } from '../utils/VerifyCode';
+import { fileSchema } from '../models/File';
 
 const authRouter = (_bucket: AWS.S3) => {
   const router = express.Router();
@@ -95,17 +96,7 @@ const authRouter = (_bucket: AWS.S3) => {
 
   router.get('/createSearchIndexes', async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const db = mongoose.connection.db;
-
-      // Create a text index on the 'filename' and 'metadata' fields
-      await db.collection('uploads.files').createIndex({
-        filename: 'text',
-        'metadata.mimetype': 'text',
-      });
-
-      console.log('createSearchIndexes EXECUTED!');
-
-      return res.send(true);
+      const SEARCH_INDEX_NAME = 'search_index';
     } catch (error) {
       next(error); // forward error to error handling middleware
     }

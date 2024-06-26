@@ -255,3 +255,574 @@
     '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\safeRouter.js:158:13',
   level: 'error'
 }
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at saveFileMetadata (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:19:19)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:74:31',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cmap\\connection.js:281:27)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cmap\\connection.js:304:26)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\sdam\\server.js:169:24)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\operations\\execute_operation.js:126:16)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\aggregation_cursor.js:46:26)\n' +
+    '    at async [kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:454:27)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:514:13)\n' +
+    '    at async [Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:160:34)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:273:26)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cmap\\connection.js:281:27)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cmap\\connection.js:304:26)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\sdam\\server.js:169:24)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\operations\\execute_operation.js:126:16)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\aggregation_cursor.js:46:26)\n' +
+    '    at async [kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:454:27)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:514:13)\n' +
+    '    at async [Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:160:34)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:273:26)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cmap\\connection.js:281:27)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cmap\\connection.js:304:26)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\sdam\\server.js:169:24)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\operations\\execute_operation.js:126:16)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\aggregation_cursor.js:46:26)\n' +
+    '    at async [kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:454:27)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:514:13)\n' +
+    '    at async [Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:160:34)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:273:26)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: query requires text score metadata, but it is not available\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'ObjectParameterError: Parameter "filter" to find() must be an object, got "[object Object],[object Object],[object Object]" (type object)\n' +
+    '    at model.Query.Query.find (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\query.js:2315:16)\n' +
+    '    at Function.find (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\model.js:2269:13)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:272:39\n' +
+    '    at Layer.handle [as handle_request] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n' +
+    '    at next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\route.js:149:13)\n' +
+    '    at Route.dispatch (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\route.js:119:3)\n' +
+    '    at Layer.handle [as handle_request] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\index.js:284:15\n' +
+    '    at param (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\index.js:365:14)\n' +
+    '    at param (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\index.js:376:14)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'ObjectParameterError: Parameter "filter" to find() must be an object, got "[object Object],[object Object],[object Object]" (type object)\n' +
+    '    at model.Query.Query.find (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\query.js:2315:16)\n' +
+    '    at Function.find (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\model.js:2269:13)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:272:39\n' +
+    '    at Layer.handle [as handle_request] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n' +
+    '    at next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\route.js:149:13)\n' +
+    '    at Route.dispatch (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\route.js:119:3)\n' +
+    '    at Layer.handle [as handle_request] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\index.js:284:15\n' +
+    '    at param (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\index.js:365:14)\n' +
+    '    at param (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\index.js:376:14)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'ObjectParameterError: Parameter "filter" to find() must be an object, got "[object Object],[object Object],[object Object]" (type object)\n' +
+    '    at model.Query.Query.find (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\query.js:2315:16)\n' +
+    '    at Function.find (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\model.js:2269:13)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:272:39\n' +
+    '    at Layer.handle [as handle_request] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n' +
+    '    at next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\route.js:149:13)\n' +
+    '    at Route.dispatch (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\route.js:119:3)\n' +
+    '    at Layer.handle [as handle_request] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\index.js:284:15\n' +
+    '    at param (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\index.js:365:14)\n' +
+    '    at param (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\index.js:376:14)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'ObjectParameterError: Parameter "filter" to find() must be an object, got "[object Object],[object Object],[object Object]" (type object)\n' +
+    '    at Query.find (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\query.js:2315:16)\n' +
+    '    at Function.find (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\model.js:2269:13)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:256:55\n' +
+    '    at Layer.handle [as handle_request] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n' +
+    '    at next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\route.js:149:13)\n' +
+    '    at Route.dispatch (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\route.js:119:3)\n' +
+    '    at Layer.handle [as handle_request] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\index.js:284:15\n' +
+    '    at param (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\index.js:365:14)\n' +
+    '    at param (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\index.js:376:14)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at findFileById (C:\\Users\\fred_\\dev\\legacy-backend\\src\\utils\\QueryUtil.ts:11:15)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:243:23',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: Invalid $project :: caused by :: Cannot do inclusion on field fileName in exclusion projection\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: Invalid $project :: caused by :: Cannot do inclusion on field fileName in exclusion projection\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: Invalid $project :: caused by :: Cannot do inclusion on field fileName in exclusion projection\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: Invalid $project :: caused by :: Cannot do inclusion on field fileName in exclusion projection\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "MongoServerError: Invalid $project :: caused by :: FieldPath field names may not start with '$'. Consider using $getField or $setField.\n" +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: query requires text score metadata, but it is not available\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "MongoServerError: Invalid $project :: caused by :: FieldPath field names may not start with '$'. Consider using $getField or $setField.\n" +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: Invalid $project :: caused by :: Unknown expression $safes.files.fileName\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: Invalid $project :: caused by :: Unknown expression $safes.files.fileName\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "MongoServerError: Invalid $project :: caused by :: FieldPath field names may not start with '$'. Consider using $getField or $setField.\n" +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "MongoServerError: Invalid $project :: caused by :: FieldPath field names may not start with '$'. Consider using $getField or $setField.\n" +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "MongoServerError: Invalid $project :: caused by :: FieldPath field names may not start with '$'. Consider using $getField or $setField.\n" +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: query requires text score metadata, but it is not available\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: query requires text score metadata, but it is not available\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: $match with $text is only allowed as the first pipeline stage\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'toString')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:301:31\n' +
+    '    at Array.forEach (<anonymous>)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:299:25\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'toString')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:301:31\n' +
+    '    at Array.forEach (<anonymous>)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:299:25\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'name')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:302:28\n' +
+    '    at Array.forEach (<anonymous>)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:299:25\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'toString')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:301:31\n' +
+    '    at Array.forEach (<anonymous>)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:299:25\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'toString')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:308:37\n' +
+    '    at Array.forEach (<anonymous>)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:306:25\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: Invalid $project :: caused by :: Path collision at safes.files\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: Invalid $project :: caused by :: Path collision at safes.files\n' +
+    '    at Connection.sendCommand (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:498:17)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async Connection.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cmap\\connection.ts:562:22)\n' +
+    '    at async Server.command (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\sdam\\server.ts:310:16)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:181:12)\n' +
+    '    at async AggregationCursor._initialize (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\aggregation_cursor.ts:71:22)\n' +
+    '    at async AggregationCursor.[kInit] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:644:21)\n' +
+    '    at async next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:717:7)\n' +
+    '    at async AggregationCursor.[Symbol.asyncIterator] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:302:26)\n' +
+    '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\src\\cursor\\abstract_cursor.ts:438:22)',
+  level: 'error'
+}
