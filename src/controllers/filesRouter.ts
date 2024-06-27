@@ -251,6 +251,13 @@ const filesRouter = (bucket: AWS.S3) => {
     },
   );
 
+  const newSearchSafesResult = (item: any) => ({
+    _id: item.safes._id.toString(),
+    name: item.safes.name,
+    description: item.safes.description,
+    files: [],
+  });
+
   router.get('/search/:searchValue', async (req: Request, res: Response, next: NextFunction) => {
     try {
       // @ts-ignore
@@ -291,6 +298,7 @@ const filesRouter = (bucket: AWS.S3) => {
         }, //_id: 0, Exclude the user._id field
       ]);
 
+      // TODO: good to have. merge this search with the previous one
       const searchSafesResult = await User.aggregate([
         { $match: { _id: new Types.ObjectId(userId as string) } },
         { $unwind: '$safes' },
@@ -305,43 +313,32 @@ const filesRouter = (bucket: AWS.S3) => {
         { $project: { _id: 0, 'safes._id': 1, 'safes.name': 1, 'safes.description': 1 } }, //_id: 0, Exclude the user._id field
       ]);
 
-      console.log(' Search searchFilesResult:', JSON.stringify(searchFilesResult));
-      console.log(' Search searchSafesResult:', JSON.stringify(searchSafesResult));
-
-      const resultMerged = {};
+      type TSafeMap = { [k: string]: TSafe };
+      const resultMerged: TSafeMap = {};
       searchSafesResult.forEach((item) => {
-        // @ts-ignore
-        resultMerged[item.safes._id.toString()] = {
-          safeId: item.safes._id.toString(),
-          name: item.safes.name,
-          description: item.safes.description,
-          files: [],
-        };
+        const safeId: keyof TSafeMap = item.safes._id.toString();
+        resultMerged[safeId] = newSearchSafesResult(item);
       });
 
       searchFilesResult.forEach((item) => {
-        // @ts-ignore
-        if (!resultMerged[item.safes._id.toString()]) {
-          // @ts-ignore
-          resultMerged[item.safes._id.toString()] = {
-            safeId: item.safes._id.toString(),
-            name: item.safes.name,
-            description: item.safes.description,
-            files: [],
-          };
+        const safeId: keyof TSafeMap = item.safes._id.toString();
+        if (!resultMerged[safeId]) {
+          resultMerged[safeId] = newSearchSafesResult(item);
         }
         const { fileName, mimetype, username, notes, createdAt } = item.safes.files;
         const file: TFile = { fileName, mimetype, username, notes, uploadDate: createdAt };
-        // @ts-ignore
-        resultMerged[item.safes._id.toString()].files.push(file);
+        resultMerged[safeId]?.files?.push(file);
       });
 
       console.log(' Search MAP:', JSON.stringify(resultMerged));
+      const safeList: TSafe[] = Object.keys(resultMerged).map((key) => {
+        return resultMerged[key] as TSafe;
+      });
 
-      return res.json({ resultMerged });
+      return res.json(safeList);
     } catch (error) {
       console.log('error Search results:', error);
-      next(error); // forward error to error handling middleware
+      next(error);
     }
   });
 
