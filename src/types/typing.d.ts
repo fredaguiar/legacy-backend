@@ -63,6 +63,8 @@ type TSafe = {
   files?: Array<TFile>;
   fieldToUpdate?: 'name' | 'description' | 'autoSharing';
   contactToUpdate?: 'emails' | 'phones';
+  searchMatch?: string;
+  searchValue?: string;
   _id?: Types.ObjectId;
 };
 
@@ -90,6 +92,8 @@ type TFile = {
   password?: string;
   notes?: string;
   uploadDate: Date;
+  searchMatch?: string;
+  searchValue?: string;
   _id?: Types.ObjectId | string;
 };
 

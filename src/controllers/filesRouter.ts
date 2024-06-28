@@ -3,9 +3,7 @@ import multer from 'multer';
 import AWS from 'aws-sdk';
 import { Readable } from 'stream';
 import mongoose, { Document, Types } from 'mongoose';
-import logger from '../logger';
 import User from '../models/User';
-import { File } from '../models/File';
 import { findFileById, findFileIndexById, findSafeById } from '../utils/QueryUtil';
 import { bucketFilePath } from '../utils/FileUtil';
 
@@ -251,12 +249,28 @@ const filesRouter = (bucket: AWS.S3) => {
     },
   );
 
-  const newSearchSafesResult = (item: any) => ({
-    _id: item.safes._id.toString(),
-    name: item.safes.name,
-    description: item.safes.description,
-    files: [],
-  });
+  const findSearchMatch = (values: (string | undefined)[], searchValue: string) => {
+    for (let i = 0; i < values.length; i++) {
+      const value: string = (values[i] as string) || '';
+      if (value.indexOf(searchValue) !== -1) {
+        return value;
+      }
+    }
+    return '';
+  };
+
+  const newSearchSafesResult = (item: any, searchValue: string) => {
+    const safe: TSafe = {
+      _id: item.safes._id.toString(),
+      name: item.safes.name,
+      description: item.safes.description,
+      files: [],
+    };
+    safe.searchMatch = findSearchMatch([safe.description], searchValue);
+    safe.searchValue = searchValue;
+
+    return safe;
+  };
 
   router.get('/search/:searchValue', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -317,16 +331,18 @@ const filesRouter = (bucket: AWS.S3) => {
       const resultMerged: TSafeMap = {};
       searchSafesResult.forEach((item) => {
         const safeId: keyof TSafeMap = item.safes._id.toString();
-        resultMerged[safeId] = newSearchSafesResult(item);
+        resultMerged[safeId] = newSearchSafesResult(item, searchValue);
       });
 
       searchFilesResult.forEach((item) => {
         const safeId: keyof TSafeMap = item.safes._id.toString();
         if (!resultMerged[safeId]) {
-          resultMerged[safeId] = newSearchSafesResult(item);
+          resultMerged[safeId] = newSearchSafesResult(item, searchValue);
         }
         const { fileName, mimetype, username, notes, createdAt } = item.safes.files;
         const file: TFile = { fileName, mimetype, username, notes, uploadDate: createdAt };
+        file.searchMatch = findSearchMatch([username, notes], searchValue);
+        file.searchValue = searchValue;
         resultMerged[safeId]?.files?.push(file);
       });
 
