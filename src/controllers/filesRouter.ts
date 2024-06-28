@@ -115,8 +115,6 @@ const filesRouter = (bucket: AWS.S3) => {
         // @ts-ignore
         const userId = req.context.userId;
 
-        console.log('downloadFiles fileId:', fileId);
-
         res.set('Content-Type', 'application/octet-stream');
         const params = {
           Bucket: process.env.STORAGE_BUCKET as string,
