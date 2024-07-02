@@ -11,6 +11,7 @@ import authorization from './middleware/authorization';
 import safeRouter from './controllers/safeRouter';
 import filesRouter from './controllers/filesRouter';
 import userRouter from './controllers/userRouter';
+import searchRouter from './controllers/searchRouter';
 
 dotenv.config();
 const PORT: number = parseInt(process.env.PORT as string, 10);
@@ -43,6 +44,7 @@ conn.once('open', () => {
   app.use('/legacy/private', authorization, userRouter(bucket));
   app.use('/legacy/private', authorization, safeRouter(bucket));
   app.use('/legacy/private', authorization, filesRouter(bucket));
+  app.use('/legacy/private', authorization, searchRouter(bucket));
   app.use(uncaughtException);
 });
 

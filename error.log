@@ -870,3 +870,43 @@
     '    at async C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:246:23',
   level: 'error'
 }
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading '_id')\n" +
+    '    at newSearchSafesResult (C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\searchRouter.ts:26:23)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\searchRouter.ts:111:34\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading '_id')\n" +
+    '    at newSearchSafesResult (C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\searchRouter.ts:26:23)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\searchRouter.ts:111:34\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading '_id')\n" +
+    '    at newSearchSafesResult (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\searchRouter.js:27:29)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\searchRouter.js:102:40\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading '_id')\n" +
+    '    at newSearchSafesResult (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\searchRouter.js:27:29)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\searchRouter.js:102:40\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading '_id')\n" +
+    '    at newSearchSafesResult (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\searchRouter.js:27:29)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\searchRouter.js:102:40\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
