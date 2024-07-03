@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import mongoose, { Document } from 'mongoose';
 import User from '../models/User';
 
-const userRouter = (bucket: AWS.S3) => {
+const userRouter = (_storage: AWS.S3) => {
   const router = express.Router();
 
   router.post('/updateUserProfile', async (req: Request, res: Response, next: NextFunction) => {

@@ -9,10 +9,18 @@ const fileSchema = new mongoose.Schema({
   username: { type: String, required: false },
   password: { type: String, required: false },
   notes: { type: String, required: false },
+  content: { type: String, required: false },
   createdAt: { type: Date, default: Date.now },
 });
 
-// fileSchema.index({ fileName: 'text', username: 'text', notes: 'text' });
+fileSchema.index({
+  userId: 'text',
+  safeId: 'text',
+  fileName: 'text',
+  username: 'text',
+  notes: 'text',
+  content: 'text',
+});
 
 export const File = mongoose.model<TFile>('file', fileSchema);
 export { fileSchema };

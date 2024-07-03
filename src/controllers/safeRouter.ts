@@ -5,13 +5,13 @@ import { Safe } from '../models/Safe';
 import { Contact } from '../models/Contact';
 import { findSafeById } from '../utils/QueryUtil';
 
-const safeRouter = (bucket: AWS.S3) => {
+const safeRouter = (storage: AWS.S3) => {
   const router = express.Router();
 
   const deleteDirectory = async ({ userId, safeId }: { userId: string; safeId: string }) => {
     try {
       // listObjectsV2 returns up to 1000
-      const listedObjects = await bucket
+      const listedObjects = await storage
         .listObjectsV2({
           Bucket: process.env.STORAGE_BUCKET as string,
           Prefix: `${userId}/${safeId}/`,
@@ -29,7 +29,7 @@ const safeRouter = (bucket: AWS.S3) => {
           deleteParams.Delete.Objects.push({ Key });
         }
       });
-      await bucket.deleteObjects(deleteParams).promise();
+      await storage.deleteObjects(deleteParams).promise();
 
       if (listedObjects.IsTruncated) {
         // if there are more than 1000 items (TODO: TEST this)

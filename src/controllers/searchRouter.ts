@@ -1,15 +1,11 @@
 import express, { NextFunction, Request, Response } from 'express';
-import multer from 'multer';
 import AWS from 'aws-sdk';
-import { Document, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import striptags from 'striptags';
 import User from '../models/User';
-import { findSafeById } from '../utils/QueryUtil';
 
-const searchRouter = (bucket: AWS.S3) => {
+const searchRouter = (_storage: AWS.S3) => {
   const router = express.Router();
-  const storage = multer.memoryStorage();
-  const upload = multer({ storage });
 
   const findSearchMatch = (values: (string | undefined)[], searchValue: string) => {
     for (let i = 0; i < values.length; i++) {
@@ -42,9 +38,6 @@ const searchRouter = (bucket: AWS.S3) => {
         const userId = req.context.userId;
         const { searchValue, safeId } = req.params;
 
-        console.log(' Search searchValue:', JSON.stringify(searchValue));
-        console.log(' Search safeId:', safeId);
-
         if (!searchValue) {
           return res.status(404).send('Missing input information');
         }
@@ -60,6 +53,7 @@ const searchRouter = (bucket: AWS.S3) => {
                 { 'safes.files.fileName': { $regex: searchValue, $options: 'i' } },
                 { 'safes.files.username': { $regex: searchValue, $options: 'i' } },
                 { 'safes.files.notes': { $regex: searchValue, $options: 'i' } },
+                { 'safes.files.content': { $regex: searchValue, $options: 'i' } }, // TODO: it will be slow eventually
               ],
             },
           },
@@ -73,6 +67,7 @@ const searchRouter = (bucket: AWS.S3) => {
               'safes.files.fileName': 1,
               'safes.files.username': 1,
               'safes.files.notes': 1,
+              'safes.files.content': 1,
               'safes.files.mimetype': 1,
               'safes.files.createdAt': 1,
             },
@@ -98,7 +93,7 @@ const searchRouter = (bucket: AWS.S3) => {
           { $project: { _id: 0, 'safes._id': 1, 'safes.name': 1, 'safes.description': 1 } }, //_id: 0, Exclude the user._id field
         ]);
 
-        console.log(' Search searchSafesResult:', JSON.stringify(searchSafesResult));
+        // console.log(' Search searchSafesResult:', JSON.stringify(searchSafesResult));
 
         type TSafeMap = { [k: string]: TSafe };
         const resultMerged: TSafeMap = {};
@@ -113,15 +108,14 @@ const searchRouter = (bucket: AWS.S3) => {
           if (!resultMerged[safeId]) {
             resultMerged[safeId] = newSearchSafesResult(item, searchValue);
           }
-          const { fileName, mimetype, username, notes, createdAt } = item.safes.files;
+          const { fileName, mimetype, username, notes, content, createdAt } = item.safes.files;
           const file: TFile = {
             fileName,
             mimetype,
             username,
-            // notes: striptags(notes),
             uploadDate: createdAt,
           };
-          file.searchMatch = findSearchMatch([username, notes], searchValue);
+          file.searchMatch = findSearchMatch([username, notes, content], searchValue);
           file.searchValue = searchValue;
           resultMerged[safeId]?.files?.push(file);
         });
@@ -130,7 +124,7 @@ const searchRouter = (bucket: AWS.S3) => {
           return resultMerged[key] as TSafe;
         });
 
-        console.log(' Search safeList:', JSON.stringify(safeList));
+        // console.log(' Search safeList:', JSON.stringify(safeList));
 
         return res.json(safeList);
       } catch (error) {

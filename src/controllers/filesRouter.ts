@@ -2,15 +2,15 @@ import express, { NextFunction, Request, Response } from 'express';
 import multer from 'multer';
 import AWS from 'aws-sdk';
 import { Readable } from 'stream';
-import mongoose, { Document, Types } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import User from '../models/User';
 import { findFileById, findFileIndexById, findSafeById } from '../utils/QueryUtil';
-import { bucketFilePath } from '../utils/FileUtil';
+import { bucketFilePath, extractText } from '../utils/FileUtil';
 
-const filesRouter = (bucket: AWS.S3) => {
+const filesRouter = (storage: AWS.S3) => {
   const router = express.Router();
-  const storage = multer.memoryStorage();
-  const upload = multer({ storage });
+  const memoryStorage = multer.memoryStorage();
+  const upload = multer({ storage: memoryStorage });
 
   type TSaveMetadata = {
     file: TFile;
@@ -56,7 +56,7 @@ const filesRouter = (bucket: AWS.S3) => {
       ContentType: mimetype,
     };
 
-    await bucket.upload(params).promise();
+    await storage.upload(params).promise();
   };
 
   // Upload
@@ -80,12 +80,14 @@ const filesRouter = (bucket: AWS.S3) => {
           return res.status(400).json({ message: 'User not found' });
         }
 
+        const content = await extractText(req.file.buffer, req.file.mimetype);
         const file: TFile = {
           _id: fileId,
           fileName,
           mimetype: req.file.mimetype,
           length: req.file.size,
           uploadDate: new Date(),
+          content,
         };
         const newFileId = await saveFileMetadata({
           file,
@@ -120,7 +122,7 @@ const filesRouter = (bucket: AWS.S3) => {
           Bucket: process.env.STORAGE_BUCKET as string,
           Key: bucketFilePath({ userId, safeId, fileId }),
         };
-        bucket
+        storage
           .getObject(params)
           .createReadStream()
           .on('error', (error) => {
@@ -155,8 +157,6 @@ const filesRouter = (bucket: AWS.S3) => {
       safe.files?.forEach((file) => {
         result.fileInfoList.push(file);
       });
-
-      console.log('result.fileInfoList', result.fileInfoList);
 
       return res.json(result);
     } catch (error) {

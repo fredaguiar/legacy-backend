@@ -6,7 +6,7 @@ import { generateToken } from '../utils/JwtUtil';
 import { generateVerifyCode } from '../utils/VerifyCode';
 import { fileSchema } from '../models/File';
 
-const authRouter = (_bucket: AWS.S3) => {
+const authRouter = (_storage: AWS.S3) => {
   const router = express.Router();
 
   const createSafe = ({ name }: { name: string }): TSafe => {

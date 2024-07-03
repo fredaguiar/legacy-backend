@@ -35,16 +35,16 @@ mongoose
 
 const conn = mongoose.connection;
 conn.once('open', () => {
-  const bucket = new AWS.S3({
+  const storage = new AWS.S3({
     endpoint: process.env.STORAGE_ENDPOINT,
     accessKeyId: process.env.STORAGE_ACCESS_KEY_ID,
     secretAccessKey: process.env.STORAGE_SECRET_ACCESS_KEY,
   });
-  app.use('/legacy/public', authRouter(bucket));
-  app.use('/legacy/private', authorization, userRouter(bucket));
-  app.use('/legacy/private', authorization, safeRouter(bucket));
-  app.use('/legacy/private', authorization, filesRouter(bucket));
-  app.use('/legacy/private', authorization, searchRouter(bucket));
+  app.use('/legacy/public', authRouter(storage));
+  app.use('/legacy/private', authorization, userRouter(storage));
+  app.use('/legacy/private', authorization, safeRouter(storage));
+  app.use('/legacy/private', authorization, filesRouter(storage));
+  app.use('/legacy/private', authorization, searchRouter(storage));
   app.use(uncaughtException);
 });
 

@@ -94,6 +94,7 @@ type TFile = {
   uploadDate: Date;
   searchMatch?: string;
   searchValue?: string;
+  content?: string;
   _id?: Types.ObjectId | string;
 };
 

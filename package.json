@@ -21,10 +21,13 @@
     "express": "^4.19.2",
     "gridfs-stream": "^1.1.1",
     "jsonwebtoken": "^9.0.2",
+    "mammoth": "^1.8.0",
     "mongoose": "^8.3.2",
     "multer": "^1.4.5-lts.1",
     "multer-s3": "^3.0.1",
+    "pdf-parse": "^1.1.1",
     "striptags": "^3.2.0",
+    "textract": "^2.5.0",
     "winston": "^3.13.0"
   },
   "devDependencies": {
@@ -35,6 +38,8 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/multer": "^1.4.11",
     "@types/node": "^20.12.7",
+    "@types/pdf-parse": "^1.1.4",
+    "@types/textract": "^2.4.5",
     "eslint": "^9.0.0",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
