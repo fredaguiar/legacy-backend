@@ -45,13 +45,13 @@ const authRouter = (_storage: AWS.S3) => {
         firstName,
         lastName,
         country,
+        timezone,
         language,
         email,
         phoneCountry,
         phone,
         password,
       }: TUser = req.body;
-      console.log('signup', email, firstName);
       const existingUser = await User.findOne<TUser>({ email }).exec();
       if (existingUser) {
         return res.status(400).json({ message: 'User already exists' });
@@ -66,6 +66,7 @@ const authRouter = (_storage: AWS.S3) => {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         country,
+        timezone,
         language,
         email: email.trim(),
         phoneCountry: phoneCountry.trim(),

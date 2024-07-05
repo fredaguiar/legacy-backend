@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   language: { type: String, required: true },
   country: { type: String, required: true },
+  timezone: { type: String, required: true },
   email: { type: String, required: true, unique: true, lowercase: true },
   phone: { type: String, required: true },
   phoneCountry: { type: String, required: true },

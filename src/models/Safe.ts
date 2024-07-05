@@ -12,8 +12,6 @@ const safeSchema = new mongoose.Schema({
   files: [fileSchema],
 });
 
-// safeSchema.index({ name: 'text', description: 'text' });
-
 safeSchema.pre('save', async function (next, err) {
   next();
 });

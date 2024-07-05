@@ -3,7 +3,8 @@ type TUser = {
   firstName: string;
   lastName: string;
   language: string;
-  country: Country;
+  country: TCountry;
+  timezone: string;
   email: string;
   phoneCountry: string;
   phone: string;
@@ -32,6 +33,7 @@ type TUserFieldsToUpdate =
   | 'lastName'
   | 'language'
   | 'country'
+  | 'timezone'
   | 'email'
   | 'phoneCountry'
   | 'phone'
@@ -52,7 +54,7 @@ type TCredentials = {
   password: string;
 };
 
-type Country = 'BR' | 'USA';
+type TCountry = 'BR' | 'USA';
 
 type TSafe = {
   name?: string;

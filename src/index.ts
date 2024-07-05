@@ -8,6 +8,7 @@ import AWS from 'aws-sdk';
 import authRouter from './controllers/authRouter';
 import uncaughtException from './middleware/uncaughtException';
 import authorization from './middleware/authorization';
+import activityLog from './middleware/activityLog';
 import safeRouter from './controllers/safeRouter';
 import filesRouter from './controllers/filesRouter';
 import userRouter from './controllers/userRouter';
@@ -40,11 +41,11 @@ conn.once('open', () => {
     accessKeyId: process.env.STORAGE_ACCESS_KEY_ID,
     secretAccessKey: process.env.STORAGE_SECRET_ACCESS_KEY,
   });
-  app.use('/legacy/public', authRouter(storage));
-  app.use('/legacy/private', authorization, userRouter(storage));
-  app.use('/legacy/private', authorization, safeRouter(storage));
-  app.use('/legacy/private', authorization, filesRouter(storage));
-  app.use('/legacy/private', authorization, searchRouter(storage));
+  app.use('/legacy/public', authRouter(storage), activityLog);
+  app.use('/legacy/private', authorization, userRouter(storage), activityLog);
+  app.use('/legacy/private', authorization, safeRouter(storage)), activityLog;
+  app.use('/legacy/private', authorization, filesRouter(storage), activityLog);
+  app.use('/legacy/private', authorization, searchRouter(storage), activityLog);
   app.use(uncaughtException);
 });
 

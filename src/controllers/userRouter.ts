@@ -1,16 +1,28 @@
 import express, { NextFunction, Request, Response } from 'express';
 import mongoose, { Document } from 'mongoose';
+import Agenda, { Job, JobAttributesData } from 'agenda';
 import User from '../models/User';
 
 const userRouter = (_storage: AWS.S3) => {
   const router = express.Router();
+
+  interface ILifeCheck extends JobAttributesData {
+    lifeCheckInfo: { userId: string };
+  }
+  const agenda = new Agenda({ db: { address: process.env.MONGO_URI as string } });
+  agenda
+    .on('ready', () => console.log('Agenda started!'))
+    .on('error', () => console.log('Agenda connection error!'));
+  agenda.define('LifeCheck', async (job: Job<ILifeCheck>) => {
+    const lifeCheckInfo = job.attrs.data.lifeCheckInfo;
+    console.log('DEFINE AGENDA. lifeCheckInfo:', lifeCheckInfo);
+  });
 
   router.post('/updateUserProfile', async (req: Request, res: Response, next: NextFunction) => {
     try {
       // @ts-ignore
       const userId = req.context.userId;
       const { fieldsToUpdate } = req.body;
-      console.log('updateUserProfile', fieldsToUpdate, req.body);
 
       const user = await User.findById<Document & TUser>(userId).exec();
       if (!user) {
@@ -46,6 +58,18 @@ const userRouter = (_storage: AWS.S3) => {
 
       await user.save();
 
+      console.log('fieldsList >>>>>> ', fieldsList);
+
+      // // schedule notification
+      // await agenda.start();
+      // // await agenda.schedule<ILifeCheck>('in 60 seconds', 'SEND NOTES', {
+      // //   lifeCheckInfo: { userId: 'sdf' },
+      // // });
+      // await agenda.every('5 seconds', 'welcomeMessage');
+
+      // console.log('agenda.date >>>>>> ', new Date());
+      // console.log('agenda.toLocaleDateString >>>>>> ', new Date().toLocaleTimeString());
+
       return res.json({ ...fieldsToUpdate, ...result });
     } catch (error) {
       next(error);
@@ -56,14 +80,13 @@ const userRouter = (_storage: AWS.S3) => {
     try {
       // @ts-ignore
       const userId = req.context.userId;
-      console.log('getUserProfile', userId);
 
       const user = await User.findById<Document & TUser>(userId).exec();
       if (!user) {
         return res.status(400).json({ message: 'User not found' });
       }
 
-      const { firstName, lastName, language, country, email } = user;
+      const { firstName, lastName, language, country, timezone, email } = user;
       const { phoneCountry, phone, emailVerified, mobileVerified } = user;
       const {
         lifeCheck: { shareTime, shareWeekday, shareCount, shareCountType, shareCountNotAnswered },
@@ -74,6 +97,7 @@ const userRouter = (_storage: AWS.S3) => {
         lastName,
         language,
         country,
+        timezone,
         email,
         phoneCountry,
         phone,
@@ -81,8 +105,6 @@ const userRouter = (_storage: AWS.S3) => {
         mobileVerified,
         lifeCheck: { shareTime, shareWeekday, shareCount, shareCountType, shareCountNotAnswered },
       };
-
-      console.log('getUserProfile profile', profile);
 
       return res.json(profile);
     } catch (error) {
