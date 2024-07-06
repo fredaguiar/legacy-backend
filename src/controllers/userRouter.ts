@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import mongoose, { Document } from 'mongoose';
+import moment from 'moment-timezone';
 import Agenda, { Job, JobAttributesData } from 'agenda';
 import User from '../models/User';
 
@@ -7,15 +8,20 @@ const userRouter = (_storage: AWS.S3) => {
   const router = express.Router();
 
   interface ILifeCheck extends JobAttributesData {
-    lifeCheckInfo: { userId: string };
+    lifeCheckInfo: { userId: string; firstName: string; lastName: string };
   }
-  const agenda = new Agenda({ db: { address: process.env.MONGO_URI as string } });
+  const agenda = new Agenda({
+    db: { address: process.env.MONGO_URI as string },
+  });
   agenda
     .on('ready', () => console.log('Agenda started!'))
-    .on('error', () => console.log('Agenda connection error!'));
-  agenda.define('LifeCheck', async (job: Job<ILifeCheck>) => {
+    .on('error', (error) => console.error('Agenda connection error:', error));
+
+  // Define the job outside of the route handler
+  agenda.define('SEND NOTES', async (job: Job<ILifeCheck>) => {
     const lifeCheckInfo = job.attrs.data.lifeCheckInfo;
-    console.log('DEFINE AGENDA. lifeCheckInfo:', lifeCheckInfo);
+    console.log('SEND NOTES job executed. lifeCheckInfo:', lifeCheckInfo);
+    // Add your logic here to send notes or perform necessary actions
   });
 
   router.post('/updateUserProfile', async (req: Request, res: Response, next: NextFunction) => {
@@ -60,15 +66,24 @@ const userRouter = (_storage: AWS.S3) => {
 
       console.log('fieldsList >>>>>> ', fieldsList);
 
-      // // schedule notification
-      // await agenda.start();
-      // // await agenda.schedule<ILifeCheck>('in 60 seconds', 'SEND NOTES', {
-      // //   lifeCheckInfo: { userId: 'sdf' },
-      // // });
-      // await agenda.every('5 seconds', 'welcomeMessage');
+      const {
+        firstName,
+        lastName,
+        lifeCheck: { active, shareCount, shareCountType },
+      } = user;
 
-      // console.log('agenda.date >>>>>> ', new Date());
-      // console.log('agenda.toLocaleDateString >>>>>> ', new Date().toLocaleTimeString());
+      // schedule notification
+      if (active) {
+        await agenda.start();
+
+        // agenda supports the following units: seconds, minutes, hours, days, weeks, months
+        const runAt = moment().add(3, 'seconds').tz('America/Sao_Paulo').toDate();
+        await agenda.schedule(runAt, 'SEND NOTES', {
+          lifeCheckInfo: { userId: userId, firstName, lastName },
+        });
+      } else {
+        // remove from agenda
+      }
 
       return res.json({ ...fieldsToUpdate, ...result });
     } catch (error) {
@@ -89,7 +104,14 @@ const userRouter = (_storage: AWS.S3) => {
       const { firstName, lastName, language, country, timezone, email } = user;
       const { phoneCountry, phone, emailVerified, mobileVerified } = user;
       const {
-        lifeCheck: { shareTime, shareWeekday, shareCount, shareCountType, shareCountNotAnswered },
+        lifeCheck: {
+          shareTime,
+          shareFrequency,
+          shareFrequencyType,
+          shareCount,
+          shareCountType,
+          shareCountNotAnswered,
+        },
       } = user;
 
       const profile: TUserProfile = {
@@ -103,7 +125,14 @@ const userRouter = (_storage: AWS.S3) => {
         phone,
         emailVerified,
         mobileVerified,
-        lifeCheck: { shareTime, shareWeekday, shareCount, shareCountType, shareCountNotAnswered },
+        lifeCheck: {
+          shareTime,
+          shareFrequency,
+          shareFrequencyType,
+          shareCount,
+          shareCountType,
+          shareCountNotAnswered,
+        },
       };
 
       return res.json(profile);
