@@ -17,9 +17,8 @@ type TUser = {
   storageQuotaInMB?: number;
   lifeCheck: {
     active?: boolean;
-    shareTime?: date;
-    shareFrequency?: string;
-    shareFrequencyType?: TShareFrequencyType;
+    shareTime?: string;
+    shareWeekdays?: [TWeekday];
     shareCount?: number;
     shareCountType?: TShareCountType;
     shareCountNotAnswered?: number;
@@ -45,8 +44,7 @@ type TUserFieldsToUpdate =
   | 'storageQuotaInMB'
   | 'lifeCheck.active'
   | 'lifeCheck.shareTime'
-  | 'lifeCheck.shareFrequency'
-  | 'lifeCheck.shareFrequencyType'
+  | 'lifeCheck.shareWeekdays'
   | 'lifeCheck.shareCount'
   | 'lifeCheck.shareCountType'
   | 'lifeCheck.shareCountNotAnswered';
@@ -57,7 +55,6 @@ type TCredentials = {
 };
 
 type TCountry = 'BR' | 'USA';
-type TShareFrequencyType = 'weekly' | 'days' | 'hours';
 
 type TSafe = {
   name?: string;
@@ -125,3 +122,5 @@ type StorageInfo = {
 };
 
 type TShareCountType = 'days' | 'hours' | 'weeks';
+
+type TWeekday = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday';

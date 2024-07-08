@@ -1063,3 +1063,10 @@
     '    at async AggregationCursor.toArray (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongodb\\lib\\cursor\\abstract_cursor.js:273:26)',
   level: 'error'
 }
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'TypeError: shareTime.format is not a function\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\userRouter.ts:105:23\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}

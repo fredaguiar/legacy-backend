@@ -1,27 +1,22 @@
 import express, { NextFunction, Request, Response } from 'express';
 import mongoose, { Document } from 'mongoose';
-import moment from 'moment-timezone';
+import moment from 'moment';
 import Agenda, { Job, JobAttributesData } from 'agenda';
 import User from '../models/User';
+import { capitalizeFirstLetter } from '../utils/StringUtil';
 
-const userRouter = (_storage: AWS.S3) => {
+const SEND_NOTIFICATION = 'SEND_NOTIFICATION';
+
+const userRouter = (_storage: AWS.S3, agenda: Agenda) => {
   const router = express.Router();
 
   interface ILifeCheck extends JobAttributesData {
     lifeCheckInfo: { userId: string; firstName: string; lastName: string };
   }
-  const agenda = new Agenda({
-    db: { address: process.env.MONGO_URI as string },
-  });
-  agenda
-    .on('ready', () => console.log('Agenda started!'))
-    .on('error', (error) => console.error('Agenda connection error:', error));
 
-  // Define the job outside of the route handler
-  agenda.define('SEND NOTES', async (job: Job<ILifeCheck>) => {
-    const lifeCheckInfo = job.attrs.data.lifeCheckInfo;
-    console.log('SEND NOTES job executed. lifeCheckInfo:', lifeCheckInfo);
-    // Add your logic here to send notes or perform necessary actions
+  agenda.define(SEND_NOTIFICATION, async (job: Job<ILifeCheck>) => {
+    const info = job.attrs.data;
+    console.log('SEND NOTES job executed. lifeCheckInfo:', info);
   });
 
   router.post('/updateUserProfile', async (req: Request, res: Response, next: NextFunction) => {
@@ -64,23 +59,24 @@ const userRouter = (_storage: AWS.S3) => {
 
       await user.save();
 
-      console.log('fieldsList >>>>>> ', fieldsList);
-
       const {
         firstName,
         lastName,
-        lifeCheck: { active, shareCount, shareCountType },
+        lifeCheck: { active, shareCount, shareCountType, shareWeekdays, shareTime },
       } = user;
 
       // schedule notification
       if (active) {
-        await agenda.start();
+        const notificationData = { lifeCheckInfo: { userId, firstName, lastName } };
+        const [hours, minutes] = shareTime
+          ? shareTime.split(':').map((v) => parseInt(v))
+          : ['12', '00'];
+        const weekday = shareWeekdays?.map((day) => capitalizeFirstLetter(day)).join(',');
+        const cron = `* ${minutes} ${hours} * 1-12 ${weekday}`;
 
-        // agenda supports the following units: seconds, minutes, hours, days, weeks, months
-        const runAt = moment().add(3, 'seconds').tz('America/Sao_Paulo').toDate();
-        await agenda.schedule(runAt, 'SEND NOTES', {
-          lifeCheckInfo: { userId: userId, firstName, lastName },
-        });
+        // console.log('SEND NOTES cron:', cron);
+        await agenda.start();
+        await agenda.every(cron, SEND_NOTIFICATION, notificationData);
       } else {
         // remove from agenda
       }
@@ -104,14 +100,7 @@ const userRouter = (_storage: AWS.S3) => {
       const { firstName, lastName, language, country, timezone, email } = user;
       const { phoneCountry, phone, emailVerified, mobileVerified } = user;
       const {
-        lifeCheck: {
-          shareTime,
-          shareFrequency,
-          shareFrequencyType,
-          shareCount,
-          shareCountType,
-          shareCountNotAnswered,
-        },
+        lifeCheck: { shareTime, shareWeekdays, shareCount, shareCountType, shareCountNotAnswered },
       } = user;
 
       const profile: TUserProfile = {
@@ -127,8 +116,7 @@ const userRouter = (_storage: AWS.S3) => {
         mobileVerified,
         lifeCheck: {
           shareTime,
-          shareFrequency,
-          shareFrequencyType,
+          shareWeekdays,
           shareCount,
           shareCountType,
           shareCountNotAnswered,

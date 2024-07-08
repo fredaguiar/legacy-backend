@@ -19,9 +19,8 @@ const userSchema = new mongoose.Schema({
   storageQuotaInMB: { type: Number, required: true },
   lifeCheck: {
     active: { type: Boolean, default: false, required: false },
-    shareFrequency: { type: String, required: false },
-    shareFrequencyType: { type: String, required: false },
-    shareTime: { type: Date, required: false },
+    shareWeekdays: [{ type: String, required: false }],
+    shareTime: { type: String, required: false },
     shareCount: { type: Number, required: false },
     shareCountType: { type: String, required: false },
     shareCountNotAnswered: { type: Number, required: false },

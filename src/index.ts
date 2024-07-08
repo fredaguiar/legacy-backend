@@ -13,6 +13,7 @@ import safeRouter from './controllers/safeRouter';
 import filesRouter from './controllers/filesRouter';
 import userRouter from './controllers/userRouter';
 import searchRouter from './controllers/searchRouter';
+import Agenda from 'agenda';
 
 dotenv.config();
 const PORT: number = parseInt(process.env.PORT as string, 10);
@@ -35,14 +36,21 @@ mongoose
   });
 
 const conn = mongoose.connection;
+let agenda: Agenda;
+
 conn.once('open', () => {
   const storage = new AWS.S3({
     endpoint: process.env.STORAGE_ENDPOINT,
     accessKeyId: process.env.STORAGE_ACCESS_KEY_ID,
     secretAccessKey: process.env.STORAGE_SECRET_ACCESS_KEY,
   });
+  agenda = new Agenda({ db: { address: process.env.MONGO_URI as string } });
+  agenda
+    .on('ready', () => console.log('Agenda started!'))
+    .on('error', (error) => console.error('Agenda connection error:', error));
+
   app.use('/legacy/public', authRouter(storage), activityLog);
-  app.use('/legacy/private', authorization, userRouter(storage), activityLog);
+  app.use('/legacy/private', authorization, userRouter(storage, agenda), activityLog);
   app.use('/legacy/private', authorization, safeRouter(storage)), activityLog;
   app.use('/legacy/private', authorization, filesRouter(storage), activityLog);
   app.use('/legacy/private', authorization, searchRouter(storage), activityLog);
@@ -55,6 +63,7 @@ app.listen(PORT, () => {
 
 function signalHandler(signal: string) {
   console.log(`Process ${process.pid} received a SIGTERM signal:`, signal);
+  agenda.stop();
   conn.close();
   process.exit();
 }
