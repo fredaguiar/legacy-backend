@@ -44,7 +44,10 @@ conn.once('open', () => {
     accessKeyId: process.env.STORAGE_ACCESS_KEY_ID,
     secretAccessKey: process.env.STORAGE_SECRET_ACCESS_KEY,
   });
-  agenda = new Agenda({ db: { address: process.env.MONGO_URI as string } });
+  agenda = new Agenda({
+    db: { address: process.env.MONGO_URI as string },
+    processEvery: '1 minute',
+  });
   agenda
     .on('ready', () => console.log('Agenda started!'))
     .on('error', (error) => console.error('Agenda connection error:', error));

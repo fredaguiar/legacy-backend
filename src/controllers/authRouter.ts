@@ -77,7 +77,15 @@ const authRouter = (_storage: AWS.S3) => {
         mobileVerifyCode: verifyCode,
         introductionViewed: false,
         storageQuotaInMB: 1024 * 10, // 10 GB
-        lifeCheck: {},
+        lifeCheck: {
+          active: false,
+          shareTime: '15:00',
+          shareWeekdays: ['wednesday'],
+          shareCount: 5,
+          shareCountType: 'hours',
+          shareCountNotAnswered: 3,
+          noAnswerCounter: 0,
+        },
         safes,
       });
       newUser.token = generateToken(newUser._id);

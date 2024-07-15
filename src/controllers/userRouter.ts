@@ -1,9 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
-import mongoose, { Document } from 'mongoose';
-import moment from 'moment';
+import { Document } from 'mongoose';
 import Agenda, { Job, JobAttributesData } from 'agenda';
 import User from '../models/User';
-import { capitalizeFirstLetter } from '../utils/StringUtil';
 
 const SEND_NOTIFICATION = 'SEND_NOTIFICATION';
 
@@ -59,29 +57,77 @@ const userRouter = (_storage: AWS.S3, agenda: Agenda) => {
 
       await user.save();
 
-      const {
-        firstName,
-        lastName,
-        lifeCheck: { active, shareCount, shareCountType, shareWeekdays, shareTime },
-      } = user;
+      return res.json({ ...fieldsToUpdate, ...result });
+    } catch (error) {
+      next(error);
+    }
+  });
 
-      // schedule notification
-      if (active) {
-        const notificationData = { lifeCheckInfo: { userId, firstName, lastName } };
-        const [hours, minutes] = shareTime
-          ? shareTime.split(':').map((v) => parseInt(v))
-          : ['12', '00'];
-        const weekday = shareWeekdays?.map((day) => capitalizeFirstLetter(day)).join(',');
-        const cron = `* ${minutes} ${hours} * 1-12 ${weekday}`;
+  router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // @ts-ignore
+      const userId = req.context.userId;
 
-        // console.log('SEND NOTES cron:', cron);
-        await agenda.start();
-        await agenda.every(cron, SEND_NOTIFICATION, notificationData);
-      } else {
-        // remove from agenda
+      const user = await User.findById<Document & TUser>(userId).exec();
+      if (!user) {
+        return res.status(400).json({ message: 'User not found' });
       }
 
-      return res.json({ ...fieldsToUpdate, ...result });
+      let lifeCheck = {};
+      if (req.body.lifeCheck.shareCount) {
+        //update life check frequency
+        const {
+          lifeCheck: {
+            active,
+            shareCount,
+            shareCountType,
+            shareWeekdays,
+            shareTime,
+            shareCountNotAnswered,
+          },
+        } = req.body;
+        lifeCheck = {
+          ...user.lifeCheck,
+          shareCount,
+          shareCountType,
+          shareWeekdays,
+          shareTime,
+          shareCountNotAnswered,
+        };
+      } else {
+        lifeCheck = { ...user.lifeCheck, active: req.body.lifeCheck.active };
+      }
+      user.lifeCheck = lifeCheck;
+
+      await user.save();
+
+      // schedule notification
+      if (user.lifeCheck.active) {
+        const {
+          firstName,
+          lastName,
+          lifeCheck: { shareWeekdays, shareTime },
+        } = user;
+
+        const notificationData = { lifeCheckInfo: { userId, firstName, lastName } };
+        const [hours, minutes] = shareTime
+          ? shareTime.split(':').map((v: string) => parseInt(v))
+          : ['10', '00'];
+        const weekday = shareWeekdays
+          ?.map((day: string) => day.substring(0, 3).toUpperCase())
+          .join(',');
+        const cron = `${minutes} ${hours} * * ${weekday}`;
+
+        console.log('SEND NOTES cron:', cron);
+        console.log('SEND  notificationData:', notificationData);
+        // await agenda.start();
+        // await agenda.every(cron, SEND_NOTIFICATION, notificationData);
+      } else {
+        // remove from agenda
+        // agenda.cancel({ name: SEND_NOTIFICATION });
+      }
+
+      return res.json({ lifeCheck });
     } catch (error) {
       next(error);
     }
@@ -152,6 +198,24 @@ const userRouter = (_storage: AWS.S3, agenda: Agenda) => {
       console.log('getStorageInfo result', result);
 
       return res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post('/confirmLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // @ts-ignore
+      const userId = req.context.userId;
+
+      const user = await User.findById<Document & TUser>(userId).exec();
+      if (!user) {
+        return res.status(400).json({ message: 'User not found' });
+      }
+      user.lifeCheck.noAnswerCounter = 0;
+      await user.save();
+
+      return res.send(true);
     } catch (error) {
       next(error);
     }

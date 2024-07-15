@@ -22,6 +22,7 @@ type TUser = {
     shareCount?: number;
     shareCountType?: TShareCountType;
     shareCountNotAnswered?: number;
+    noAnswerCounter?: number;
   };
   safes: Array<TSafe>;
 };

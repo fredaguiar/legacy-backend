@@ -1,6 +1,5 @@
 import textract from 'textract';
 import pdf from 'pdf-parse';
-import mammoth from 'mammoth';
 
 export const bucketFilePath = ({
   userId,
