@@ -1070,3 +1070,14 @@
     '    at processTicksAndRejections (node:internal/process/task_queues:95:5)',
   level: 'error'
 }
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: "[0].sound.volume" must be less than or equal to 1.\n' +
+    '    at Expo.getErrorFromResultError (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\expo-server-sdk\\src\\ExpoClient.ts:318:36)\n' +
+    '    at Expo.getErrorFromResult (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\expo-server-sdk\\src\\ExpoClient.ts:306:41)\n' +
+    '    at Expo.<anonymous> (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\expo-server-sdk\\src\\ExpoClient.ts:287:17)\n' +
+    '    at Generator.next (<anonymous>)\n' +
+    '    at fulfilled (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\expo-server-sdk\\build\\ExpoClient.js:28:58)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
