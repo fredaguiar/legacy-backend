@@ -125,3 +125,18 @@ type StorageInfo = {
 type TShareCountType = 'days' | 'hours' | 'weeks';
 
 type TWeekday = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday';
+
+interface ILifeCheck extends JobAttributesData {
+  lifeCheckInfo: { userId: string };
+}
+
+// interface ILifeCheckToContacts extends JobAttributesData {
+//   lifeCheckInfo: {
+//     userId: string;
+//     firstName: string;
+//     lastName: string;
+//     email: string;
+//     phoneCountry: string;
+//     phone: string;
+//   };
+// }

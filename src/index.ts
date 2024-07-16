@@ -14,6 +14,7 @@ import filesRouter from './controllers/filesRouter';
 import userRouter from './controllers/userRouter';
 import searchRouter from './controllers/searchRouter';
 import Agenda from 'agenda';
+import { configNotification, scheduleNotificationToClients } from './agenda/ScheduleNotification';
 
 dotenv.config();
 const PORT: number = parseInt(process.env.PORT as string, 10);
@@ -38,7 +39,7 @@ mongoose
 const conn = mongoose.connection;
 let agenda: Agenda;
 
-conn.once('open', () => {
+conn.once('open', async () => {
   const storage = new AWS.S3({
     endpoint: process.env.STORAGE_ENDPOINT,
     accessKeyId: process.env.STORAGE_ACCESS_KEY_ID,
@@ -51,6 +52,9 @@ conn.once('open', () => {
   agenda
     .on('ready', () => console.log('Agenda started!'))
     .on('error', (error) => console.error('Agenda connection error:', error));
+
+  await scheduleNotificationToClients(agenda);
+  configNotification(agenda);
 
   app.use('/legacy/public', authRouter(storage), activityLog);
   app.use('/legacy/private', authorization, userRouter(storage, agenda), activityLog);
