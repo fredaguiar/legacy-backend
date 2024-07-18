@@ -1,8 +1,18 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { Document } from 'mongoose';
-import Agenda, { Job, JobAttributesData } from 'agenda';
+import Agenda from 'agenda';
 import User from '../models/User';
-import { SEND_NOTIFICATION } from '../agenda/ScheduleNotification';
+import { scheduleNotificationToClients, SEND_NOTIFICATION } from '../agenda/agendaNotification';
+
+export const confirmLifeCheck = async (userId: string) => {
+  const user = await User.findById<Document & TUser>(userId).exec();
+  if (!user) {
+    throw Error(`User not found. userID: ${userId}`);
+  }
+
+  user.lifeCheck.noAnswerCounter = 0;
+  await user.save();
+};
 
 const userRouter = (_storage: AWS.S3, agenda: Agenda) => {
   const router = express.Router();
@@ -124,6 +134,11 @@ const userRouter = (_storage: AWS.S3, agenda: Agenda) => {
   });
 
   router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
+    await scheduleNotificationToClients(agenda);
+    return res.json({});
+  });
+
+  router.post('/updateLifeCheck1111', async (req: Request, res: Response, next: NextFunction) => {
     try {
       // @ts-ignore
       const userId = req.context.userId;
@@ -166,10 +181,15 @@ const userRouter = (_storage: AWS.S3, agenda: Agenda) => {
       // schedule notification
       if (user.lifeCheck.active) {
         const {
+          firstName,
+          lastName,
+          email,
           lifeCheck: { shareWeekdays, shareTime },
         } = user;
 
-        const notificationData: ILifeCheck = { lifeCheckInfo: { userId } };
+        const notificationData: ILifeCheck = {
+          lifeCheckInfo: { userId },
+        };
         const [hours, minutes] = shareTime
           ? shareTime.split(':').map((v: string) => parseInt(v))
           : ['10', '00'];
@@ -193,12 +213,7 @@ const userRouter = (_storage: AWS.S3, agenda: Agenda) => {
       // @ts-ignore
       const userId = req.context.userId;
 
-      const user = await User.findById<Document & TUser>(userId).exec();
-      if (!user) {
-        return res.status(400).json({ message: 'User not found' });
-      }
-      user.lifeCheck.noAnswerCounter = 0;
-      await user.save();
+      await confirmLifeCheck(userId);
 
       return res.send(true);
     } catch (error) {

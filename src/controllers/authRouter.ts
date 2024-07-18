@@ -82,7 +82,7 @@ const authRouter = (_storage: AWS.S3) => {
           shareTime: '15:00',
           shareWeekdays: ['wednesday'],
           shareCount: 5,
-          shareCountType: 'hours',
+          shareCountType: 'days',
           shareCountNotAnswered: 3,
           noAnswerCounter: 0,
         },

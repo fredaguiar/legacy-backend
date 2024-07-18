@@ -23,6 +23,7 @@ type TUser = {
     shareCountType?: TShareCountType;
     shareCountNotAnswered?: number;
     noAnswerCounter?: number;
+    lastLifeCheck?: date;
   };
   safes: Array<TSafe>;
 };
@@ -122,7 +123,7 @@ type StorageInfo = {
   storageQuotaInMB: number;
 };
 
-type TShareCountType = 'days' | 'hours' | 'weeks';
+type TShareCountType = 'days' | 'weeks';
 
 type TWeekday = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday';
 

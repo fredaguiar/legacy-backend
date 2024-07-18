@@ -13,8 +13,10 @@ import safeRouter from './controllers/safeRouter';
 import filesRouter from './controllers/filesRouter';
 import userRouter from './controllers/userRouter';
 import searchRouter from './controllers/searchRouter';
+import externalRouter from './controllers/externalRouter';
 import Agenda from 'agenda';
-import { configNotification, scheduleNotificationToClients } from './agenda/ScheduleNotification';
+import { configNotification, scheduleNotificationToClients } from './agenda/agendaNotification';
+import authorizationExternal from './middleware/authorizationExternal';
 
 dotenv.config();
 const PORT: number = parseInt(process.env.PORT as string, 10);
@@ -53,7 +55,7 @@ conn.once('open', async () => {
     .on('ready', () => console.log('Agenda started!'))
     .on('error', (error) => console.error('Agenda connection error:', error));
 
-  await scheduleNotificationToClients(agenda);
+  // await scheduleNotificationToClients(agenda);
   configNotification(agenda);
 
   app.use('/legacy/public', authRouter(storage), activityLog);
@@ -61,6 +63,7 @@ conn.once('open', async () => {
   app.use('/legacy/private', authorization, safeRouter(storage)), activityLog;
   app.use('/legacy/private', authorization, filesRouter(storage), activityLog);
   app.use('/legacy/private', authorization, searchRouter(storage), activityLog);
+  app.use('/legacy/external', authorizationExternal, externalRouter(), activityLog);
   app.use(uncaughtException);
 });
 

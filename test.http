@@ -11,7 +11,7 @@ GET {{baseUrl}}/
 GET {{baseUrl}}/legacy/public/test
 
 ### 
-GET {{baseUrl}}/legacy/public/createSearchIndexes
+GET {{baseUrl}}/legacy/external/confirmLifeCheckByEmail?id=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OTZkNGY0ZTdkYjBkODU5ZDk0MWI4OSIsImlhdCI6MTcyMTMxNjgyMywiZXhwIjoxNzI0OTE2ODIzfQ.chgdooKQGlZ2NBUe_757DkM4UL5qBtEmkRvmVQ5iD4ktd5y8FDXvXr2UKawEa4bs24MBM628C6ekWMthGJ_PXn-9XnYuas4hagBV6Aaumwghk-2JvbaQn0r5-irqka9lx_yRMSwpLtrWrRuZ5mdttYd9z4bR3obzMCRqmlp1yHzD2vw98Wk7v79P7yR0_Txq4Gg_10OWsP74dYMjV5R-srbtnPig44ZwfvoEijUiRXWTgyxgzRa2E99xfZkhxU7Io-FxaP6PJWEsDSe-yJzeGLDPLvUxxl_kyHmVYBkeJ7TKyKTkEzFGXGlmTbWNEVsSHMem8WyYc_Le_7pmXwv_Ew
 
 ### Test user authentication
 POST {{baseUrl}}/legacy/public/login

@@ -2,16 +2,15 @@ import { Request, Response, NextFunction } from 'express';
 import logger from '../logger';
 import { verifyToken } from '../utils/JwtUtil';
 
-const authorization = (req: Request, res: Response, next: NextFunction) => {
-  let userId = null;
+const authorizationExternal = (req: Request, res: Response, next: NextFunction) => {
   try {
-    if (req.headers.authorization) {
-      const authToken = req.headers.authorization.substring(7).trim();
-      const decoded = authToken ? verifyToken(authToken) : null;
-      userId = decoded?.id;
+    const authToken = req.query['id'] as string;
+    if (authToken) {
+      const decoded = verifyToken(authToken);
+      const userId = decoded?.id;
       // @ts-ignore
       req.context = { userId };
-      logger.info('req.headers.authorization userId:::', authToken);
+      logger.info('authorizationExternal userId', userId);
       return next();
     }
     return res.status(401).json({ message: 'User not logged in' });
@@ -19,4 +18,4 @@ const authorization = (req: Request, res: Response, next: NextFunction) => {
     return res.status(401).json({ message: 'Invalid user session' });
   }
 };
-export default authorization;
+export default authorizationExternal;
