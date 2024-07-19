@@ -15,8 +15,8 @@ import userRouter from './controllers/userRouter';
 import searchRouter from './controllers/searchRouter';
 import externalRouter from './controllers/externalRouter';
 import Agenda from 'agenda';
-import { configNotification, scheduleNotificationToClients } from './agenda/agendaNotification';
 import authorizationExternal from './middleware/authorizationExternal';
+import { configNotification, scheduleNotificationToContacts } from './agenda/agendaNotification';
 
 dotenv.config();
 const PORT: number = parseInt(process.env.PORT as string, 10);
@@ -55,7 +55,7 @@ conn.once('open', async () => {
     .on('ready', () => console.log('Agenda started!'))
     .on('error', (error) => console.error('Agenda connection error:', error));
 
-  // await scheduleNotificationToClients(agenda);
+  await scheduleNotificationToContacts(agenda);
   configNotification(agenda);
 
   app.use('/legacy/public', authRouter(storage), activityLog);

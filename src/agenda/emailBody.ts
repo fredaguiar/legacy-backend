@@ -3,11 +3,11 @@ export const emailBodyLifeCheck = ({ firstName, url }: { firstName: string; url:
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Are you doing ok?</title>
+    <title>Legacy</title>
 </head>
 <body>
-    <p>Hi ${firstName}, please confirm you received this message?</p>
-    <p><a href=${url}>Yes</a></p>
+    <p>Hi ${firstName}, this is a message from Legacy, please confirm you received this message?</p>
+    <p><a href=${url}>Click here to confirm.</a></p>
 </body>
 </html>
 `;

@@ -1,6 +1,5 @@
 import { Document } from 'mongoose';
 import nodemailer from 'nodemailer';
-import os from 'os';
 import { URL } from 'url';
 import Mail from 'nodemailer/lib/mailer';
 import Expo, { ExpoPushMessage, ExpoPushToken } from 'expo-server-sdk';
@@ -8,6 +7,7 @@ import Agenda, { Job } from 'agenda';
 import User from '../models/User';
 import { emailBodyLifeCheck } from './emailBody';
 import { generateToken } from '../utils/JwtUtil';
+import { countDays } from '../utils/DateUtil';
 
 export const SEND_NOTIFICATION = 'SEND_NOTIFICATION';
 export const SEND_NOTIFICATION_TO_CONTACTS = 'SEND_NOTIFICATION_TO_CONTACTS';
@@ -45,6 +45,7 @@ const sendEmail = async ({ mailOptions, userId }: TSendEmailProps) => {
 export const configNotification = (agenda: Agenda) => {
   agenda.define(SEND_NOTIFICATION, async (job: Job<ILifeCheck>) => {
     const { userId } = job.attrs.data.lifeCheckInfo;
+    // const userId = '66993fb03a0f437f99164cc8';
 
     const user = await User.findById<Document & TUser>(userId).exec();
     if (!user) {
@@ -71,17 +72,18 @@ export const configNotification = (agenda: Agenda) => {
     // TODO: this token should be only valid for confirmLifeCheckByEmail.
     // TODO: Config jwt to store some sort of permission, or expiration
     const token = generateToken(user._id);
-    const url = new URL(`/legacy/external/confirmLifeCheckByEmail?id=${token}`, os.hostname());
+    const host = `${process.env.HOSTNAME}:${process.env.PORT}`;
+    const url = new URL(`/legacy/external/confirmLifeCheckByEmail?id=${token}`, host);
 
     const mailOptions: Mail.Options = {
       from: 'fatstrategy@gmail.com',
       to: user.email,
-      subject: 'Legacy critical notice',
+      subject: 'Legacy status check! Please confirm!',
       html: emailBodyLifeCheck({ firstName: user.firstName, url: url.toString() }),
       priority: 'high',
     };
     console.log(`mailOptions: ${mailOptions}`);
-    // sendEmail({ mailOptions, userId });
+    sendEmail({ mailOptions, userId });
 
     // these conditions should always be false (Typescript safety)
     if (user.lifeCheck.noAnswerCounter === undefined) user.lifeCheck.noAnswerCounter = 0;
@@ -94,7 +96,7 @@ export const configNotification = (agenda: Agenda) => {
   });
 };
 
-export const scheduleNotificationToClients = async (agenda: Agenda) => {
+export const scheduleNotificationToContacts = async (agenda: Agenda) => {
   agenda.define(SEND_NOTIFICATION_TO_CONTACTS, async (_job: Job) => {
     const usersAll = await User.find({});
 
@@ -104,7 +106,13 @@ export const scheduleNotificationToClients = async (agenda: Agenda) => {
         firstName,
         lastName,
         safes,
-        lifeCheck: { noAnswerCounter, shareCountNotAnswered, lastLifeCheck },
+        lifeCheck: {
+          noAnswerCounter,
+          shareCountNotAnswered,
+          lastLifeCheck,
+          shareCountType,
+          shareCount,
+        },
       }: TUser = user;
 
       if (noAnswerCounter === undefined || shareCountNotAnswered === undefined) {
@@ -114,25 +122,33 @@ export const scheduleNotificationToClients = async (agenda: Agenda) => {
 
       // TODO: this should be tested and fixed, this logic using either > or >= could delay or advance one day
       if (noAnswerCounter > shareCountNotAnswered) {
-        safes.forEach((safe) => {
-          safe.emails?.forEach((email) => {
-            const mailOptions: Mail.Options = {
-              from: 'fatstrategy@gmail.com',
-              to: email.contact,
-              subject: 'Legacy critical notice',
-              text: `This is a message regarding ${firstName} ${lastName}`,
-              html: `<p>This is a message regarding <strong>${firstName} ${lastName}</strong></p>`,
-              priority: 'high',
-            };
-            sendEmail({ mailOptions, userId: _id.toString() });
+        const daysSinceLastNotificationRequest = countDays(lastLifeCheck, new Date());
+        let shareCountMaxDays = shareCount || 1; // if shareCountType = days
+        if (shareCountType === 'weeks') {
+          shareCountMaxDays = shareCountMaxDays * 7;
+        }
+
+        if (daysSinceLastNotificationRequest >= shareCountMaxDays) {
+          safes.forEach((safe) => {
+            safe.emails?.forEach((email) => {
+              const mailOptions: Mail.Options = {
+                from: 'fatstrategy@gmail.com',
+                to: email.contact,
+                subject: 'Legacy critical notice',
+                text: `This is a message regarding ${firstName} ${lastName}`,
+                html: `<p>This is a message regarding <strong>${firstName} ${lastName}</strong></p>`,
+                priority: 'high',
+              };
+              sendEmail({ mailOptions, userId: _id.toString() });
+            });
           });
-        });
+        }
       }
     });
   });
 
   // run batch job everyday at 10AM
-  const cron = `0 10 * * SUN,MON,TUE,WED,THU,FRI,SAT`;
+  const cron = `03 11 * * SUN,MON,TUE,WED,THU,FRI,SAT`;
   // await agenda.cancel({ name: SEND_NOTIFICATION_TO_CONTACTS });
   await agenda.start();
   await agenda.every(cron, SEND_NOTIFICATION_TO_CONTACTS, {});

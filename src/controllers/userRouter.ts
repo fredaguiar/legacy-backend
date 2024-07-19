@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import { Document } from 'mongoose';
 import Agenda from 'agenda';
 import User from '../models/User';
-import { scheduleNotificationToClients, SEND_NOTIFICATION } from '../agenda/agendaNotification';
+import { SEND_NOTIFICATION } from '../agenda/agendaNotification';
 
 export const confirmLifeCheck = async (userId: string) => {
   const user = await User.findById<Document & TUser>(userId).exec();
@@ -133,12 +133,12 @@ const userRouter = (_storage: AWS.S3, agenda: Agenda) => {
     }
   });
 
-  router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
-    await scheduleNotificationToClients(agenda);
-    return res.json({});
-  });
+  // router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
+  //   await configNotification(agenda);
+  //   return res.json({});
+  // });
 
-  router.post('/updateLifeCheck1111', async (req: Request, res: Response, next: NextFunction) => {
+  router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
     try {
       // @ts-ignore
       const userId = req.context.userId;
@@ -181,9 +181,6 @@ const userRouter = (_storage: AWS.S3, agenda: Agenda) => {
       // schedule notification
       if (user.lifeCheck.active) {
         const {
-          firstName,
-          lastName,
-          email,
           lifeCheck: { shareWeekdays, shareTime },
         } = user;
 
