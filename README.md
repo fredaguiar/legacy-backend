@@ -44,9 +44,6 @@ docker rmi -f $(docker images -q 'nodejs-client') $(docker images -q 'nginx-clie
 - Install MongoDB Compass
 - MongoDB Compass connection string: mongodb://{USERNAME}:{PASSWORD}@localhost:27017/
 
-## Tech stach
-
-- NodeJS, Typescript, MongoDB
 
 ## RSA
 
