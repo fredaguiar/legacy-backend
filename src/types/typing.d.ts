@@ -24,6 +24,7 @@ type TUser = {
     shareCountNotAnswered?: number;
     noAnswerCounter?: number;
     lastLifeCheck?: date;
+    notConfiguredYet?: boolean;
   };
   safes: Array<TSafe>;
 };

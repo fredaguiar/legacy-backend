@@ -1081,3 +1081,30 @@
     '    at processTicksAndRejections (node:internal/process/task_queues:95:5)',
   level: 'error'
 }
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: language override unsupported: br\n' +
+    '    at InsertOneOperation.execute (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\node_modules\\mongodb\\src\\operations\\insert.ts:83:13)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\node_modules\\mongodb\\src\\operations\\execute_operation.ts:196:12)\n' +
+    '    at async Collection.insertOne (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\node_modules\\mongodb\\src\\collection.ts:269:12)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: language override unsupported: br\n' +
+    '    at InsertOneOperation.execute (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\node_modules\\mongodb\\lib\\operations\\insert.js:51:19)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\node_modules\\mongodb\\lib\\operations\\execute_operation.js:136:16)\n' +
+    '    at async Collection.insertOne (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\node_modules\\mongodb\\lib\\collection.js:155:16)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'MongoServerError: language override unsupported: br\n' +
+    '    at InsertOneOperation.execute (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\node_modules\\mongodb\\lib\\operations\\insert.js:51:19)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async executeOperation (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\node_modules\\mongodb\\lib\\operations\\execute_operation.js:136:16)\n' +
+    '    at async Collection.insertOne (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\node_modules\\mongodb\\lib\\collection.js:155:16)',
+  level: 'error'
+}

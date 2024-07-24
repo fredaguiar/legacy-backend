@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
     shareCountNotAnswered: { type: Number, required: false },
     noAnswerCounter: { type: Number, required: false },
     lastLifeCheck: { type: Date, required: false },
+    notConfiguredYet: { type: Boolean, default: true, required: false },
   },
   createdAt: { type: Date, default: Date.now },
   safes: [safeSchema],

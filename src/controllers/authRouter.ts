@@ -16,9 +16,10 @@ const authRouter = (_storage: S3) => {
     return res.send('OK');
   });
 
-  router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+  type TLogin = { res: Response; next: NextFunction; email: string; password: string };
+
+  const login = async ({ res, next, email, password }: TLogin) => {
     try {
-      const { email, password }: TCredentials = req.body;
       const user = await User.findOne<TUser>({ email }).lean();
       if (!user) {
         return res.status(400).json({ message: 'User not found' });
@@ -36,9 +37,15 @@ const authRouter = (_storage: S3) => {
     } catch (error) {
       next(error);
     }
+  };
+
+  router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password }: TCredentials = req.body;
+    return login({ email, password, res, next });
   });
 
   router.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
+    let newUser: TUser | undefined;
     try {
       const {
         firstName,
@@ -56,12 +63,16 @@ const authRouter = (_storage: S3) => {
         return res.status(400).json({ message: 'User already exists' });
       }
 
+      if (!email || !password) {
+        return res.status(400).json({ message: 'Missing user email or password' });
+      }
+
       const verifyCode = generateVerifyCode();
       const safes: TSafe[] = [
         createSafe({ name: 'Personal Documents' }),
         createSafe({ name: 'Friends and family' }),
       ];
-      const newUser = await User.create<TUser>({
+      newUser = await User.create<TUser>({
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         country,
@@ -84,12 +95,12 @@ const authRouter = (_storage: S3) => {
           shareCountType: 'days',
           shareCountNotAnswered: 3,
           noAnswerCounter: 0,
+          notConfiguredYet: true,
         },
         safes,
       });
-      newUser.token = generateToken(newUser._id);
-      delete newUser.password;
-      return res.json(newUser);
+
+      return login({ email, password, res, next });
     } catch (error) {
       next(error);
     }

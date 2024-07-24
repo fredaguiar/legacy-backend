@@ -134,10 +134,10 @@ const userRouter = (_storage: S3, agenda: Agenda) => {
     }
   });
 
-  router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
-    await scheduleNotificationToContacts(_storage, agenda);
-    return res.json({});
-  });
+  // router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
+  //   await scheduleNotificationToContacts(_storage, agenda);
+  //   return res.json({});
+  // });
 
   router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -173,6 +173,7 @@ const userRouter = (_storage: S3, agenda: Agenda) => {
         lifeCheck = { ...user.lifeCheck, active: req.body.lifeCheck.active };
       }
       user.lifeCheck = lifeCheck;
+      user.lifeCheck.notConfiguredYet = false;
 
       await user.save();
 
