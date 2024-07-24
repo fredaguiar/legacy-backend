@@ -1,10 +1,10 @@
 import express, { NextFunction, Request, Response } from 'express';
-import AWS from 'aws-sdk';
+import S3 from 'aws-sdk/clients/s3';
 import { Types } from 'mongoose';
 import striptags from 'striptags';
 import User from '../models/User';
 
-const searchRouter = (_storage: AWS.S3) => {
+const searchRouter = (_storage: S3) => {
   const router = express.Router();
 
   const findSearchMatch = (values: (string | undefined)[], searchValue: string) => {

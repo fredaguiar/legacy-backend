@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import AWS from 'aws-sdk';
+import S3 from 'aws-sdk/clients/s3';
 import authRouter from './controllers/authRouter';
 import uncaughtException from './middleware/uncaughtException';
 import authorization from './middleware/authorization';
@@ -42,7 +42,7 @@ const conn = mongoose.connection;
 let agenda: Agenda;
 
 conn.once('open', async () => {
-  const storage = new AWS.S3({
+  const storage = new S3({
     endpoint: process.env.STORAGE_ENDPOINT,
     accessKeyId: process.env.STORAGE_ACCESS_KEY_ID,
     secretAccessKey: process.env.STORAGE_SECRET_ACCESS_KEY,
@@ -55,7 +55,7 @@ conn.once('open', async () => {
     .on('ready', () => console.log('Agenda started!'))
     .on('error', (error) => console.error('Agenda connection error:', error));
 
-  await scheduleNotificationToContacts(agenda);
+  await scheduleNotificationToContacts(storage, agenda);
   configNotification(agenda);
 
   app.use('/legacy/public', authRouter(storage), activityLog);

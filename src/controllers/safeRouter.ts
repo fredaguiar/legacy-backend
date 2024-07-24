@@ -1,11 +1,12 @@
 import express, { NextFunction, Request, Response } from 'express';
-import mongoose, { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
+import S3 from 'aws-sdk/clients/s3';
 import User from '../models/User';
 import { Safe } from '../models/Safe';
 import { Contact } from '../models/Contact';
 import { findSafeById } from '../utils/QueryUtil';
 
-const safeRouter = (storage: AWS.S3) => {
+const safeRouter = (storage: S3) => {
   const router = express.Router();
 
   const deleteDirectory = async ({ userId, safeId }: { userId: string; safeId: string }) => {
@@ -22,7 +23,7 @@ const safeRouter = (storage: AWS.S3) => {
       }
       const deleteParams = {
         Bucket: process.env.STORAGE_BUCKET as string,
-        Delete: { Objects: [] as AWS.S3.ObjectIdentifier[] },
+        Delete: { Objects: [] as S3.ObjectIdentifier[] },
       };
       listedObjects.Contents.forEach(({ Key }) => {
         if (Key) {

@@ -1,13 +1,13 @@
 import express, { NextFunction, Request, Response } from 'express';
 import multer from 'multer';
-import AWS from 'aws-sdk';
+import S3 from 'aws-sdk/clients/s3';
 import { Readable } from 'stream';
 import mongoose, { Document } from 'mongoose';
 import User from '../models/User';
 import { findFileById, findFileIndexById, findSafeById } from '../utils/QueryUtil';
 import { bucketFilePath, extractText } from '../utils/FileUtil';
 
-const filesRouter = (storage: AWS.S3) => {
+const filesRouter = (storage: S3) => {
   const router = express.Router();
   const memoryStorage = multer.memoryStorage();
   const upload = multer({ storage: memoryStorage });

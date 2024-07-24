@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { confirmLifeCheck } from './userRouter';
-import { emailChecked } from '../agenda/emailChecked';
+import { emailChecked } from '../agenda/messageBody';
 
 const externalRouter = () => {
   const router = express.Router();

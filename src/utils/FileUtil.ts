@@ -28,6 +28,7 @@ export const extractText = async (buffer: Buffer, mimetype: string) => {
     'text/plain',
     'text/html',
     'text/markdown',
+    'text/editor',
     'epub+zip',
     'opendocument',
   ];

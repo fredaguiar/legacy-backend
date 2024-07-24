@@ -1,8 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { Document } from 'mongoose';
+import S3 from 'aws-sdk/clients/s3';
 import Agenda from 'agenda';
 import User from '../models/User';
-import { SEND_NOTIFICATION } from '../agenda/agendaNotification';
+import { scheduleNotificationToContacts, SEND_NOTIFICATION } from '../agenda/agendaNotification';
 
 export const confirmLifeCheck = async (userId: string) => {
   const user = await User.findById<Document & TUser>(userId).exec();
@@ -14,7 +15,7 @@ export const confirmLifeCheck = async (userId: string) => {
   await user.save();
 };
 
-const userRouter = (_storage: AWS.S3, agenda: Agenda) => {
+const userRouter = (_storage: S3, agenda: Agenda) => {
   const router = express.Router();
 
   router.post('/updateUserProfile', async (req: Request, res: Response, next: NextFunction) => {
@@ -133,10 +134,10 @@ const userRouter = (_storage: AWS.S3, agenda: Agenda) => {
     }
   });
 
-  // router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
-  //   await configNotification(agenda);
-  //   return res.json({});
-  // });
+  router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
+    await scheduleNotificationToContacts(_storage, agenda);
+    return res.json({});
+  });
 
   router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
     try {
