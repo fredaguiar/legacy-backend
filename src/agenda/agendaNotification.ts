@@ -4,11 +4,16 @@ import Mail from 'nodemailer/lib/mailer';
 import S3 from 'aws-sdk/clients/s3';
 import Agenda, { Job } from 'agenda';
 import User from '../models/User';
-import { emailBodyLifeCheck, emailBodyToContacts, smsBodyToContacts } from './messageBody';
+import {
+  emailBodyLifeCheck,
+  emailBodyToContacts,
+  smsBodyLifecheck,
+  smsBodyToContacts,
+} from './messageBody';
 import { generateToken } from '../utils/JwtUtil';
 import { countDays } from '../utils/DateUtil';
 import { bucketFilePath } from '../utils/FileUtil';
-import { sendEmail, sendPushNotification, sendSms } from './messaging';
+import { sendEmail, sendLifeCheckPushNotification, sendSms } from './messaging';
 
 export const SEND_NOTIFICATION = 'SEND_NOTIFICATION';
 export const SEND_NOTIFICATION_TO_CONTACTS = 'SEND_NOTIFICATION_TO_CONTACTS';
@@ -27,27 +32,29 @@ export const configNotification = (agenda: Agenda) => {
       return;
     }
 
-    sendPushNotification({ body: `Hi ${user.firstName}, Are you doing okay?`, userId });
-    sendSms({
-      userId,
-      body: `Hi ${user.firstName}, Are you doing okay?`,
-      to: `+${user.phoneCountry.trim()}${user.phone.trim()}`,
-    });
-
-    // send email
     // TODO: this token should be only valid for confirmLifeCheckByEmail.
     // TODO: Config jwt to store some sort of permission, or expiration
     const token = generateToken(user._id);
     const host = `${process.env.HOSTNAME}:${process.env.PORT}`;
-    const url = new URL(`/legacy/external/confirmLifeCheckByEmail?id=${token}`, host);
-
+    const url = new URL(`/legacy/external/confirmLifeCheckByEmail?id=${token}`, host).toString();
+    const { firstName } = user;
     const mailOptions: Mail.Options = {
       from: 'fatstrategy@gmail.com',
       to: user.email,
       subject: 'Legacy status check! Please confirm!',
-      html: emailBodyLifeCheck({ firstName: user.firstName, url: url.toString() }),
+      html: emailBodyLifeCheck({ firstName, url }),
       priority: 'high',
     };
+
+    sendLifeCheckPushNotification({
+      body: `Hi ${firstName}, please confirm you received this message.`,
+      userId,
+    });
+    sendSms({
+      userId,
+      body: smsBodyLifecheck({ firstName, url }),
+      to: `+${user.phoneCountry.trim()}${user.phone.trim()}`,
+    });
     sendEmail({ mailOptions, userId });
 
     // these conditions should always be false (Typescript safety)
@@ -254,6 +261,5 @@ export const scheduleNotificationToContacts = async (storage: S3, agenda: Agenda
   // await agenda.cancel({ name: SEND_NOTIFICATION_TO_CONTACTS });
   await agenda.start();
   await agenda.every(cron, SEND_NOTIFICATION_TO_CONTACTS, {});
-
-  console.log('scheduleNotificationToClients');
+  console.log('Schedule notification to contacts Started!');
 };

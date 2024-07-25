@@ -1108,3 +1108,11 @@
     '    at async Collection.insertOne (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\node_modules\\mongodb\\lib\\collection.js:155:16)',
   level: 'error'
 }
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at findFileById (C:\\Users\\fred_\\dev\\legacy-backend\\src\\utils\\QueryUtil.ts:11:15)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:242:23',
+  level: 'error'
+}

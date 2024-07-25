@@ -52,7 +52,10 @@ export const sendSms = async ({ userId, body, to }: TSendSmsProps) => {
 
 type TSendPushNotificationProps = { body: string; userId: string };
 
-export const sendPushNotification = async ({ body, userId }: TSendPushNotificationProps) => {
+export const sendLifeCheckPushNotification = async ({
+  body,
+  userId,
+}: TSendPushNotificationProps) => {
   try {
     const pushToken = process.env.EXPO_PUSH_TOKEN as ExpoPushToken;
     if (!Expo.isExpoPushToken(pushToken)) {
