@@ -247,6 +247,67 @@ const filesRouter = (storage: S3) => {
     },
   );
 
+  router.post('/renameFile', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // @ts-ignore
+      const userId = req.context.userId;
+      const { fileName, safeId, fileId } = req.body;
+
+      if (!fileName || !safeId || !userId) {
+        return res.status(404).send('Missing input information');
+      }
+      const user = await User.findById<Document & TUser>(userId).exec();
+      if (!user) {
+        return res.status(400).json({ message: 'User not found' });
+      }
+      const file = (await findFileById(user, safeId, fileId)) as TFile;
+      file.fileName = fileName;
+      await user.save();
+
+      return res.send(true);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post('/deleteFileList', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // @ts-ignore
+      const userId = req.context.userId;
+      const { safeId, fileIds } = req.body as TFileDelete;
+
+      const user = await User.findById<Document & TUser>(userId).exec();
+      if (!user) {
+        return res.status(400).json({ message: 'User not found' });
+      }
+      const safe = (await findSafeById(user, safeId)) as TSafe;
+      if (!safe) {
+        return res.status(400).json({ message: 'Safe not found' });
+      }
+      const updatedList = safe.files?.filter((file) => {
+        const currId = file._id?.toString();
+        if (!currId) return false;
+        return !(fileIds as Array<string>).includes(currId);
+      });
+      safe.files = updatedList;
+      await user.save();
+
+      // the reason to use map and Promise.all is to properly catch exception in deleteDirectory
+      const deleteParams = {
+        Bucket: process.env.STORAGE_BUCKET as string,
+        Delete: { Objects: [] as S3.ObjectIdentifier[] },
+      };
+      fileIds.forEach(async (fileId) => {
+        deleteParams.Delete.Objects.push({ Key: fileId });
+      });
+      await storage.deleteObjects(deleteParams).promise();
+
+      return res.send(true);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   return router;
 };
 

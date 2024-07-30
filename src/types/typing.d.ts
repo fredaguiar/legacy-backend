@@ -118,6 +118,17 @@ type TFileInfoListResult = {
   fileInfoList: TFile[];
 };
 
+type TFileUpdate = {
+  fileName?: string;
+  fileId: string;
+  safeId: string;
+};
+
+type TFileDelete = {
+  fileIds: Array<string>;
+  safeId: string;
+};
+
 type StorageInfo = {
   storageUsedInBytes: number;
   storageFileCount: number;
