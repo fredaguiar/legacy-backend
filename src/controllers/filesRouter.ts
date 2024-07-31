@@ -284,21 +284,28 @@ const filesRouter = (storage: S3) => {
       if (!safe) {
         return res.status(400).json({ message: 'Safe not found' });
       }
+
+      const removeFiles: TFile[] = [];
       const updatedList = safe.files?.filter((file) => {
         const currId = file._id?.toString();
         if (!currId) return false;
-        return !(fileIds as Array<string>).includes(currId);
+        const keep = !(fileIds as Array<string>).includes(currId);
+        if (!keep) removeFiles.push(file);
+        return keep;
       });
       safe.files = updatedList;
       await user.save();
 
-      // the reason to use map and Promise.all is to properly catch exception in deleteDirectory
       const deleteParams = {
         Bucket: process.env.STORAGE_BUCKET as string,
         Delete: { Objects: [] as S3.ObjectIdentifier[] },
       };
-      fileIds.forEach(async (fileId) => {
-        deleteParams.Delete.Objects.push({ Key: fileId });
+      removeFiles.forEach(async (file) => {
+        if (file.mimetype !== 'text/editor' && file.mimetype !== 'text/pass') {
+          deleteParams.Delete.Objects.push({
+            Key: bucketFilePath({ userId, safeId, fileId: file._id.toString() }),
+          });
+        }
       });
       await storage.deleteObjects(deleteParams).promise();
 

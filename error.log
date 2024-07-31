@@ -1116,3 +1116,141 @@
     '    at async C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:242:23',
   level: 'error'
 }
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'InvalidParameterType: Expected params.Delete.Objects[0].Key to be a string\n' +
+    '    at ParamValidator.fail (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:50:37)\n' +
+    '    at ParamValidator.validateType (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:233:10)\n' +
+    '    at ParamValidator.validateString (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:155:32)\n' +
+    '    at ParamValidator.validateScalar (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:131:21)\n' +
+    '    at ParamValidator.validateMember (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:95:21)\n' +
+    '    at ParamValidator.validateStructure (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:76:14)\n' +
+    '    at ParamValidator.validateMember (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:89:21)\n' +
+    '    at ParamValidator.validateList (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:104:14)\n' +
+    '    at ParamValidator.validateMember (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:91:21)\n' +
+    '    at ParamValidator.validateStructure (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:76:14)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'InvalidParameterType: Expected params.Delete.Objects[0].Key to be a string\n' +
+    '    at ParamValidator.fail (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:50:37)\n' +
+    '    at ParamValidator.validateType (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:233:10)\n' +
+    '    at ParamValidator.validateString (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:155:32)\n' +
+    '    at ParamValidator.validateScalar (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:131:21)\n' +
+    '    at ParamValidator.validateMember (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:95:21)\n' +
+    '    at ParamValidator.validateStructure (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:76:14)\n' +
+    '    at ParamValidator.validateMember (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:89:21)\n' +
+    '    at ParamValidator.validateList (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:104:14)\n' +
+    '    at ParamValidator.validateMember (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:91:21)\n' +
+    '    at ParamValidator.validateStructure (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:76:14)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'InvalidParameterType: Expected params.Delete.Objects[0].Key to be a string\n' +
+    '    at ParamValidator.fail (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:50:37)\n' +
+    '    at ParamValidator.validateType (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:233:10)\n' +
+    '    at ParamValidator.validateString (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:155:32)\n' +
+    '    at ParamValidator.validateScalar (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:131:21)\n' +
+    '    at ParamValidator.validateMember (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:95:21)\n' +
+    '    at ParamValidator.validateStructure (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:76:14)\n' +
+    '    at ParamValidator.validateMember (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:89:21)\n' +
+    '    at ParamValidator.validateList (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:104:14)\n' +
+    '    at ParamValidator.validateMember (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:91:21)\n' +
+    '    at ParamValidator.validateStructure (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:76:14)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'InvalidParameterType: Expected params.Delete.Objects[0].Key to be a string\n' +
+    '    at ParamValidator.fail (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:50:37)\n' +
+    '    at ParamValidator.validateType (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:233:10)\n' +
+    '    at ParamValidator.validateString (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:155:32)\n' +
+    '    at ParamValidator.validateScalar (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:131:21)\n' +
+    '    at ParamValidator.validateMember (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:95:21)\n' +
+    '    at ParamValidator.validateStructure (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:76:14)\n' +
+    '    at ParamValidator.validateMember (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:89:21)\n' +
+    '    at ParamValidator.validateList (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:104:14)\n' +
+    '    at ParamValidator.validateMember (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:91:21)\n' +
+    '    at ParamValidator.validateStructure (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\aws-sdk\\lib\\param_validator.js:76:14)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Unexpected error\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:69:17\n' +
+    '    at Layer.handle [as handle_request] (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n' +
+    '    at next (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\express\\lib\\router\\route.js:149:13)\n' +
+    '    at done (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\multer\\lib\\make-middleware.js:45:7)\n' +
+    '    at indicateDone (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\multer\\lib\\make-middleware.js:49:68)\n' +
+    '    at Multipart.<anonymous> (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\multer\\lib\\make-middleware.js:166:7)\n' +
+    '    at Multipart.emit (node:events:518:28)\n' +
+    '    at Multipart.emit (node:domain:488:12)\n' +
+    '    at emitCloseNT (node:internal/streams/destroy:147:10)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:81:21)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot set properties of undefined (setting 'fileName')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:231:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot set properties of undefined (setting 'fileName')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:231:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot set properties of undefined (setting 'fileName')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:231:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot set properties of undefined (setting 'fileName')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:231:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot set properties of undefined (setting 'fileName')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:231:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot set properties of undefined (setting 'fileName')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:231:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot set properties of undefined (setting 'fileName')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:231:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot set properties of undefined (setting 'fileName')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:231:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot set properties of undefined (setting 'fileName')\n" +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:231:27\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)',
+  level: 'error'
+}
