@@ -2,6 +2,14 @@
 
 A **React Native** Legacy mobile app
 
+## Install Node 20 lts
+
+```
+nvm install 20 --lts
+nvm list (copy the 20 lts)
+nvm use 20.x.x
+```
+
 ## Run in dev
 
 - npm run dev

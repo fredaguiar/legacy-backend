@@ -19,7 +19,7 @@ const filesRouter = (storage: S3) => {
   };
 
   const saveFileMetadata = async ({ file, user, safeId }: TSaveMetadata) => {
-    const safe = (await findSafeById(user, safeId)) as TSafe;
+    const safe = (await findSafeById(user, safeId)) as Document & TSafe;
 
     if (!safe.files) {
       throw new Error('Missing all files');
@@ -37,7 +37,10 @@ const filesRouter = (storage: S3) => {
       if (fileIndex === undefined) {
         throw new Error('Missing file');
       }
-      safe.files[fileIndex] = { ...safe.files[fileIndex], ...file };
+      const currFile = safe.toObject().files[fileIndex];
+      const updatedFile = { ...currFile, ...file };
+
+      safe.files[fileIndex] = updatedFile;
     }
     await user.save();
 
@@ -192,6 +195,7 @@ const filesRouter = (storage: S3) => {
 
   router.post('/saveItem', async (req: Request, res: Response, next: NextFunction) => {
     try {
+      console.log('🚀 ~ router.post ~ userId:', req.body);
       // @ts-ignore
       const userId = req.context.userId;
       const { fileName, username, password, notes, safeId, fileId, mimetype } = req.body;
@@ -199,7 +203,7 @@ const filesRouter = (storage: S3) => {
       if (!fileName || !safeId || !userId || !mimetype) {
         return res.status(404).send('Missing input information');
       }
-      const user = await User.findById<Document & TUser>(userId).exec();
+      const user = await User.findById<Document & TUser>(userId);
       if (!user) {
         return res.status(400).json({ message: 'User not found' });
       }
