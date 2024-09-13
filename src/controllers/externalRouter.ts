@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 import { confirmLifeCheck } from './userRouter';
 import { emailChecked } from '../messaging/messageBody';
 import User from '../models/User';
+import { sendLifeCheckPushNotification } from '../messaging/pushNotification';
 
 const externalRouter = () => {
   const router = express.Router();
@@ -42,6 +43,8 @@ const externalRouter = () => {
       await user.save();
 
       message = '<font color="#6a00ff" size="16px", size>Email confirmed. Thanks!</font>';
+
+      sendLifeCheckPushNotification({ body: 'Ok', userId });
     } catch (error) {
       message =
         '<font color="#ff0048" size="16px">An unexcpected error has occurred! Try again later.</font>';

@@ -220,6 +220,29 @@ const userRouter = (_storage: S3, agenda: Agenda) => {
     }
   });
 
+  router.post('/confirmMobile', async (req: Request, res: Response, next: NextFunction) => {
+    // @ts-ignore
+    const userId = req.context.userId;
+    const { code } = req.body;
+
+    try {
+      const user = await User.findById<Document & TUser>(userId).exec();
+      if (!user) {
+        throw Error(`User not found. userID: ${userId}`);
+      }
+      if (user.mobileVerifyCode !== code) {
+        return res.status(400).json({ message: 'Invalid code!' });
+      }
+      user.mobileVerified = true;
+      user.mobileVerifyCode = undefined;
+      await user.save();
+
+      return res.send(true);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   return router;
 };
 
