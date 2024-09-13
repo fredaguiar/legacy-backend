@@ -4,6 +4,10 @@ import S3 from 'aws-sdk/clients/s3';
 import User from '../models/User';
 import { generateToken } from '../utils/JwtUtil';
 import { generateVerifyCode } from '../utils/VerifyCode';
+import Mail from 'nodemailer/lib/mailer';
+import { sendEmail } from '../messaging/email';
+import { sendSms } from '../messaging/sms';
+import { emailConfirm, smsConfirmPhone } from '../messaging/messageBody';
 
 const authRouter = (_storage: S3) => {
   const router = express.Router();
@@ -13,6 +17,7 @@ const authRouter = (_storage: S3) => {
   };
 
   router.get('/test', async (req: Request, res: Response, next: NextFunction) => {
+    console.log('🚀 ~ router.get ~ TEST');
     return res.send('OK');
   });
 
@@ -45,7 +50,7 @@ const authRouter = (_storage: S3) => {
   });
 
   router.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
-    let newUser: TUser | undefined;
+    let user: TUser | undefined;
     try {
       const {
         firstName,
@@ -72,7 +77,7 @@ const authRouter = (_storage: S3) => {
         createSafe({ name: 'Personal Documents' }),
         createSafe({ name: 'Friends and family' }),
       ];
-      newUser = await User.create<TUser>({
+      user = await User.create<TUser>({
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         country,
@@ -98,6 +103,32 @@ const authRouter = (_storage: S3) => {
           notConfiguredYet: true,
         },
         safes,
+      });
+
+      if (!user) {
+        return res.status(400).json({ message: 'User registration failed' });
+      }
+
+      // Verify Email
+      // TODO: this token should be only valid for confirmLifeCheckByEmail.
+      // TODO: Config jwt to store some sort of permission, or expiration
+      const token = generateToken(user._id);
+      const host = `${process.env.HOSTNAME}:${process.env.PORT}`;
+      const url = new URL(`/legacy/external/confirmEmail?id=${token}`, host).toString();
+      const mailOptions: Mail.Options = {
+        from: 'fatstrategy@gmail.com',
+        to: user.email,
+        subject: 'Legacy - Confirm your email',
+        html: emailConfirm({ firstName, url }),
+        priority: 'high',
+      };
+      sendEmail({ mailOptions, userId: user._id });
+
+      // Verify phone #
+      sendSms({
+        userId: user._id.toString(),
+        body: smsConfirmPhone({ firstName, verifyCode }),
+        to: `+${user.phoneCountry.trim()}${user.phone.trim()}`,
       });
 
       return login({ email, password, res, next });

@@ -18,6 +18,6 @@ POST {{baseUrl}}/legacy/public/login
 content-type: application/json
 
 {
-    "email": "a@gmail.com",
+    "email": "fatstrategy@gmail.com",
     "password": "11111111"
 }

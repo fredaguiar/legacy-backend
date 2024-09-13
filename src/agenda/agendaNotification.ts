@@ -9,11 +9,13 @@ import {
   emailBodyToContacts,
   smsBodyLifecheck,
   smsBodyToContacts,
-} from './messageBody';
+} from '../messaging/messageBody';
 import { generateToken } from '../utils/JwtUtil';
 import { countDays } from '../utils/DateUtil';
 import { bucketFilePath } from '../utils/FileUtil';
-import { sendEmail, sendLifeCheckPushNotification, sendSms } from './messaging';
+import { sendEmail } from '../messaging/email';
+import { sendLifeCheckPushNotification } from '../messaging/pushNotification';
+import { sendSms } from '../messaging/sms';
 
 export const SEND_NOTIFICATION = 'SEND_NOTIFICATION';
 export const SEND_NOTIFICATION_TO_CONTACTS = 'SEND_NOTIFICATION_TO_CONTACTS';

@@ -66,3 +66,11 @@
     '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:214:27',
   level: 'error'
 }
+{ message: 'Server failure status', level: 'error' }
+{
+  message: "TypeError: Cannot read properties of undefined (reading 'files')\n" +
+    '    at findFileById (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\utils\\QueryUtil.js:10:17)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\filesRouter.js:214:27',
+  level: 'error'
+}

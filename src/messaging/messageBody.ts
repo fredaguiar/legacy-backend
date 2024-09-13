@@ -1,5 +1,19 @@
 import Mail from 'nodemailer/lib/mailer';
 
+export const emailConfirm = ({ firstName, url }: { firstName: string; url: string }) => `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Legacy</title>
+</head>
+<body>
+    <p>Hi ${firstName}, this is a message from Legacy. Please confirm your email.</p>
+    <p><a href=${url}>Click here to confirm.</a></p>
+</body>
+</html>
+`;
+
 export const emailBodyLifeCheck = ({ firstName, url }: { firstName: string; url: string }) => `
 <!DOCTYPE html>
 <html>
@@ -45,6 +59,16 @@ export const smsBodyLifecheck = ({ firstName, url }: { firstName: string; url: s
 Hi ${firstName}, this is a message from Legacy, please confirm you received this message.\n
 Click on the link below to confirm: \n\n${url}
 `;
+};
+
+export const smsConfirmPhone = ({
+  firstName,
+  verifyCode,
+}: {
+  firstName: string;
+  verifyCode: number;
+}) => {
+  return `Hi ${firstName}, This is your Legacy verification code: ${verifyCode}.\n`;
 };
 
 export const emailBodyToContacts = ({
