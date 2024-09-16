@@ -5,7 +5,7 @@ import User from '../models/User';
 import { generateToken } from '../utils/JwtUtil';
 import { generateVerifyCode } from '../utils/VerifyCode';
 import Mail from 'nodemailer/lib/mailer';
-import { sendEmail } from '../messaging/email';
+import { sendConfirmationEmail, sendEmail } from '../messaging/email';
 import { sendSms } from '../messaging/sms';
 import { emailConfirm, smsConfirmPhone } from '../messaging/messageBody';
 
@@ -109,20 +109,7 @@ const authRouter = (_storage: S3) => {
         return res.status(400).json({ message: 'User registration failed' });
       }
 
-      // Verify Email
-      // TODO: this token should be only valid for confirmLifeCheckByEmail.
-      // TODO: Config jwt to store some sort of permission, or expiration
-      const token = generateToken(user._id);
-      const host = `${process.env.HOSTNAME}:${process.env.PORT}`;
-      const url = new URL(`/legacy/external/confirmEmail?id=${token}`, host).toString();
-      const mailOptions: Mail.Options = {
-        from: 'fatstrategy@gmail.com',
-        to: user.email,
-        subject: 'Legacy - Confirm your email',
-        html: emailConfirm({ firstName, url }),
-        priority: 'high',
-      };
-      sendEmail({ mailOptions, userId: user._id });
+      sendConfirmationEmail({ user });
 
       // Verify phone #
       sendSms({
