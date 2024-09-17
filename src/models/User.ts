@@ -15,6 +15,8 @@ const userSchema = new mongoose.Schema({
   emailVerified: { type: Boolean, required: true, default: false },
   mobileVerified: { type: Boolean, required: true, default: false },
   mobileVerifyCode: { type: Number, required: false },
+  forgotPasswordResetCode: { type: Number, required: false },
+  forgotPasswordAttepmts: { type: Number, required: false },
   introductionViewed: { type: Boolean, default: false, required: true },
   storageQuotaInMB: { type: Number, required: true },
   lifeCheck: {

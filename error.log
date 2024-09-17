@@ -149,3 +149,39 @@
     '    at IncomingMessage.emit (node:domain:488:12)',
   level: 'error'
 }
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'ValidationError: users validation failed: password: Path `password` is required.\n' +
+    '    at Document.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:3318:32)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:3079:17\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\schemaType.js:1388:9\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:77:11)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'ValidationError: users validation failed: password: Path `password` is required.\n' +
+    '    at Document.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:3318:32)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:3079:17\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\schemaType.js:1388:9\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:77:11)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'ValidationError: users validation failed: password: Path `password` is required.\n' +
+    '    at Document.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:3318:32)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:3079:17\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\schemaType.js:1388:9\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:77:11)',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'ValidationError: users validation failed: password: Path `password` is required.\n' +
+    '    at Document.invalidate (C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:3318:32)\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\document.js:3079:17\n' +
+    '    at C:\\Users\\fred_\\dev\\legacy-backend\\node_modules\\mongoose\\lib\\schemaType.js:1388:9\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:77:11)',
+  level: 'error'
+}

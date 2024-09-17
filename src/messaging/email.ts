@@ -21,7 +21,7 @@ export const sendConfirmationEmail = async ({ user }: TResendConfirmationEmailPr
   // Verify Email
   // TODO: this token should be only valid for confirmLifeCheckByEmail.
   // TODO: Config jwt to store some sort of permission, or expiration
-  const token = generateToken(user._id);
+  const token = generateToken({ id: user._id.toString() });
   const host = `${process.env.HOSTNAME}:${process.env.PORT}`;
   const url = new URL(`/legacy/external/confirmEmail?id=${token}`, host).toString();
   const mailOptions: Mail.Options = {

@@ -6,9 +6,9 @@ const TOKEN_EXPIRES_MS = 60 * 60 * 1000; // 1hr
 const PRIVATE_KEY = fs.readFileSync('keys/rsa.ppk', 'utf-8');
 const PUBLIC_KEY = fs.readFileSync('keys/rsa.pub', 'utf-8');
 
-export const generateToken = (id: Types.ObjectId): string => {
-  return jwt.sign({ id: id.toString() }, PRIVATE_KEY, {
-    expiresIn: TOKEN_EXPIRES_MS,
+export const generateToken = (data: object, expiresIn = TOKEN_EXPIRES_MS): string => {
+  return jwt.sign(data, PRIVATE_KEY, {
+    expiresIn: expiresIn,
     algorithm: 'RS256',
   });
 };

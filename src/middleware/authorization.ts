@@ -4,6 +4,7 @@ import { verifyToken } from '../utils/JwtUtil';
 
 const authorization = (req: Request, res: Response, next: NextFunction) => {
   let userId = null;
+  // TODO: needs to implement CSFR token
   try {
     if (req.headers.authorization) {
       const authToken = req.headers.authorization.substring(7).trim();

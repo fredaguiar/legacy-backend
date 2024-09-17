@@ -1,16 +1,31 @@
 import express, { NextFunction, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import S3 from 'aws-sdk/clients/s3';
 import User from '../models/User';
-import { generateToken } from '../utils/JwtUtil';
+import { generateToken, verifyToken } from '../utils/JwtUtil';
 import { generateVerifyCode } from '../utils/VerifyCode';
 import Mail from 'nodemailer/lib/mailer';
 import { sendConfirmationEmail, sendEmail } from '../messaging/email';
 import { sendSms } from '../messaging/sms';
-import { emailConfirm, smsConfirmPhone } from '../messaging/messageBody';
+import {
+  emailConfirm,
+  emailForgotPassword,
+  smsConfirmPhone,
+  smsForgotPassword,
+} from '../messaging/messageBody';
+import { Document } from 'mongoose';
+import { JsonWebTokenError } from 'jsonwebtoken';
 
 const authRouter = (_storage: S3) => {
   const router = express.Router();
+
+  class ClientError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = 'ClientError';
+    }
+  }
 
   const createSafe = ({ name }: { name: string }): TSafe => {
     return { name, autoSharing: false, description: '', emails: [], phones: [] };
@@ -37,7 +52,12 @@ const authRouter = (_storage: S3) => {
 
       // To transform data, shoud use lean(), because it converts the query document to json
       delete user.password;
-      user.token = generateToken(user._id);
+      delete user.mobileVerifyCode;
+      delete user.forgotPasswordResetCode;
+      delete user.forgotPasswordAttepmts;
+
+      user.token = generateToken({ id: user._id.toString() });
+
       return res.json(user);
     } catch (error) {
       next(error);
@@ -129,6 +149,157 @@ const authRouter = (_storage: S3) => {
       const SEARCH_INDEX_NAME = 'search_index';
     } catch (error) {
       next(error); // forward error to error handling middleware
+    }
+  });
+
+  router.post('/forgotPassword', async (req: Request, res: Response, next: NextFunction) => {
+    const { email, phone, phoneCountry, method }: TForgotPassword = req.body;
+
+    try {
+      const SEARCH_INDEX_NAME = 'search_index';
+
+      if (!method) {
+        return res.status(400).json({ message: 'Email or phone is required' });
+      }
+      if (method === 'email' && !email) {
+        return res.status(400).json({ message: 'Email is required' });
+      }
+      if (method === 'sms' && (!phone || !phoneCountry)) {
+        return res.status(400).json({ message: 'Phone is required' });
+      }
+
+      const resetCode = generateVerifyCode();
+      let user;
+
+      if (method === 'email') {
+        user = await User.findOne<TUser & Document>({ email }).exec();
+        if (!user) {
+          return res.status(400).json({ message: 'User not found' });
+        }
+        // Send Reset code
+        // TODO: this token should be only valid for confirmLifeCheckByEmail.
+        // TODO: need expiration
+        const host = `${process.env.HOSTNAME}:${process.env.PORT}`;
+        const mailOptions: Mail.Options = {
+          from: 'fatstrategy@gmail.com',
+          to: user.email,
+          subject: 'Legacy - Reset your password',
+          html: emailForgotPassword({ firstName: user.firstName, code: resetCode }),
+          priority: 'high',
+        };
+        sendEmail({ mailOptions, userId: user._id });
+      } else if (method === 'sms') {
+        user = await User.findOne<TUser & Document>({ phoneCountry, phone }).exec();
+        if (!user) {
+          return res.status(400).json({ message: 'User not found' });
+        }
+        // Send Reset code
+        // TODO: need expiration
+        sendSms({
+          userId: user._id.toString(),
+          body: smsForgotPassword({ firstName: user.firstName, resetCode }),
+          to: `+${user.phoneCountry.trim()}${user.phone.trim()}`,
+        });
+      }
+
+      if (!user) {
+        return res.status(400).json({ message: 'Missing information' });
+      }
+
+      user.forgotPasswordResetCode = resetCode;
+      await user.save();
+    } catch (error) {
+      next(error); // forward error to error handling middleware
+    }
+
+    return res.send(true);
+  });
+
+  const forgotPasswordFindUser = async ({
+    email,
+    phone,
+    phoneCountry,
+    method,
+    code,
+  }: TForgotPassword): Promise<TUser & Document> => {
+    if (!method) {
+      throw new ClientError('Email or phone is required');
+    }
+    if (method === 'email' && !email) {
+      throw new ClientError('Email is required');
+    }
+    if (method === 'sms' && (!phone || !phoneCountry)) {
+      throw new ClientError('Phone is required');
+    }
+
+    let user;
+    if (method === 'email') {
+      user = await User.findOne<TUser & Document>({
+        email,
+        forgotPasswordResetCode: code,
+      }).exec();
+    } else if (method === 'sms') {
+      user = await User.findOne<TUser & Document>({
+        phoneCountry,
+        phone,
+        forgotPasswordResetCode: code,
+      }).exec();
+    }
+
+    if (!user) {
+      throw new ClientError('Invalid code');
+    }
+
+    return user;
+  };
+
+  router.post(
+    '/forgotPasswordResetCode',
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const { email, phone, phoneCountry, method, code } = req.body;
+        const user = await forgotPasswordFindUser({ email, phone, phoneCountry, method, code });
+        const expiresIn = 1 * 60 * 1000; // 1hr
+
+        const token = generateToken({ email, phone, phoneCountry, method, code }, expiresIn);
+
+        return res.json({ token });
+      } catch (error) {
+        if (error instanceof ClientError) {
+          return res.status(400).json({ message: error.message });
+        } else {
+          next(error);
+        }
+      }
+    },
+  );
+
+  router.post('/forgotPasswordConfirm', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (!req.headers.authorization) {
+        return res.status(401).json({ message: 'Session error' });
+      }
+
+      const authToken = req.headers.authorization.substring(7).trim();
+      const decoded = authToken ? verifyToken(authToken) : null;
+
+      const { email, phone, phoneCountry, method, code } = decoded as any;
+      const user = await forgotPasswordFindUser({ email, phone, phoneCountry, method, code });
+
+      user.password = req.body.password;
+      user.forgotPasswordResetCode = undefined;
+      await user.save();
+
+      return res.json(true);
+    } catch (error) {
+      if (error instanceof jwt.TokenExpiredError) {
+        return res.status(401).json({ message: 'Session expired' });
+      }
+      if (error instanceof ClientError) {
+        return res.status(400).json({ message: error.message });
+      } else {
+        next(error); // forward error to error handling middleware
+      }
     }
   });
 

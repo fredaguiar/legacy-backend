@@ -54,6 +54,19 @@ export const emailChecked = ({ message }: { message: string }) => `
 </html>
 `;
 
+export const emailForgotPassword = ({ firstName, code }: { firstName: string; code: number }) => `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Legacy</title>
+</head>
+<body>
+    <p>Hi ${firstName}, this is a message from Legacy. This is the code to reset your password: ${code}</p>
+</body>
+</html>
+`;
+
 export const smsBodyLifecheck = ({ firstName, url }: { firstName: string; url: string }) => {
   return `
 Hi ${firstName}, this is a message from Legacy, please confirm you received this message.\n
@@ -69,6 +82,16 @@ export const smsConfirmPhone = ({
   verifyCode: number;
 }) => {
   return `Hi ${firstName}, This is your Legacy verification code: ${verifyCode}.\n`;
+};
+
+export const smsForgotPassword = ({
+  firstName,
+  resetCode,
+}: {
+  firstName: string;
+  resetCode: number;
+}) => {
+  return `Hi ${firstName}, This is your Legacy code to reset your password: ${resetCode}.\n`;
 };
 
 export const emailBodyToContacts = ({

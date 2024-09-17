@@ -13,6 +13,8 @@ type TUser = {
   emailVerified: boolean;
   mobileVerified: boolean;
   mobileVerifyCode?: number;
+  forgotPasswordResetCode?: number;
+  forgotPasswordAttepmts?: number;
   introductionViewed?: boolean;
   storageQuotaInMB?: number;
   lifeCheck: {
@@ -142,6 +144,14 @@ type TWeekday = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'fr
 interface ILifeCheck extends JobAttributesData {
   lifeCheckInfo: { userId: string };
 }
+
+type TForgotPassword = {
+  method: 'email' | 'sms';
+  email?: string;
+  phone?: string;
+  phoneCountry?: string;
+  code?: number;
+};
 
 // interface ILifeCheckToContacts extends JobAttributesData {
 //   lifeCheckInfo: {

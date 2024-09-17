@@ -240,6 +240,9 @@ const userRouter = (_storage: S3, agenda: Agenda) => {
       await user.save();
 
       delete user.password;
+      delete user.mobileVerifyCode;
+      delete user.forgotPasswordResetCode;
+
       return res.json(user);
     } catch (error) {
       next(error);
@@ -262,6 +265,9 @@ const userRouter = (_storage: S3, agenda: Agenda) => {
       sendConfirmationEmail({ user });
 
       delete user.password;
+      delete user.mobileVerifyCode;
+      delete user.forgotPasswordResetCode;
+
       return res.json(user);
     } catch (error) {
       next(error);

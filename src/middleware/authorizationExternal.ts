@@ -4,6 +4,7 @@ import { verifyToken } from '../utils/JwtUtil';
 
 const authorizationExternal = (req: Request, res: Response, next: NextFunction) => {
   try {
+    // TODO: this code should be sent on the header.authorization for security purposes
     const authToken = req.query['id'] as string;
     if (authToken) {
       const decoded = verifyToken(authToken);
