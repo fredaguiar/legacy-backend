@@ -156,8 +156,6 @@ const authRouter = (_storage: S3) => {
     const { email, phone, phoneCountry, method }: TForgotPassword = req.body;
 
     try {
-      const SEARCH_INDEX_NAME = 'search_index';
-
       if (!method) {
         return res.status(400).json({ message: 'Email or phone is required' });
       }
@@ -258,7 +256,7 @@ const authRouter = (_storage: S3) => {
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { email, phone, phoneCountry, method, code } = req.body;
-        const user = await forgotPasswordFindUser({ email, phone, phoneCountry, method, code });
+        await forgotPasswordFindUser({ email, phone, phoneCountry, method, code });
         const expiresIn = 1 * 60 * 1000; // 1hr
 
         const token = generateToken({ email, phone, phoneCountry, method, code }, expiresIn);
