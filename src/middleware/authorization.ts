@@ -12,7 +12,6 @@ const authorization = (req: Request, res: Response, next: NextFunction) => {
       userId = decoded?.id;
       // @ts-ignore
       req.context = { userId };
-      logger.info('req.headers.authorization userId:::', authToken);
       return next();
     }
     return res.status(401).json({ message: 'User not logged in' });

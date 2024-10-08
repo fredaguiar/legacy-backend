@@ -5,7 +5,10 @@ import Agenda from 'agenda';
 import User from '../models/User';
 import { scheduleNotificationToContacts, SEND_NOTIFICATION } from '../agenda/agendaNotification';
 import { TrustedAdvisor } from 'aws-sdk';
-import { sendConfirmationEmail } from '../messaging/email';
+import { sendConfirmationEmail, sendConfirmationMobile } from '../messaging/email';
+import { sendSms } from '../messaging/sms';
+import { smsConfirmPhone } from '../messaging/messageBody';
+import { generateVerifyCode } from '../utils/VerifyCode';
 
 export const confirmLifeCheck = async (userId: string) => {
   const user = await User.findById<Document & TUser>(userId).exec();
@@ -267,6 +270,27 @@ const userRouter = (_storage: S3, agenda: Agenda) => {
       delete user.password;
       delete user.mobileVerifyCode;
       delete user.forgotPasswordResetCode;
+
+      return res.json(user);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post('/resendConfirmMobile', async (req: Request, res: Response, next: NextFunction) => {
+    // @ts-ignore
+    const userId = req.context.userId;
+
+    try {
+      const user = await User.findById<Document & TUser>(userId).exec();
+      if (!user) {
+        throw Error(`User not found. userID: ${userId}`);
+      }
+
+      user.mobileVerifyCode = generateVerifyCode();
+      await user.save();
+
+      sendConfirmationMobile({ user });
 
       return res.json(user);
     } catch (error) {

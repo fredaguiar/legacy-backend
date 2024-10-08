@@ -16,6 +16,7 @@ import { bucketFilePath } from '../utils/FileUtil';
 import { sendEmail } from '../messaging/email';
 import { sendLifeCheckPushNotification } from '../messaging/pushNotification';
 import { sendSms } from '../messaging/sms';
+import logger from '../logger';
 
 export const SEND_NOTIFICATION = 'SEND_NOTIFICATION';
 export const SEND_NOTIFICATION_TO_CONTACTS = 'SEND_NOTIFICATION_TO_CONTACTS';
@@ -58,6 +59,8 @@ export const configNotification = (agenda: Agenda) => {
       to: `+${user.phoneCountry.trim()}${user.phone.trim()}`,
     });
     sendEmail({ mailOptions, userId });
+
+    logger.info(`Agenda - send notifications for life check. UserId: ${userId}`);
 
     // these conditions should always be false (Typescript safety)
     if (user.lifeCheck.noAnswerCounter === undefined) user.lifeCheck.noAnswerCounter = 0;

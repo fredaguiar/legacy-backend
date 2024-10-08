@@ -6,7 +6,7 @@ import User from '../models/User';
 import { generateToken, verifyToken } from '../utils/JwtUtil';
 import { generateVerifyCode } from '../utils/VerifyCode';
 import Mail from 'nodemailer/lib/mailer';
-import { sendConfirmationEmail, sendEmail } from '../messaging/email';
+import { sendConfirmationEmail, sendConfirmationMobile, sendEmail } from '../messaging/email';
 import { sendSms } from '../messaging/sms';
 import {
   emailConfirm,
@@ -16,6 +16,7 @@ import {
 } from '../messaging/messageBody';
 import { Document } from 'mongoose';
 import { JsonWebTokenError } from 'jsonwebtoken';
+import logger from '../logger';
 
 const authRouter = (_storage: S3) => {
   const router = express.Router();
@@ -57,6 +58,8 @@ const authRouter = (_storage: S3) => {
       delete user.forgotPasswordAttepmts;
 
       user.token = generateToken({ id: user._id.toString() });
+
+      logger.info(`Login userId: ${user._id.toString()}`);
 
       return res.json(user);
     } catch (error) {
@@ -129,14 +132,10 @@ const authRouter = (_storage: S3) => {
         return res.status(400).json({ message: 'User registration failed' });
       }
 
-      sendConfirmationEmail({ user });
+      logger.info(`Signup - UserId: ${user._id.toString()}, Name: ${firstName} ${lastName}`);
 
-      // Verify phone #
-      sendSms({
-        userId: user._id.toString(),
-        body: smsConfirmPhone({ firstName, verifyCode }),
-        to: `+${user.phoneCountry.trim()}${user.phone.trim()}`,
-      });
+      sendConfirmationEmail({ user });
+      sendConfirmationMobile({ user });
 
       return login({ email, password, res, next });
     } catch (error) {
@@ -185,7 +184,9 @@ const authRouter = (_storage: S3) => {
           html: emailForgotPassword({ firstName: user.firstName, code: resetCode }),
           priority: 'high',
         };
-        sendEmail({ mailOptions, userId: user._id });
+        sendEmail({ mailOptions, userId: user._id.toString() });
+
+        logger.info(`Forgot password - sendEmail: ${email}. userId: ${user._id.toString()}`);
       } else if (method === 'sms') {
         user = await User.findOne<TUser & Document>({ phoneCountry, phone }).exec();
         if (!user) {
@@ -193,11 +194,15 @@ const authRouter = (_storage: S3) => {
         }
         // Send Reset code
         // TODO: need expiration
+        const to = `+${user.phoneCountry.trim()}${user.phone.trim()}`;
         sendSms({
           userId: user._id.toString(),
           body: smsForgotPassword({ firstName: user.firstName, resetCode }),
-          to: `+${user.phoneCountry.trim()}${user.phone.trim()}`,
+          to,
         });
+        logger.info(
+          `Forgot password - sendSms phone # ${to}, email: ${email}. userId: ${user._id.toString()}`,
+        );
       }
 
       if (!user) {

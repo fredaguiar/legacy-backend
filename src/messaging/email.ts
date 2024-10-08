@@ -1,7 +1,9 @@
 import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 import { generateToken } from '../utils/JwtUtil';
-import { emailConfirm } from './messageBody';
+import { emailConfirm, smsConfirmPhone } from './messageBody';
+import { sendSms } from './sms';
+import logger from '../logger';
 
 // TODO: should be enviroment vars
 var transporter = nodemailer.createTransport({
@@ -32,6 +34,20 @@ export const sendConfirmationEmail = async ({ user }: TResendConfirmationEmailPr
     priority: 'high',
   };
   sendEmail({ mailOptions, userId: user._id });
+  logger.info(`send Confirmation Email - email: ${user.email}. UserId: ${user._id.toString()}`);
+};
+
+type TResendConfirmationMobileProps = { user: TUser };
+
+export const sendConfirmationMobile = async ({ user }: TResendConfirmationMobileProps) => {
+  // Verify phone #
+  const to = `+${user.phoneCountry.trim()}${user.phone.trim()}`;
+  sendSms({
+    userId: user._id.toString(),
+    body: smsConfirmPhone({ firstName: user.firstName, verifyCode: user.mobileVerifyCode || 0 }),
+    to,
+  });
+  logger.info(`send Confirmation Mobile - phone # ${to}. UserId: ${user._id.toString()}`);
 };
 
 type TSendEmailProps = { mailOptions: Mail.Options; userId: string };
