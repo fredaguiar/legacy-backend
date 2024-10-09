@@ -6,8 +6,8 @@ import User from '../models/User';
 import { generateToken, verifyToken } from '../utils/JwtUtil';
 import { generateVerifyCode } from '../utils/VerifyCode';
 import Mail from 'nodemailer/lib/mailer';
-import { sendConfirmationEmail, sendConfirmationMobile, sendEmail } from '../messaging/email';
-import { sendSms } from '../messaging/sms';
+import { sendConfirmationEmail, sendEmail } from '../messaging/email';
+import { sendConfirmationMobile, sendSms } from '../messaging/sms';
 import {
   emailConfirm,
   emailForgotPassword,
@@ -176,7 +176,7 @@ const authRouter = (_storage: S3) => {
         // Send Reset code
         // TODO: this token should be only valid for confirmLifeCheckByEmail.
         // TODO: need expiration
-        const host = `${process.env.HOSTNAME}:${process.env.PORT}`;
+        const userId = user._id.toString();
         const mailOptions: Mail.Options = {
           from: 'fatstrategy@gmail.com',
           to: user.email,
@@ -184,25 +184,24 @@ const authRouter = (_storage: S3) => {
           html: emailForgotPassword({ firstName: user.firstName, code: resetCode }),
           priority: 'high',
         };
-        sendEmail({ mailOptions, userId: user._id.toString() });
+        sendEmail({ mailOptions, userId });
 
-        logger.info(`Forgot password - sendEmail: ${email}. userId: ${user._id.toString()}`);
+        logger.info(`Forgot password - sendEmail: ${email}. userId: ${userId}`);
       } else if (method === 'sms') {
         user = await User.findOne<TUser & Document>({ phoneCountry, phone }).exec();
         if (!user) {
           return res.status(400).json({ message: 'User not found' });
         }
+        const userId = user._id.toString();
         // Send Reset code
         // TODO: need expiration
         const to = `+${user.phoneCountry.trim()}${user.phone.trim()}`;
         sendSms({
-          userId: user._id.toString(),
+          userId,
           body: smsForgotPassword({ firstName: user.firstName, resetCode }),
           to,
         });
-        logger.info(
-          `Forgot password - sendSms phone # ${to}, email: ${email}. userId: ${user._id.toString()}`,
-        );
+        logger.info(`Forgot password - sendSms phone # ${to}, email: ${email}. userId: ${userId}`);
       }
 
       if (!user) {

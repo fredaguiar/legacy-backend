@@ -27,6 +27,6 @@ export const sendLifeCheckPushNotification = async ({
       logger.info(`Push token ticket error: ${ticket[0]?.status}`);
     }
   } catch (error) {
-    logger.info(`Error sending SMS for userId: ${userId}`);
+    logger.info(`Error send LifeCheck Push Notification for userId: ${userId}`);
   }
 };

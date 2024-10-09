@@ -19,6 +19,9 @@ services:
       - STORAGE_SECRET_ACCESS_KEY=rIDqzGLVmqdGkt8ienVDclHvlVlM8DxGAIVSDFHL
       - STORAGE_BUCKET=legacy
       - EXPO_PUSH_TOKEN=ExponentPushToken[a-SnVYGWJ-E5wkALHPrzbE]
+      - TWILIO_ACCOUNT_SID=ACec61794448d3b734b04c267ff2374ebc
+      - TWILIO_AUTH_TOKEN=fd4ca250d5ee28e299267924f9e61bf0
+      - TWILIO_PHONE=+12514282090
     depends_on:
       - mongo
     networks:

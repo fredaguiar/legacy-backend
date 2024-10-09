@@ -1,8 +1,7 @@
 import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 import { generateToken } from '../utils/JwtUtil';
-import { emailConfirm, smsConfirmPhone } from './messageBody';
-import { sendSms } from './sms';
+import { emailConfirm } from './messageBody';
 import logger from '../logger';
 
 // TODO: should be enviroment vars
@@ -23,31 +22,23 @@ export const sendConfirmationEmail = async ({ user }: TResendConfirmationEmailPr
   // Verify Email
   // TODO: this token should be only valid for confirmLifeCheckByEmail.
   // TODO: Config jwt to store some sort of permission, or expiration
-  const token = generateToken({ id: user._id.toString() });
-  const host = `${process.env.HOSTNAME}:${process.env.PORT}`;
-  const url = new URL(`/legacy/external/confirmEmail?id=${token}`, host).toString();
-  const mailOptions: Mail.Options = {
-    from: 'fatstrategy@gmail.com',
-    to: user.email,
-    subject: 'Legacy - Confirm your email',
-    html: emailConfirm({ firstName: user.firstName, url }),
-    priority: 'high',
-  };
-  sendEmail({ mailOptions, userId: user._id });
-  logger.info(`send Confirmation Email - email: ${user.email}. UserId: ${user._id.toString()}`);
-};
-
-type TResendConfirmationMobileProps = { user: TUser };
-
-export const sendConfirmationMobile = async ({ user }: TResendConfirmationMobileProps) => {
-  // Verify phone #
-  const to = `+${user.phoneCountry.trim()}${user.phone.trim()}`;
-  sendSms({
-    userId: user._id.toString(),
-    body: smsConfirmPhone({ firstName: user.firstName, verifyCode: user.mobileVerifyCode || 0 }),
-    to,
-  });
-  logger.info(`send Confirmation Mobile - phone # ${to}. UserId: ${user._id.toString()}`);
+  const userId = user._id.toString();
+  try {
+    const token = generateToken({ id: user._id.toString() });
+    const host = `${process.env.HOSTNAME}:${process.env.PORT}`;
+    const url = new URL(`/legacy/external/confirmEmail?id=${token}`, host).toString();
+    const mailOptions: Mail.Options = {
+      from: 'fatstrategy@gmail.com',
+      to: user.email,
+      subject: 'Legacy - Confirm your email',
+      html: emailConfirm({ firstName: user.firstName, url }),
+      priority: 'high',
+    };
+    sendEmail({ mailOptions, userId: user._id });
+    logger.info(`send Confirmation Email - email: ${user.email}. UserId: ${userId}`);
+  } catch (error) {
+    logger.error(`Error sending Confirmation emails for userId: ${userId}. Error: ${error}`);
+  }
 };
 
 type TSendEmailProps = { mailOptions: Mail.Options; userId: string };
@@ -56,11 +47,11 @@ export const sendEmail = async ({ mailOptions, userId }: TSendEmailProps) => {
   try {
     transporter
       .sendMail(mailOptions)
-      .then((info) => console.log('Email sent: ' + info.response))
+      .then((info) => logger.info('Email sent: ' + info.response))
       .catch((error) => {
-        console.log('Error sending email: ' + error);
+        logger.error('Error sending email: ' + error);
       });
   } catch (error) {
-    console.log(`Error sending emails for userId: ${userId}`);
+    logger.error(`Error sending emails for userId: ${userId}. Error: ${error}`);
   }
 };

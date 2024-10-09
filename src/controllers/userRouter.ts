@@ -3,11 +3,9 @@ import { Document } from 'mongoose';
 import S3 from 'aws-sdk/clients/s3';
 import Agenda from 'agenda';
 import User from '../models/User';
-import { scheduleNotificationToContacts, SEND_NOTIFICATION } from '../agenda/agendaNotification';
-import { TrustedAdvisor } from 'aws-sdk';
-import { sendConfirmationEmail, sendConfirmationMobile } from '../messaging/email';
-import { sendSms } from '../messaging/sms';
-import { smsConfirmPhone } from '../messaging/messageBody';
+import { SEND_NOTIFICATION } from '../agenda/agendaNotification';
+import { sendConfirmationEmail } from '../messaging/email';
+import { sendConfirmationMobile } from '../messaging/sms';
 import { generateVerifyCode } from '../utils/VerifyCode';
 
 export const confirmLifeCheck = async (userId: string) => {
