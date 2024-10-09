@@ -288,7 +288,7 @@ const userRouter = (_storage: S3, agenda: Agenda) => {
       user.mobileVerifyCode = generateVerifyCode();
       await user.save();
 
-      sendConfirmationMobile({ user });
+      await sendConfirmationMobile({ user });
 
       return res.json(user);
     } catch (error) {

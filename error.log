@@ -193,3 +193,147 @@
     '    at async C:\\Users\\fred_\\dev\\legacy-backend\\src\\controllers\\filesRouter.ts:95:27',
   level: 'error'
 }
+{
+  message: 'Error sending SMS for userId 66e482e7e6b1b5504b8aa2f1. Error: Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending SMS for userId 66e482e7e6b1b5504b8aa2f1. Error: Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending SMS for userId 66e482e7e6b1b5504b8aa2f1. Error: Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending SMS for userId 66e482e7e6b1b5504b8aa2f1. Error: Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending SMS for userId 66e482e7e6b1b5504b8aa2f1. Error: Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending SMS for userId 66e482e7e6b1b5504b8aa2f1. Error: Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending SMS for userId 66e482e7e6b1b5504b8aa2f1. Error: Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending SMS for userId 66e482e7e6b1b5504b8aa2f1. Error: Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 66e482e7e6b1b5504b8aa2f1. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending SMS for userId 66e482e7e6b1b5504b8aa2f1. Error: Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 66e482e7e6b1b5504b8aa2f1. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending SMS for userId 66e482e7e6b1b5504b8aa2f1. Error: Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 66e482e7e6b1b5504b8aa2f1. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 66e482e7e6b1b5504b8aa2f1. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 66e482e7e6b1b5504b8aa2f1. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 66e482e7e6b1b5504b8aa2f1. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Error: Authenticate\n' +
+    '    at sendConfirmationMobile (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\messaging\\sms.js:31:15)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\userRouter.js:247:13',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 66e482e7e6b1b5504b8aa2f1. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Error: Authenticate\n' +
+    '    at sendConfirmationMobile (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\messaging\\sms.js:31:15)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\userRouter.js:247:13',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 66e482e7e6b1b5504b8aa2f1. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Error: Authenticate\n' +
+    '    at sendConfirmationMobile (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\messaging\\sms.js:31:15)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\userRouter.js:247:13',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 66e482e7e6b1b5504b8aa2f1. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Error: Authenticate\n' +
+    '    at sendConfirmationMobile (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\messaging\\sms.js:31:15)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\userRouter.js:247:13',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 66e482e7e6b1b5504b8aa2f1. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Error: Authenticate\n' +
+    '    at sendConfirmationMobile (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\messaging\\sms.js:31:15)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\userRouter.js:247:13',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 66e482e7e6b1b5504b8aa2f1. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Error: Authenticate\n' +
+    '    at sendConfirmationMobile (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\messaging\\sms.js:31:15)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\userRouter.js:247:13',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 66e482e7e6b1b5504b8aa2f1. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Error: Authenticate\n' +
+    '    at sendConfirmationMobile (C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\messaging\\sms.js:31:15)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n' +
+    '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\userRouter.js:247:13',
+  level: 'error'
+}

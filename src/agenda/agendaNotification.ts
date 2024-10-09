@@ -49,11 +49,11 @@ export const configNotification = (agenda: Agenda) => {
       priority: 'high',
     };
 
-    sendLifeCheckPushNotification({
+    await sendLifeCheckPushNotification({
       body: `Hi ${firstName}, please confirm you received this message.`,
       userId,
     });
-    sendSms({
+    await sendSms({
       userId,
       body: smsBodyLifecheck({ firstName, url }),
       to: `+${user.phoneCountry.trim()}${user.phone.trim()}`,
@@ -253,7 +253,7 @@ export const scheduleNotificationToContacts = async (storage: S3, agenda: Agenda
 
               safe.phones?.forEach(async (phone) => {
                 const body = await smsBodyToContacts({ firstName, lastName, attachments });
-                sendSms({ userId, body, to: phone.contact });
+                await sendSms({ userId, body, to: phone.contact });
               });
             });
         }

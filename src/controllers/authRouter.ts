@@ -8,14 +8,8 @@ import { generateVerifyCode } from '../utils/VerifyCode';
 import Mail from 'nodemailer/lib/mailer';
 import { sendConfirmationEmail, sendEmail } from '../messaging/email';
 import { sendConfirmationMobile, sendSms } from '../messaging/sms';
-import {
-  emailConfirm,
-  emailForgotPassword,
-  smsConfirmPhone,
-  smsForgotPassword,
-} from '../messaging/messageBody';
+import { emailForgotPassword, smsForgotPassword } from '../messaging/messageBody';
 import { Document } from 'mongoose';
-import { JsonWebTokenError } from 'jsonwebtoken';
 import logger from '../logger';
 
 const authRouter = (_storage: S3) => {
@@ -196,7 +190,7 @@ const authRouter = (_storage: S3) => {
         // Send Reset code
         // TODO: need expiration
         const to = `+${user.phoneCountry.trim()}${user.phone.trim()}`;
-        sendSms({
+        await sendSms({
           userId,
           body: smsForgotPassword({ firstName: user.firstName, resetCode }),
           to,
