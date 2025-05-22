@@ -1,4 +1,5 @@
 # Legacy Backend
+
 ...
 
 A **React Native** Legacy mobile app
@@ -34,7 +35,8 @@ Build and run
 
 ````
 
-docker-compose build --no-cache & docker-compose up -d
+docker-compose build --no-cache
+docker-compose up -d
 
 ```
 
