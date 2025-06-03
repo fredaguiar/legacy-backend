@@ -62,7 +62,7 @@ conn.once('open', async () => {
   app.use('/legacy/private', authorization, userRouter(storage, agenda), activityLog);
   app.use('/legacy/private', authorization, safeRouter(storage)), activityLog;
   app.use('/legacy/private', authorization, filesRouter(storage), activityLog);
-  app.use('/legacy/private', authorization, searchRouter(storage), activityLog);
+  app.use('/legacy/private', authorization, searchRouter(), activityLog);
   app.use('/legacy/external', authorizationExternal, externalRouter(), activityLog);
   app.use(uncaughtException);
 });

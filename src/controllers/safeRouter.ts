@@ -41,7 +41,7 @@ const safeRouter = (storage: S3) => {
     }
   };
 
-  router.post('/createSafe', async (req: Request, res: Response, next: NextFunction) => {
+  router.post('/createSafe', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       // @ts-ignore
       const userId = req.context.userId;
@@ -49,7 +49,8 @@ const safeRouter = (storage: S3) => {
 
       const user = await User.findById<Document & TUser>(userId);
       if (!user) {
-        return res.status(400).json({ message: 'User not found' });
+        res.status(400).json({ message: 'User not found' });
+        return;
       }
       const safe = new Safe({
         name: req.body.name.trim(),
@@ -60,13 +61,13 @@ const safeRouter = (storage: S3) => {
       });
       user.safes?.push(safe);
       await user.save();
-      return res.json(safe);
+      res.json(safe);
     } catch (error) {
       next(error); // Properly forward error to error handling middleware
     }
   });
 
-  router.post('/updateSafe', async (req: Request, res: Response, next: NextFunction) => {
+  router.post('/updateSafe', async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
     try {
       // @ts-ignore
       const userId = req.context.userId;
@@ -75,7 +76,8 @@ const safeRouter = (storage: S3) => {
 
       const user = await User.findById<Document & TUser>(userId).exec();
       if (!user) {
-        return res.status(400).json({ message: 'User not found' });
+        res.status(400).json({ message: 'User not found' });
+        return;
       }
       const safe = (await findSafeById(user, body._id)) as TSafe;
 
@@ -88,13 +90,14 @@ const safeRouter = (storage: S3) => {
       }
 
       await user.save();
-      return res.json(safe);
+      res.json(safe);
+      return;
     } catch (error) {
       next(error);
     }
   });
 
-  router.post('/updateContacts', async (req: Request, res: Response, next: NextFunction) => {
+  router.post('/updateContacts', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       // @ts-ignore
       const userId = req.context.userId;
@@ -103,7 +106,8 @@ const safeRouter = (storage: S3) => {
 
       const user = await User.findById<Document & TUser>(userId).exec();
       if (!user || !contactType) {
-        return res.status(400).json({ message: 'User not found' });
+        res.status(400).json({ message: 'User not found' });
+        return;
       }
       const safe = (await findSafeById(user, safeId)) as TSafe;
 
@@ -134,13 +138,14 @@ const safeRouter = (storage: S3) => {
       }
 
       await user.save();
-      return res.json(safe);
+      res.json(safe);
+      return
     } catch (error) {
       next(error);
     }
   });
 
-  router.post('/deleteSafeList', async (req: Request, res: Response, next: NextFunction) => {
+  router.post('/deleteSafeList', async (req: Request, res: Response, next: NextFunction) : Promise<void>=> {
     try {
       // @ts-ignore
       const userId = req.context.userId;
@@ -148,7 +153,8 @@ const safeRouter = (storage: S3) => {
 
       const user = await User.findById<Document & TUser>(userId).exec();
       if (!user) {
-        return res.status(400).json({ message: 'User not found' });
+        res.status(400).json({ message: 'User not found' });
+        return
       }
       const updatedList = user.safes.filter((safe) => {
         const currId = safe._id?.toString();
@@ -168,13 +174,14 @@ const safeRouter = (storage: S3) => {
       });
       await Promise.all(deletePromises);
 
-      return res.json({ safeIdList });
+      res.json({ safeIdList });
+      return;
     } catch (error) {
       next(error);
     }
   });
 
-  router.get('/getSafe/:safeId', async (req: Request, res: Response, next: NextFunction) => {
+  router.get('/getSafe/:safeId', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       // @ts-ignore
       const userId = req.context.userId;
@@ -183,11 +190,13 @@ const safeRouter = (storage: S3) => {
 
       const user = await User.findById<Document & TUser>(userId).exec();
       if (!user) {
-        return res.status(400).json({ message: 'User not found' });
+        res.status(400).json({ message: 'User not found' });
+        return;
       }
       const safe = await findSafeById(user, safeId);
 
-      return res.json(safe);
+      res.json(safe);
+      return;
     } catch (error) {
       next(error); // Properly forward error to error handling middleware
     }

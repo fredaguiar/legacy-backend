@@ -4,7 +4,7 @@ import { Types } from 'mongoose';
 import striptags from 'striptags';
 import User from '../models/User';
 
-const searchRouter = (_storage: S3) => {
+const searchRouter = () => {
   const router = express.Router();
 
   const findSearchMatch = (values: (string | undefined)[], searchValue: string) => {
@@ -30,8 +30,9 @@ const searchRouter = (_storage: S3) => {
     return safe;
   };
 
+  // '/search/:safeId?/:searchValue',
   router.get(
-    '/search/:safeId?/:searchValue',
+    '/search/:safeId/:searchValue',
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         // @ts-ignore
@@ -39,7 +40,8 @@ const searchRouter = (_storage: S3) => {
         const { searchValue, safeId } = req.params;
 
         if (!searchValue) {
-          return res.status(404).send('Missing input information');
+          res.status(404).send('Missing input information');
+          return;
         }
 
         // TODO: there might be a better way to do this, with indexes.
@@ -126,7 +128,7 @@ const searchRouter = (_storage: S3) => {
 
         // console.log(' Search safeList:', JSON.stringify(safeList));
 
-        return res.json(safeList);
+        res.json(safeList);
       } catch (error) {
         console.log('error Search results:', error);
         next(error);

@@ -12,11 +12,12 @@ const authorizationExternal = (req: Request, res: Response, next: NextFunction) 
       // @ts-ignore
       req.context = { userId };
       logger.info('authorizationExternal userId', userId);
-      return next();
+      next();
+      return;
     }
-    return res.status(401).json({ message: 'User not logged in' });
+    res.status(401).json({ message: 'User not logged in' });
   } catch (err: any) {
-    return res.status(401).json({ message: 'Invalid user session' });
+    res.status(401).json({ message: 'Invalid user session' });
   }
 };
 export default authorizationExternal;

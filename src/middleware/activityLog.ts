@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import logger from '../logger';
 
-const activityLog = (req: Request, res: Response, next: NextFunction) => {
+const activityLog = (req: Request, res: Response, next: NextFunction): void => {
   try {
-    return next();
+    next();
   } catch (err: any) {
-    return res.status(401).json({ message: 'Activity log error' });
+    res.status(401).json({ message: 'Activity log error' });
   }
 };
 export default activityLog;

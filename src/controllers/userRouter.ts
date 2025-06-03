@@ -21,280 +21,315 @@ export const confirmLifeCheck = async (userId: string) => {
 const userRouter = (_storage: S3, agenda: Agenda) => {
   const router = express.Router();
 
-  router.post('/updateUserProfile', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // @ts-ignore
-      const userId = req.context.userId;
-      const { fieldsToUpdate } = req.body;
+  router.post(
+    '/updateUserProfile',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        // @ts-ignore
+        const userId = req.context.userId;
+        const { fieldsToUpdate } = req.body;
 
-      const user = await User.findById<Document & TUser>(userId).exec();
-      if (!user) {
-        return res.status(400).json({ message: 'User not found' });
-      }
-
-      const result: Partial<TUser> = { lifeCheck: {} };
-      const fieldsList: TUserFieldsToUpdate[] = fieldsToUpdate;
-      fieldsList.forEach((field: TUserFieldsToUpdate) => {
-        const nested = field.split('.');
-        // check if it is an object such as user.lifeCheck = {}
-        if (nested.length === 2) {
-          const [obj, prop] = nested;
-          // @ts-ignore
-          result[obj][prop] = req.body[obj][prop];
+        const user = await User.findById<Document & TUser>(userId).exec();
+        if (!user) {
+          res.status(400).json({ message: 'User not found' });
           return;
         }
+
+        const result: Partial<TUser> = { lifeCheck: {} };
+        const fieldsList: TUserFieldsToUpdate[] = fieldsToUpdate;
+        fieldsList.forEach((field: TUserFieldsToUpdate) => {
+          const nested = field.split('.');
+          // check if it is an object such as user.lifeCheck = {}
+          if (nested.length === 2) {
+            const [obj, prop] = nested;
+            // @ts-ignore
+            result[obj][prop] = req.body[obj][prop];
+            return;
+          }
+          // @ts-ignore
+          result[field] = req.body[field];
+        });
+
+        // Merge result into user
+        Object.keys(result).forEach((key) => {
+          const typedKey = key as keyof TUser;
+          if (typeof result[typedKey] === 'object' && result[typedKey] !== null) {
+            // @ts-ignore
+            user[typedKey] = { ...user[typedKey], ...result[typedKey] };
+          } else {
+            // @ts-ignore
+            user[typedKey] = result[typedKey];
+          }
+        });
+
+        await user.save();
+
+        res.json({ ...fieldsToUpdate, ...result });
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
+
+  router.get(
+    '/getUserProfile',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
         // @ts-ignore
-        result[field] = req.body[field];
-      });
+        const userId = req.context.userId;
 
-      // Merge result into user
-      Object.keys(result).forEach((key) => {
-        const typedKey = key as keyof TUser;
-        if (typeof result[typedKey] === 'object' && result[typedKey] !== null) {
-          // @ts-ignore
-          user[typedKey] = { ...user[typedKey], ...result[typedKey] };
-        } else {
-          // @ts-ignore
-          user[typedKey] = result[typedKey];
+        const user = await User.findById<Document & TUser>(userId).exec();
+        if (!user) {
+          res.status(400).json({ message: 'User not found' });
+          return;
         }
-      });
 
-      await user.save();
+        const { firstName, lastName, language, country, timezone, email } = user;
+        const { phoneCountry, phone, emailVerified, mobileVerified } = user;
+        const {
+          lifeCheck: {
+            shareTime,
+            shareWeekdays,
+            shareCount,
+            shareCountType,
+            shareCountNotAnswered,
+          },
+        } = user;
 
-      return res.json({ ...fieldsToUpdate, ...result });
-    } catch (error) {
-      next(error);
-    }
-  });
+        const profile: TUserProfile = {
+          firstName,
+          lastName,
+          language,
+          country,
+          timezone,
+          email,
+          phoneCountry,
+          phone,
+          emailVerified,
+          mobileVerified,
+          lifeCheck: {
+            shareTime,
+            shareWeekdays,
+            shareCount,
+            shareCountType,
+            shareCountNotAnswered,
+          },
+        };
 
-  router.get('/getUserProfile', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // @ts-ignore
-      const userId = req.context.userId;
-
-      const user = await User.findById<Document & TUser>(userId).exec();
-      if (!user) {
-        return res.status(400).json({ message: 'User not found' });
+        res.json(profile);
+      } catch (error) {
+        next(error);
       }
+    },
+  );
 
-      const { firstName, lastName, language, country, timezone, email } = user;
-      const { phoneCountry, phone, emailVerified, mobileVerified } = user;
-      const {
-        lifeCheck: { shareTime, shareWeekdays, shareCount, shareCountType, shareCountNotAnswered },
-      } = user;
+  router.get(
+    '/getStorageInfo',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        // @ts-ignore
+        const userId = req.context.userId;
+        console.log('getStorageInfo', userId);
 
-      const profile: TUserProfile = {
-        firstName,
-        lastName,
-        language,
-        country,
-        timezone,
-        email,
-        phoneCountry,
-        phone,
-        emailVerified,
-        mobileVerified,
-        lifeCheck: {
-          shareTime,
-          shareWeekdays,
-          shareCount,
-          shareCountType,
-          shareCountNotAnswered,
-        },
-      };
+        const user = await User.findById<Document & TUser>(userId).exec();
+        if (!user) {
+          res.status(400).json({ message: 'User not found' });
+          return;
+        }
 
-      return res.json(profile);
-    } catch (error) {
-      next(error);
-    }
-  });
+        // const files = await bucket.find({ 'metadata.userId': userId }).toArray();
+        // const storageUsedInBytes = files.reduce((prev, curr) => prev + curr.length, 0);
 
-  router.get('/getStorageInfo', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // @ts-ignore
-      const userId = req.context.userId;
-      console.log('getStorageInfo', userId);
+        // const result: StorageInfo = {
+        //   storageUsedInBytes,
+        //   storageFileCount: files.length,
+        //   storageQuotaInMB: user.storageQuotaInMB || 0,
+        // };
+        const result = {};
+        console.log('getStorageInfo result', result);
 
-      const user = await User.findById<Document & TUser>(userId).exec();
-      if (!user) {
-        return res.status(400).json({ message: 'User not found' });
+        res.json(result);
+      } catch (error) {
+        next(error);
       }
-
-      // const files = await bucket.find({ 'metadata.userId': userId }).toArray();
-      // const storageUsedInBytes = files.reduce((prev, curr) => prev + curr.length, 0);
-
-      // const result: StorageInfo = {
-      //   storageUsedInBytes,
-      //   storageFileCount: files.length,
-      //   storageQuotaInMB: user.storageQuotaInMB || 0,
-      // };
-      const result = {};
-      console.log('getStorageInfo result', result);
-
-      return res.json(result);
-    } catch (error) {
-      next(error);
-    }
-  });
+    },
+  );
 
   // router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
   //   await scheduleNotificationToContacts(_storage, agenda);
   //   return res.json({});
   // });
 
-  router.post('/updateLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // @ts-ignore
-      const userId = req.context.userId;
+  router.post(
+    '/updateLifeCheck',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        // @ts-ignore
+        const userId = req.context.userId;
 
-      const user = await User.findById<Document & TUser>(userId).exec();
-      if (!user) {
-        return res.status(400).json({ message: 'User not found' });
-      }
+        const user = await User.findById<Document & TUser>(userId).exec();
+        if (!user) {
+          res.status(400).json({ message: 'User not found' });
+          return;
+        }
 
-      let lifeCheck = {};
-      if (req.body.lifeCheck.shareCount) {
-        //update life check frequency
-        const {
-          lifeCheck: {
+        let lifeCheck = {};
+        if (req.body.lifeCheck.shareCount) {
+          //update life check frequency
+          const {
+            lifeCheck: {
+              shareCount,
+              shareCountType,
+              shareWeekdays,
+              shareTime,
+              shareCountNotAnswered,
+            },
+          } = req.body;
+          lifeCheck = {
+            ...user.lifeCheck,
             shareCount,
             shareCountType,
             shareWeekdays,
             shareTime,
             shareCountNotAnswered,
-          },
-        } = req.body;
-        lifeCheck = {
-          ...user.lifeCheck,
-          shareCount,
-          shareCountType,
-          shareWeekdays,
-          shareTime,
-          shareCountNotAnswered,
-        };
-      } else {
-        lifeCheck = { ...user.lifeCheck, active: req.body.lifeCheck.active };
+          };
+        } else {
+          lifeCheck = { ...user.lifeCheck, active: req.body.lifeCheck.active };
+        }
+        user.lifeCheck = lifeCheck;
+        user.lifeCheck.notConfiguredYet = false;
+
+        await user.save();
+
+        // Cancel any existing job for this user
+        await agenda.cancel({ name: SEND_NOTIFICATION, 'data.lifeCheckInfo.userId': userId });
+
+        // schedule notification
+        if (user.lifeCheck.active) {
+          const {
+            lifeCheck: { shareWeekdays, shareTime },
+          } = user;
+
+          const notificationData: ILifeCheck = {
+            lifeCheckInfo: { userId },
+          };
+          const [hours, minutes] = shareTime
+            ? shareTime.split(':').map((v: string) => parseInt(v))
+            : ['10', '00'];
+          const weekday = shareWeekdays
+            ?.map((day: string) => day.substring(0, 3).toUpperCase())
+            .join(',');
+          const cron = `${minutes} ${hours} * * ${weekday}`;
+
+          await agenda.start();
+          await agenda.every(cron, SEND_NOTIFICATION, notificationData);
+        }
+
+        res.json({ lifeCheck });
+      } catch (error) {
+        next(error);
       }
-      user.lifeCheck = lifeCheck;
-      user.lifeCheck.notConfiguredYet = false;
+    },
+  );
 
-      await user.save();
+  router.post(
+    '/confirmLifeCheck',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        // @ts-ignore
+        const userId = req.context.userId;
 
-      // Cancel any existing job for this user
-      await agenda.cancel({ name: SEND_NOTIFICATION, 'data.lifeCheckInfo.userId': userId });
+        await confirmLifeCheck(userId);
 
-      // schedule notification
-      if (user.lifeCheck.active) {
-        const {
-          lifeCheck: { shareWeekdays, shareTime },
-        } = user;
-
-        const notificationData: ILifeCheck = {
-          lifeCheckInfo: { userId },
-        };
-        const [hours, minutes] = shareTime
-          ? shareTime.split(':').map((v: string) => parseInt(v))
-          : ['10', '00'];
-        const weekday = shareWeekdays
-          ?.map((day: string) => day.substring(0, 3).toUpperCase())
-          .join(',');
-        const cron = `${minutes} ${hours} * * ${weekday}`;
-
-        await agenda.start();
-        await agenda.every(cron, SEND_NOTIFICATION, notificationData);
+        res.send(true);
+      } catch (error) {
+        next(error);
       }
+    },
+  );
 
-      return res.json({ lifeCheck });
-    } catch (error) {
-      next(error);
-    }
-  });
+  router.post(
+    '/confirmMobile',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      // @ts-ignore
+      const userId = req.context.userId;
+      const { code } = req.body;
 
-  router.post('/confirmLifeCheck', async (req: Request, res: Response, next: NextFunction) => {
-    try {
+      try {
+        const user = await User.findById<Document & TUser>(userId).exec();
+        if (!user) {
+          throw Error(`User not found. userID: ${userId}`);
+        }
+        if (user.mobileVerifyCode !== code) {
+          res.status(400).json({ message: 'Invalid code!' });
+          return;
+        }
+        user.mobileVerified = true;
+        user.mobileVerifyCode = undefined;
+        await user.save();
+
+        delete user.password;
+        delete user.mobileVerifyCode;
+        delete user.forgotPasswordResetCode;
+
+        res.json(user);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
+
+  router.post(
+    '/resendConfirmEmail',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      // @ts-ignore
+      const userId = req.context.userId;
+      const { email } = req.body;
+
+      try {
+        const user = await User.findById<Document & TUser>(userId).exec();
+        if (!user) {
+          throw Error(`User not found. userID: ${userId}`);
+        }
+        user.email = email;
+        await user.save();
+
+        sendConfirmationEmail({ user });
+
+        delete user.password;
+        delete user.mobileVerifyCode;
+        delete user.forgotPasswordResetCode;
+
+        res.json(user);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
+
+  router.post(
+    '/resendConfirmMobile',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       // @ts-ignore
       const userId = req.context.userId;
 
-      await confirmLifeCheck(userId);
+      try {
+        const user = await User.findById<Document & TUser>(userId).exec();
+        if (!user) {
+          throw Error(`User not found. userID: ${userId}`);
+        }
 
-      return res.send(true);
-    } catch (error) {
-      next(error);
-    }
-  });
+        user.mobileVerifyCode = generateVerifyCode();
+        await user.save();
 
-  router.post('/confirmMobile', async (req: Request, res: Response, next: NextFunction) => {
-    // @ts-ignore
-    const userId = req.context.userId;
-    const { code } = req.body;
+        await sendConfirmationMobile({ user });
 
-    try {
-      const user = await User.findById<Document & TUser>(userId).exec();
-      if (!user) {
-        throw Error(`User not found. userID: ${userId}`);
+        res.json(user);
+      } catch (error) {
+        next(error);
       }
-      if (user.mobileVerifyCode !== code) {
-        return res.status(400).json({ message: 'Invalid code!' });
-      }
-      user.mobileVerified = true;
-      user.mobileVerifyCode = undefined;
-      await user.save();
-
-      delete user.password;
-      delete user.mobileVerifyCode;
-      delete user.forgotPasswordResetCode;
-
-      return res.json(user);
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  router.post('/resendConfirmEmail', async (req: Request, res: Response, next: NextFunction) => {
-    // @ts-ignore
-    const userId = req.context.userId;
-    const { email } = req.body;
-
-    try {
-      const user = await User.findById<Document & TUser>(userId).exec();
-      if (!user) {
-        throw Error(`User not found. userID: ${userId}`);
-      }
-      user.email = email;
-      await user.save();
-
-      sendConfirmationEmail({ user });
-
-      delete user.password;
-      delete user.mobileVerifyCode;
-      delete user.forgotPasswordResetCode;
-
-      return res.json(user);
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  router.post('/resendConfirmMobile', async (req: Request, res: Response, next: NextFunction) => {
-    // @ts-ignore
-    const userId = req.context.userId;
-
-    try {
-      const user = await User.findById<Document & TUser>(userId).exec();
-      if (!user) {
-        throw Error(`User not found. userID: ${userId}`);
-      }
-
-      user.mobileVerifyCode = generateVerifyCode();
-      await user.save();
-
-      await sendConfirmationMobile({ user });
-
-      return res.json(user);
-    } catch (error) {
-      next(error);
-    }
-  });
+    },
+  );
 
   return router;
 };

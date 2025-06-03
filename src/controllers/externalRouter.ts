@@ -10,7 +10,7 @@ const externalRouter = () => {
 
   router.get(
     '/confirmLifeCheckByEmail/',
-    async (req: Request, res: Response, _next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) : Promise<void>=> {
       // @ts-ignore
       const userId = req.context.userId;
       let message = '';
@@ -25,11 +25,11 @@ const externalRouter = () => {
 
       res.writeHead(200, { 'Content-Type': 'text/html' });
       res.write(emailChecked({ message }));
-      return res.end();
+      res.end();
     },
   );
 
-  router.get('/confirmEmail/', async (req: Request, res: Response, _next: NextFunction) => {
+  router.get('/confirmEmail/', async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
     // @ts-ignore
     const userId = req.context.userId;
     let message = '';
@@ -52,7 +52,8 @@ const externalRouter = () => {
 
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.write(emailChecked({ message }));
-    return res.end();
+    res.end();
+    return;
   });
 
   return router;

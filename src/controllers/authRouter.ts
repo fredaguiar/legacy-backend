@@ -28,21 +28,23 @@ const authRouter = (_storage: S3) => {
 
   router.get('/test', async (req: Request, res: Response, next: NextFunction) => {
     console.log('🚀 ~ router.get ~ TEST');
-    return res.send('OK');
+    res.send('OK');
   });
 
   type TLogin = { res: Response; next: NextFunction; email: string; password: string };
 
-  const login = async ({ res, next, email, password }: TLogin) => {
+  const login = async ({ res, next, email, password }: TLogin): Promise<void> => {
     try {
       const user = await User.findOne<TUser>({ email }).lean();
       if (!user) {
-        return res.status(400).json({ message: 'User not found' });
+        res.status(400).json({ message: 'User not found' });
+        return;
       }
 
       const auth = await bcrypt.compare(password, user.password as string);
       if (!auth) {
-        return res.status(400).json({ message: 'Invalid username or password' });
+        res.status(400).json({ message: 'Invalid username or password' });
+        return;
       }
 
       // To transform data, shoud use lean(), because it converts the query document to json
@@ -55,18 +57,18 @@ const authRouter = (_storage: S3) => {
 
       logger.info(`Login userId: ${user._id.toString()}`);
 
-      return res.json(user);
+      res.json(user);
     } catch (error) {
       next(error);
     }
   };
 
-  router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+  router.post('/login', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { email, password }: TCredentials = req.body;
     return login({ email, password, res, next });
   });
 
-  router.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
+  router.post('/signup', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     let user: TUser | undefined;
     try {
       const {
@@ -82,11 +84,13 @@ const authRouter = (_storage: S3) => {
       }: TUser = req.body;
       const existingUser = await User.findOne<TUser>({ email }).exec();
       if (existingUser) {
-        return res.status(400).json({ message: 'User already exists' });
+        res.status(400).json({ message: 'User already exists' });
+        return;
       }
 
       if (!email || !password) {
-        return res.status(400).json({ message: 'Missing user email or password' });
+        res.status(400).json({ message: 'Missing user email or password' });
+        return;
       }
 
       const verifyCode = generateVerifyCode();
@@ -123,7 +127,8 @@ const authRouter = (_storage: S3) => {
       });
 
       if (!user) {
-        return res.status(400).json({ message: 'User registration failed' });
+        res.status(400).json({ message: 'User registration failed' });
+        return;
       }
 
       logger.info(`Signup - UserId: ${user._id.toString()}, Name: ${firstName} ${lastName}`);
@@ -131,7 +136,7 @@ const authRouter = (_storage: S3) => {
       sendConfirmationEmail({ user });
       sendConfirmationMobile({ user });
 
-      return login({ email, password, res, next });
+      login({ email, password, res, next });
     } catch (error) {
       next(error);
     }
@@ -145,71 +150,82 @@ const authRouter = (_storage: S3) => {
     }
   });
 
-  router.post('/forgotPassword', async (req: Request, res: Response, next: NextFunction) => {
-    const { email, phone, phoneCountry, method }: TForgotPassword = req.body;
+  router.post(
+    '/forgotPassword',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      const { email, phone, phoneCountry, method }: TForgotPassword = req.body;
 
-    try {
-      if (!method) {
-        return res.status(400).json({ message: 'Email or phone is required' });
-      }
-      if (method === 'email' && !email) {
-        return res.status(400).json({ message: 'Email is required' });
-      }
-      if (method === 'sms' && (!phone || !phoneCountry)) {
-        return res.status(400).json({ message: 'Phone is required' });
-      }
-
-      const resetCode = generateVerifyCode();
-      let user;
-
-      if (method === 'email') {
-        user = await User.findOne<TUser & Document>({ email }).exec();
-        if (!user) {
-          return res.status(400).json({ message: 'User not found' });
+      try {
+        if (!method) {
+          res.status(400).json({ message: 'Email or phone is required' });
+          return;
         }
-        // Send Reset code
-        // TODO: this token should be only valid for confirmLifeCheckByEmail.
-        // TODO: need expiration
-        const userId = user._id.toString();
-        const mailOptions: Mail.Options = {
-          from: 'fatstrategy@gmail.com',
-          to: user.email,
-          subject: 'Legacy - Reset your password',
-          html: emailForgotPassword({ firstName: user.firstName, code: resetCode }),
-          priority: 'high',
-        };
-        sendEmail({ mailOptions, userId });
-
-        logger.info(`Forgot password - sendEmail: ${email}. userId: ${userId}`);
-      } else if (method === 'sms') {
-        user = await User.findOne<TUser & Document>({ phoneCountry, phone }).exec();
-        if (!user) {
-          return res.status(400).json({ message: 'User not found' });
+        if (method === 'email' && !email) {
+          res.status(400).json({ message: 'Email is required' });
+          return;
         }
-        const userId = user._id.toString();
-        // Send Reset code
-        // TODO: need expiration
-        const to = `+${user.phoneCountry.trim()}${user.phone.trim()}`;
-        await sendSms({
-          userId,
-          body: smsForgotPassword({ firstName: user.firstName, resetCode }),
-          to,
-        });
-        logger.info(`Forgot password - sendSms phone # ${to}, email: ${email}. userId: ${userId}`);
+        if (method === 'sms' && (!phone || !phoneCountry)) {
+          res.status(400).json({ message: 'Phone is required' });
+          return;
+        }
+
+        const resetCode = generateVerifyCode();
+        let user;
+
+        if (method === 'email') {
+          user = await User.findOne<TUser & Document>({ email }).exec();
+          if (!user) {
+            res.status(400).json({ message: 'User not found' });
+            return;
+          }
+          // Send Reset code
+          // TODO: this token should be only valid for confirmLifeCheckByEmail.
+          // TODO: need expiration
+          const userId = user._id.toString();
+          const mailOptions: Mail.Options = {
+            from: 'fatstrategy@gmail.com',
+            to: user.email,
+            subject: 'Legacy - Reset your password',
+            html: emailForgotPassword({ firstName: user.firstName, code: resetCode }),
+            priority: 'high',
+          };
+          sendEmail({ mailOptions, userId });
+
+          logger.info(`Forgot password - sendEmail: ${email}. userId: ${userId}`);
+        } else if (method === 'sms') {
+          user = await User.findOne<TUser & Document>({ phoneCountry, phone }).exec();
+          if (!user) {
+            res.status(400).json({ message: 'User not found' });
+            return;
+          }
+          const userId = user._id.toString();
+          // Send Reset code
+          // TODO: need expiration
+          const to = `+${user.phoneCountry.trim()}${user.phone.trim()}`;
+          await sendSms({
+            userId,
+            body: smsForgotPassword({ firstName: user.firstName, resetCode }),
+            to,
+          });
+          logger.info(
+            `Forgot password - sendSms phone # ${to}, email: ${email}. userId: ${userId}`,
+          );
+        }
+
+        if (!user) {
+          res.status(400).json({ message: 'Missing information' });
+          return;
+        }
+
+        user.forgotPasswordResetCode = resetCode;
+        await user.save();
+      } catch (error) {
+        next(error); // forward error to error handling middleware
       }
 
-      if (!user) {
-        return res.status(400).json({ message: 'Missing information' });
-      }
-
-      user.forgotPasswordResetCode = resetCode;
-      await user.save();
-    } catch (error) {
-      next(error); // forward error to error handling middleware
-    }
-
-    return res.send(true);
-  });
+      res.send(true);
+    },
+  );
 
   const forgotPasswordFindUser = async ({
     email,
@@ -251,7 +267,7 @@ const authRouter = (_storage: S3) => {
 
   router.post(
     '/forgotPasswordResetCode',
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
         const { email, phone, phoneCountry, method, code } = req.body;
         await forgotPasswordFindUser({ email, phone, phoneCountry, method, code });
@@ -259,10 +275,10 @@ const authRouter = (_storage: S3) => {
 
         const token = generateToken({ email, phone, phoneCountry, method, code }, expiresIn);
 
-        return res.json({ token });
+        res.json({ token });
       } catch (error) {
         if (error instanceof ClientError) {
-          return res.status(400).json({ message: error.message });
+          res.status(400).json({ message: error.message });
         } else {
           next(error);
         }
@@ -270,34 +286,40 @@ const authRouter = (_storage: S3) => {
     },
   );
 
-  router.post('/forgotPasswordConfirm', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      if (!req.headers.authorization) {
-        return res.status(401).json({ message: 'Session error' });
+  router.post(
+    '/forgotPasswordConfirm',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        if (!req.headers.authorization) {
+          res.status(401).json({ message: 'Session error' });
+          return;
+        }
+
+        const authToken = req.headers.authorization.substring(7).trim();
+        const decoded = authToken ? verifyToken(authToken) : null;
+
+        const { email, phone, phoneCountry, method, code } = decoded as any;
+        const user = await forgotPasswordFindUser({ email, phone, phoneCountry, method, code });
+
+        user.password = req.body.password;
+        user.forgotPasswordResetCode = undefined;
+        await user.save();
+
+        res.json(true);
+      } catch (error) {
+        if (error instanceof jwt.TokenExpiredError) {
+          res.status(401).json({ message: 'Session expired' });
+          return;
+        }
+        if (error instanceof ClientError) {
+          res.status(400).json({ message: error.message });
+          return;
+        } else {
+          next(error); // forward error to error handling middleware
+        }
       }
-
-      const authToken = req.headers.authorization.substring(7).trim();
-      const decoded = authToken ? verifyToken(authToken) : null;
-
-      const { email, phone, phoneCountry, method, code } = decoded as any;
-      const user = await forgotPasswordFindUser({ email, phone, phoneCountry, method, code });
-
-      user.password = req.body.password;
-      user.forgotPasswordResetCode = undefined;
-      await user.save();
-
-      return res.json(true);
-    } catch (error) {
-      if (error instanceof jwt.TokenExpiredError) {
-        return res.status(401).json({ message: 'Session expired' });
-      }
-      if (error instanceof ClientError) {
-        return res.status(400).json({ message: error.message });
-      } else {
-        next(error); // forward error to error handling middleware
-      }
-    }
-  });
+    },
+  );
 
   return router;
 };

@@ -66,7 +66,7 @@ const filesRouter = (storage: S3) => {
   router.post(
     '/uploadFiles',
     upload.single('file'),
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
         if (!req.file) {
           throw new Error('Unexpected error');
@@ -80,7 +80,8 @@ const filesRouter = (storage: S3) => {
 
         const user = await User.findById<Document & TUser>(userId).exec();
         if (!user) {
-          return res.status(400).json({ message: 'User not found' });
+          res.status(400).json({ message: 'User not found' });
+          return;
         }
 
         const content = await extractText(req.file.buffer, req.file.mimetype);
@@ -104,7 +105,8 @@ const filesRouter = (storage: S3) => {
         });
 
         const json: TUploadFilesResult = { name: fileName, type: req.file.mimetype };
-        return res.json(json);
+        res.json(json);
+        return;
       } catch (error) {
         next(error);
       }
@@ -144,180 +146,206 @@ const filesRouter = (storage: S3) => {
   );
 
   // file list
-  router.get('/fileInfoList/:safeId', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { safeId } = req.params;
-      // @ts-ignore
-      const userId = req.context.userId;
-      const result: TFileInfoListResult = { fileInfoList: [] };
-
-      const user = await User.findById<Document & TUser>(userId).exec();
-      if (!user) {
-        return res.status(400).json({ message: 'User not found' });
-      }
-      const safe = (await findSafeById(user, safeId)) as TSafe;
-
-      safe.files?.forEach((file) => {
-        result.fileInfoList.push(file);
-      });
-
-      return res.json(result);
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  router.post('/saveTextTitle', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { safeId, fileId, title } = req.body;
-      // @ts-ignore
-      const userId = req.context.userId;
-
-      console.log('saveTextTitle', safeId, fileId, title);
-
-      if (!safeId || !fileId || !userId || !title) {
-        return res.status(404).send('Missing input information');
-      }
-
-      const user = await User.findById<Document & TUser>(userId).exec();
-      if (!user) {
-        return res.status(400).json({ message: 'User not found' });
-      }
-      const file = (await findFileById(user, safeId, fileId)) as TFile;
-      file.fileName = title;
-      await user.save();
-
-      return res.send(true);
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  router.post('/saveItem', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      console.log('🚀 ~ router.post ~ userId:', req.body);
-      // @ts-ignore
-      const userId = req.context.userId;
-      const { fileName, username, password, notes, safeId, fileId, mimetype } = req.body;
-
-      if (!fileName || !safeId || !userId || !mimetype) {
-        return res.status(404).send('Missing input information');
-      }
-      const user = await User.findById<Document & TUser>(userId);
-      if (!user) {
-        return res.status(400).json({ message: 'User not found' });
-      }
-      const file: TFile = {
-        _id: fileId || undefined,
-        fileName: fileName.trim(),
-        uploadDate: new Date(),
-        username,
-        password,
-        notes,
-        length: 0,
-        mimetype,
-      };
-      await saveFileMetadata({
-        file,
-        user,
-        safeId,
-      });
-      return res.send(true);
-    } catch (error) {
-      next(error); // forward error to error handling middleware
-    }
-  });
-
   router.get(
-    '/getItem/:safeId/:fileId',
-    async (req: Request, res: Response, next: NextFunction) => {
+    '/fileInfoList/:safeId',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
+        const { safeId } = req.params;
         // @ts-ignore
         const userId = req.context.userId;
-        const { safeId, fileId } = req.params;
-        if (!safeId || !userId || !fileId) {
-          return res.status(404).send('Missing input information');
-        }
+        const result: TFileInfoListResult = { fileInfoList: [] };
 
-        const user = await User.findById<Document & TUser>(userId).lean(); // lean() returns json
+        const user = await User.findById<Document & TUser>(userId).exec();
         if (!user) {
-          return res.status(400).json({ message: 'User not found' });
+          res.status(400).json({ message: 'User not found' });
+          return;
         }
-        const file = (await findFileById(user, safeId, fileId)) as TFile;
-        return res.json(file);
+        const safe = (await findSafeById(user, safeId)) as TSafe;
+
+        safe.files?.forEach((file) => {
+          result.fileInfoList.push(file);
+        });
+
+        res.json(result);
       } catch (error) {
         next(error);
       }
     },
   );
 
-  router.post('/renameFile', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // @ts-ignore
-      const userId = req.context.userId;
-      const { fileName, safeId, fileId } = req.body;
+  router.post(
+    '/saveTextTitle',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        const { safeId, fileId, title } = req.body;
+        // @ts-ignore
+        const userId = req.context.userId;
 
-      if (!fileName || !safeId || !userId) {
-        return res.status(404).send('Missing input information');
-      }
-      const user = await User.findById<Document & TUser>(userId).exec();
-      if (!user) {
-        return res.status(400).json({ message: 'User not found' });
-      }
-      const file = (await findFileById(user, safeId, fileId)) as TFile;
-      file.fileName = fileName;
-      await user.save();
+        console.log('saveTextTitle', safeId, fileId, title);
 
-      return res.send(true);
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  router.post('/deleteFileList', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      // @ts-ignore
-      const userId = req.context.userId;
-      const { safeId, fileIds } = req.body as TFileDelete;
-
-      const user = await User.findById<Document & TUser>(userId).exec();
-      if (!user) {
-        return res.status(400).json({ message: 'User not found' });
-      }
-      const safe = (await findSafeById(user, safeId)) as TSafe;
-      if (!safe) {
-        return res.status(400).json({ message: 'Safe not found' });
-      }
-
-      const removeFiles: TFile[] = [];
-      const updatedList = safe.files?.filter((file) => {
-        const currId = file._id?.toString();
-        if (!currId) return false;
-        const keep = !(fileIds as Array<string>).includes(currId);
-        if (!keep) removeFiles.push(file);
-        return keep;
-      });
-      safe.files = updatedList;
-      await user.save();
-
-      const deleteParams = {
-        Bucket: process.env.STORAGE_BUCKET as string,
-        Delete: { Objects: [] as S3.ObjectIdentifier[] },
-      };
-      removeFiles.forEach(async (file) => {
-        if (file.mimetype !== 'text/editor' && file.mimetype !== 'text/pass') {
-          deleteParams.Delete.Objects.push({
-            Key: bucketFilePath({ userId, safeId, fileId: file._id.toString() }),
-          });
+        if (!safeId || !fileId || !userId || !title) {
+          res.status(404).send('Missing input information');
+          return;
         }
-      });
-      await storage.deleteObjects(deleteParams).promise();
 
-      return res.send(true);
-    } catch (error) {
-      next(error);
-    }
-  });
+        const user = await User.findById<Document & TUser>(userId).exec();
+        if (!user) {
+          res.status(400).json({ message: 'User not found' });
+          return;
+        }
+        const file = (await findFileById(user, safeId, fileId)) as TFile;
+        file.fileName = title;
+        await user.save();
+
+        res.send(true);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
+
+  router.post(
+    '/saveItem',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        console.log('🚀 ~ router.post ~ userId:', req.body);
+        // @ts-ignore
+        const userId = req.context.userId;
+        const { fileName, username, password, notes, safeId, fileId, mimetype } = req.body;
+
+        if (!fileName || !safeId || !userId || !mimetype) {
+          res.status(404).send('Missing input information');
+          return;
+        }
+        const user = await User.findById<Document & TUser>(userId);
+        if (!user) {
+          res.status(400).json({ message: 'User not found' });
+          return;
+        }
+        const file: TFile = {
+          _id: fileId || undefined,
+          fileName: fileName.trim(),
+          uploadDate: new Date(),
+          username,
+          password,
+          notes,
+          length: 0,
+          mimetype,
+        };
+        await saveFileMetadata({
+          file,
+          user,
+          safeId,
+        });
+        res.send(true);
+      } catch (error) {
+        next(error); // forward error to error handling middleware
+      }
+    },
+  );
+
+  router.get(
+    '/getItem/:safeId/:fileId',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        // @ts-ignore
+        const userId = req.context.userId;
+        const { safeId, fileId } = req.params;
+        if (!safeId || !userId || !fileId) {
+          res.status(404).send('Missing input information');
+          return;
+        }
+
+        const user = await User.findById<Document & TUser>(userId).lean(); // lean() returns json
+        if (!user) {
+          res.status(400).json({ message: 'User not found' });
+          return;
+        }
+        const file = (await findFileById(user, safeId, fileId)) as TFile;
+        res.json(file);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
+
+  router.post(
+    '/renameFile',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        // @ts-ignore
+        const userId = req.context.userId;
+        const { fileName, safeId, fileId } = req.body;
+
+        if (!fileName || !safeId || !userId) {
+          res.status(404).send('Missing input information');
+          return;
+        }
+        const user = await User.findById<Document & TUser>(userId).exec();
+        if (!user) {
+          res.status(400).json({ message: 'User not found' });
+          return;
+        }
+        const file = (await findFileById(user, safeId, fileId)) as TFile;
+        file.fileName = fileName;
+        await user.save();
+
+        res.send(true);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
+
+  router.post(
+    '/deleteFileList',
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+        // @ts-ignore
+        const userId = req.context.userId;
+        const { safeId, fileIds } = req.body as TFileDelete;
+
+        const user = await User.findById<Document & TUser>(userId).exec();
+        if (!user) {
+          res.status(400).json({ message: 'User not found' });
+          return;
+        }
+        const safe = (await findSafeById(user, safeId)) as TSafe;
+        if (!safe) {
+          res.status(400).json({ message: 'Safe not found' });
+          return;
+        }
+
+        const removeFiles: TFile[] = [];
+        const updatedList = safe.files?.filter((file) => {
+          const currId = file._id?.toString();
+          if (!currId) return false;
+          const keep = !(fileIds as Array<string>).includes(currId);
+          if (!keep) removeFiles.push(file);
+          return keep;
+        });
+        safe.files = updatedList;
+        await user.save();
+
+        const deleteParams = {
+          Bucket: process.env.STORAGE_BUCKET as string,
+          Delete: { Objects: [] as S3.ObjectIdentifier[] },
+        };
+        removeFiles.forEach(async (file) => {
+          if (file.mimetype !== 'text/editor' && file.mimetype !== 'text/pass') {
+            deleteParams.Delete.Objects.push({
+              Key: bucketFilePath({ userId, safeId, fileId: file._id.toString() }),
+            });
+          }
+        });
+        await storage.deleteObjects(deleteParams).promise();
+
+        res.send(true);
+      } catch (error) {
+        next(error);
+      }
+    },
+  );
 
   return router;
 };

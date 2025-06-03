@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import logger from '../logger';
 import { verifyToken } from '../utils/JwtUtil';
 
-const authorization = (req: Request, res: Response, next: NextFunction) => {
+const authorization = async (req: Request, res: Response, next: NextFunction) => {
   let userId = null;
   // TODO: needs to implement CSFR token
   try {
@@ -12,11 +12,12 @@ const authorization = (req: Request, res: Response, next: NextFunction) => {
       userId = decoded?.id;
       // @ts-ignore
       req.context = { userId };
-      return next();
+      next();
+    } else {
+      res.status(401).json({ message: 'User not logged in' });
     }
-    return res.status(401).json({ message: 'User not logged in' });
   } catch (err: any) {
-    return res.status(401).json({ message: 'Invalid user session' });
+    res.status(401).json({ message: 'Invalid user session' });
   }
 };
 export default authorization;

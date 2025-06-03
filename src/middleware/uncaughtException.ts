@@ -5,7 +5,7 @@ const uncaughtException = (err: Error, req: Request, res: Response, next: NextFu
   logger.error('Server failure status');
   logger.error(err.stack);
   if (!res.headersSent) {
-    return res.status(500).json({ message: 'Server failure' });
+    res.status(500).json({ message: 'Server failure' });
   }
 };
 export default uncaughtException;
