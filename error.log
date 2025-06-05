@@ -337,3 +337,67 @@
     '    at async C:\\Users\\fred_\\dev\\legacy-backend\\dist\\src\\controllers\\userRouter.js:247:13',
   level: 'error'
 }
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 68420676448e5f8c931b6f43. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 68420676448e5f8c931b6f43. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Error: Authenticate\n' +
+    '    at sendConfirmationMobile (/home/fred/dev/legacy/legacy-backend/dist/src/messaging/sms.js:31:15)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n' +
+    '    at async /home/fred/dev/legacy/legacy-backend/dist/src/controllers/userRouter.js:252:13',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 68420676448e5f8c931b6f43. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Error: Authenticate\n' +
+    '    at sendConfirmationMobile (/home/fred/dev/legacy/legacy-backend/dist/src/messaging/sms.js:31:15)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n' +
+    '    at async /home/fred/dev/legacy/legacy-backend/dist/src/controllers/userRouter.js:252:13',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 68420676448e5f8c931b6f43. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Error: Authenticate\n' +
+    '    at sendConfirmationMobile (/home/fred/dev/legacy/legacy-backend/dist/src/messaging/sms.js:31:15)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n' +
+    '    at async /home/fred/dev/legacy/legacy-backend/dist/src/controllers/userRouter.js:252:13',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 68420676448e5f8c931b6f43. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Error: Authenticate\n' +
+    '    at sendConfirmationMobile (/home/fred/dev/legacy/legacy-backend/dist/src/messaging/sms.js:31:15)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n' +
+    '    at async /home/fred/dev/legacy/legacy-backend/dist/src/controllers/userRouter.js:252:13',
+  level: 'error'
+}
+{
+  message: 'Error sending Confirmation Mobile SMS for userId: 68420676448e5f8c931b6f43. Error:  + Error: Authenticate',
+  level: 'error'
+}
+{ message: 'Server failure status', level: 'error' }
+{
+  message: 'Error: Error: Authenticate\n' +
+    '    at sendConfirmationMobile (/home/fred/dev/legacy/legacy-backend/dist/src/messaging/sms.js:31:15)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n' +
+    '    at async /home/fred/dev/legacy/legacy-backend/dist/src/controllers/userRouter.js:252:13',
+  level: 'error'
+}

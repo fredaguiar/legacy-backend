@@ -14,6 +14,7 @@ nvm use 20.x.x
 
 ## Run in dev
 
+- sudo systemctl start mongod
 - npm run dev
 - npm run watch
 

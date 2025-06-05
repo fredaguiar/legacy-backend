@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Typescript debugger",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}\\src\\index.ts",
+      "program": "${workspaceFolder}/src/index.ts",
       "outFiles": ["${workspaceFolder}/**/*.js"],
       "preLaunchTask": "tsc: build - tsconfig.json"
     }
