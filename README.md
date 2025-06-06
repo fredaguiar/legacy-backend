@@ -18,6 +18,10 @@ nvm use 20.x.x
 - npm run dev
 - npm run watch
 
+## Copy files to the emulator
+
+adb push myfile.txt /sdcard/Download/
+
 ## Config an run debugger
 
 - add to tsconfig "sourceMap": true

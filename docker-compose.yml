@@ -12,14 +12,14 @@ services:
       - PORT=4000
       - MONGO_URI=mongodb://legacyUser:legacyPassword@mongo:27017/legacy?authSource=legacy
       - HOSTNAME=https://legacy-backend.xyz
-      - STORAGE_ENDPOINT=sjc1.vultrobjects.com
-      - STORAGE_ACCESS_KEY_ID=JC40MMUZZ7NZ4LE9676G
-      - STORAGE_SECRET_ACCESS_KEY=rIDqzGLVmqdGkt8ienVDclHvlVlM8DxGAIVSDFHL
+      - STORAGE_ENDPOINT=ewr1.vultrobjects.com
+      - STORAGE_ACCESS_KEY_ID=ODG9TYJQAB1MT5GIRMLL
+      - STORAGE_SECRET_ACCESS_KEY=qwXiMMS2wGU0zD3RtEKesxxM3vUDkGRA7tHWDYVf
       - STORAGE_BUCKET=legacy
       - EXPO_PUSH_TOKEN=ExponentPushToken[a-SnVYGWJ-E5wkALHPrzbE]
       - TWILIO_ACCOUNT_SID=ACec61794448d3b734b04c267ff2374ebc
       - TWILIO_AUTH_TOKEN=ad13e55fb82fad52a52ee4f326fadfc4
-      - TWILIO_PHONE=+12514282090
+      - TWILIO_PHONE=+17787425459
     depends_on:
       - mongo
     networks:
