@@ -9,8 +9,17 @@ export const sendSms = async ({ userId, body, to }: TSendSmsProps) => {
   const authToken = process.env.TWILIO_AUTH_TOKEN;
   const twilioPhone = process.env.TWILIO_PHONE;
   const client = twilio(accountSid, authToken);
-  const result = await client.messages.create({ body, from: twilioPhone, to });
-  logger.info(`SMS for userId: ${userId}. Result ${result}`);
+
+  try {
+    const result = await client.messages.create({ body, from: twilioPhone, to });
+    logger.info(`SMS for userId: ${userId}. Result ${result}`);
+  } catch (error) {
+    logger.error(
+      `sendSms - Error sending SMS for userId ${userId}. Error: ${error}` +
+        `accountSid ${accountSid} - authToken ${authToken}. - twilioPhone ${twilioPhone}.`,
+    );
+    throw error;
+  }
 };
 
 // export const sendSms = async ({ userId, body, to }: TSendSmsProps) => {
