@@ -5,9 +5,13 @@ import { smsConfirmPhone } from './messageBody';
 type TSendSmsProps = { body: string; userId: string; to: string };
 
 export const sendSms = async ({ userId, body, to }: TSendSmsProps) => {
-  const accountSid = process.env.TWILIO_ACCOUNT_SID;
-  const authToken = process.env.TWILIO_AUTH_TOKEN;
-  const twilioPhone = process.env.TWILIO_PHONE;
+  // const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  // const authToken = process.env.TWILIO_AUTH_TOKEN;
+  // const twilioPhone = process.env.TWILIO_PHONE;
+  const accountSid = 'ACec61794448d3b734b04c267ff2374ebc';
+  const authToken = '3abfdcb29b37e7ae7e32f31626536f4d';
+  const twilioPhone = '+17787425459';
+
   const client = twilio(accountSid, authToken);
 
   try {
