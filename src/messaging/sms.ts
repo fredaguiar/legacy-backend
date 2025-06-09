@@ -29,17 +29,19 @@ export const sendSms = async ({ userId, body, to }: TSendSmsProps) => {
 type TResendConfirmationMobileProps = { user: TUser };
 
 export const sendConfirmationMobile = async ({ user }: TResendConfirmationMobileProps) => {
+  const to = `+${user.phoneCountry.trim()}${user.phone.trim()}`;
+  const body = {
+    userId: user._id.toString(),
+    body: smsConfirmPhone({ firstName: user.firstName, verifyCode: user.mobileVerifyCode || 0 }),
+    to,
+  };
   try {
-    const to = `+${user.phoneCountry.trim()}${user.phone.trim()}`;
-    await sendSms({
-      userId: user._id.toString(),
-      body: smsConfirmPhone({ firstName: user.firstName, verifyCode: user.mobileVerifyCode || 0 }),
-      to,
-    });
+    await sendSms(body);
     logger.info(`send Confirmation Mobile - phone # ${to}. UserId: ${user._id.toString()}`);
   } catch (error: any) {
     logger.error(
-      `Error sending Confirmation Mobile SMS for userId: ${user._id.toString()}. Error:  + ${error}`,
+      `Error sending Confirmation Mobile SMS for userId: ${user._id.toString()}. Error:  + ${error}` +
+        `\nJSON:  + ${JSON.stringify(body)}`,
     );
     throw new Error(error);
   }
