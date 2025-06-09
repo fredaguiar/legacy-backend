@@ -18,7 +18,7 @@ services:
       - STORAGE_BUCKET=legacy
       - EXPO_PUSH_TOKEN=ExponentPushToken[a-SnVYGWJ-E5wkALHPrzbE]
       - TWILIO_ACCOUNT_SID=ACec61794448d3b734b04c267ff2374ebc
-      - TWILIO_AUTH_TOKEN=3abfdcb29b37e7ae7e32f31626536f4d
+      - TWILIO_AUTH_TOKEN=4f5c23286fe65163b45e62aaecca7b55
       - TWILIO_PHONE=+17787425459
     depends_on:
       - mongo
