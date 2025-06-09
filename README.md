@@ -38,8 +38,7 @@ https://{PORTAINER_IP}:9443
 
 Build and run
 
-````
-
+```
 docker-compose build --no-cache
 docker-compose up -d
 
@@ -55,29 +54,35 @@ docker rmi -f $(docker images -q 'nodejs-client') $(docker images -q 'nginx-clie
 
 ```
 
+## Mongo DB Server:
+
+- Instalar MongoDB communitty server
+- sudo systemctl start mongod
+
 ## Mongo DB UI client:
 
 - Install MongoDB Compass
 - MongoDB Compass connection string: mongodb://{USERNAME}:{PASSWORD}@localhost:27017/
 
+## SSH
 
-## RSA
+Criar usuário admin no servidor
 
-(not working though)
+- Conectar no servidor legacy-backend como root
+- adduser admin
+- usermod -aG sudo admin (adicionar admin pro sudo)
+- mkdir -m 700 ~/.ssh
 
-- Open **PuTTY Key Generator**
-- Select RSA
-- Number of bits should be 3072 bits or higher
-- Save Public and Private Key (rsa.pub/rsa.ppk)
-- The public key is ready to be used (it is already in pem format)
-- pem format: -----BEGIN key ----- (key) -----END key-----
-- The private key has to be converted to pem format
-- In **PuTTY Key Generator**, click on _Conversion_ and _Export OpenSSH key_
-- overwrite the private key. The key should be in pem format
+Criar RSA no cliente
+
+- ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+- copie a chave rsa publica para authorized_keys do servidor
 
 ## Troubleshooting
 
 - to recognize typings.d.ts, add this header to index.ts
 - /// <reference path="./types/typing.d.ts" />
+
 ```
-````
+
+```
