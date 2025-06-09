@@ -64,6 +64,9 @@ docker rmi -f $(docker images -q 'nodejs-client') $(docker images -q 'nginx-clie
 - Install MongoDB Compass
 - MongoDB Compass connection string: mongodb://{USERNAME}:{PASSWORD}@localhost:27017/
 
+- Prod: mongodb://root:example@216.238.104.200:27017/legacy?authSource=admin
+- root:example estão no docker-compose: MONGO_INITDB_ROOT_USERNAME:MONGO_INITDB_ROOT_PASSWORD
+
 ## SSH
 
 Criar usuário admin no servidor
